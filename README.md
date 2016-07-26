@@ -8,6 +8,7 @@ I decided to rewrite the program in PHP and make it browser based. This allows m
 This script scraps http://<IP Address of Plex server>:32400/status/sessions for clients and displays the poster of the currently playing movie or TV show. If nothing is currently playing it will pull a random poster of an unwatched movie.
 
 ## Prerequisites
+ - A functioning Plex Server
  - Web Server – I am running NGINX
  - PHP – I am running version  5.6.22
 
