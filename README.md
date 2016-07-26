@@ -1,4 +1,4 @@
-# Plex-Movie-Poster-Display
+# Plex Movie Poster Display
 Scraps the Plex sessions page to display the current playing movie or TV show poster on a screen.
 
 Disclaimer – I am a network engineer not a programmer. I play around with code. I am publishing this to give back to the communities that has helped me learn. There maybe better ways of scraping the Plex Posters, but this is the way I chose to do it. I am open to suggestions. Use at your own risk.
