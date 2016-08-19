@@ -1,7 +1,11 @@
 <?php
 #Plex Settings
-$plexServer = "192.168.111.10";
-$plexClient = "192.168.111.1";
+$plexServer = "PLEX_SERVER_IP";
+$plexClient = "PLEX_CLIENT_IP";
+
+#How to find you X-Plex-Token
+#https://support.plex.tv/hc/en-us/articles/204059436-Finding-your-account-token-X-Plex-Token
+$plexToken = "PLEX X-Plex-Token";
 
 #Settings - Coming Soon
 $comingSoonTopText = "COMING SOON";
