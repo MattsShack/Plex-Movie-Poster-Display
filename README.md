@@ -11,6 +11,7 @@ This script scraps http://<IP Address of Plex server>:32400/status/sessions for 
  - A functioning Plex Server
  - Web Server – I am running NGINX
  - PHP – I am running version  5.6.22
+ - Your X-Plex-Token. https://support.plex.tv/hc/en-us/articles/204059436-Finding-your-account-token-X-Plex-Token
 
 ## Features 
 - Custom Text on top and bottom of posters.
@@ -21,3 +22,6 @@ This script scraps http://<IP Address of Plex server>:32400/status/sessions for 
 - Fix permission on cache folder (chmod 777 cache)
 - Edit the config.php file.
 - Open the URL to your server in a broswer.
+
+## Upgrading
+- Delete all files in the cache directory.
