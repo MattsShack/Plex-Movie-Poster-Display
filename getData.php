@@ -4,7 +4,7 @@ $results = Array();
 $movies = Array();
 
 #Plex Module
-$url     = 'http://'.$plexServer.':32400/status/sessions';
+$url     = 'http://'.$plexServer.':32400/status/sessions?X-Plex-Token='.$plexToken.'';
 $getxml  = file_get_contents($url);
 $xml 	 = simplexml_load_string($getxml) or die("feed not loading");
 $title   = NULL;
@@ -25,7 +25,7 @@ if ($xml['size'] != '0') {
                 if (file_exists($filename)) {
                     #Future Code Coming
                 } else {
-                    file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art", 'r'));
+                    file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
                 }
 
                 $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> $nowShowingTopText </p>";
@@ -43,7 +43,7 @@ if ($xml['size'] != '0') {
                 if (file_exists($filename)) {
                     #Future Code Coming
                 } else {
-                    file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art", 'r'));
+                    file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
                 }
 
                 $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> $nowShowingTopText </p>";
@@ -58,7 +58,7 @@ if ($xml['size'] != '0') {
 if ($display == NULL) {
     $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> $comingSoonTopText </p>";
    
-    $UnWatchedMoviesURL = 'http://'.$plexServer.':32400/library/sections/1/unwatched';
+    $UnWatchedMoviesURL = 'http://'.$plexServer.':32400/library/sections/1/unwatched?X-Plex-Token='.$plexToken.'';
     $getMovies  = file_get_contents($UnWatchedMoviesURL);
     $xmlMovies = simplexml_load_string($getMovies) or die("feed not loading");
     $countMovies = count($xmlMovies);
@@ -82,7 +82,7 @@ if ($display == NULL) {
              if (file_exists($filename)) {
                 #Future Code Coming
              } else {
-                file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art", 'r'));
+                file_put_contents("cache/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
              }
 
              $display = "<img src='cache/$poster' style='width: 100%'>";
