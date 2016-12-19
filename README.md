@@ -21,7 +21,7 @@ This script scraps http://<IP Address of Plex server>:32400/status/sessions for 
 - Copy all the files into the root of your web server.
 - Fix permission on cache folder (chmod 777 cache)
 - Edit the config.php file.
-- Open the URL to your server in a broswer.
+- Open the URL to your server in a browser.
 
 ## Upgrading
 - Delete all files in the cache directory.
