@@ -1,0 +1,19 @@
+html,body { 
+    height:100%;
+}
+
+body {
+    background-color:black;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    padding-top: 60px;
+}
+
+a:link {
+   color:inherit;
+}
+
+#container {
+    padding: 40px 15px;
+    text-align: center;
+}
