@@ -27,7 +27,7 @@ Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a s
 - Copy all the files into the root of your web server.
 - Fix permission on cache folder (chmod 777 cache)
 - Fix permission on config.php file. (chmod 777 config.php)
-- Open the URL to your server in a browser and configure. http://<SERVER_IP_ADDRESS>/admin.php
+- Open the URL to your server in a browser and configure. http://SERVER_IP_ADDRESS/admin.php
 
 ## Upgrading
 - Delete all files in the cache directory.
