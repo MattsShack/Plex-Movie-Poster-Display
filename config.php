@@ -1,16 +1,20 @@
+
+
 <?php
-#Plex Settings
-$plexServer = "PLEX_SERVER_IP";
-$plexClient = "PLEX_CLIENT_IP";
+//Server Configuration
+$plexServer = 'PLEX_SERVER_IP';
+$plexToken = 'PLEX_SERVER_TOKEN';
+$plexServerMovieSection = 'PLEX_SERVER_MOVIES_SECTION_NUMBER';
 
-#How to find your X-Plex-Token
-#https://support.plex.tv/hc/en-us/articles/204059436-Finding-your-account-token-X-Plex-Token
-$plexToken = "PLEX X-Plex-Token";
+//Cleint Configuration
+$plexClient = 'PLEX_CLIENT_IP';
 
-#Settings - Coming Soon
-$comingSoonTopText = "COMING SOON";
-$comingSoonBottomText = "To Matt's Movie Theater";
+//Custom Image
+$customImageEnabled = 'No';
+$customImage = '';
 
-#Settings - Now Showing
-$nowShowingTopText = "NOW SHOWING";
+//Misc
+$comingSoonTopText = 'COMING SOON';
+$comingSoonBottomText = 'To Matt\'s Movie Theater';
+$nowShowingTopText = 'NOW SHOWING';
 ?>
