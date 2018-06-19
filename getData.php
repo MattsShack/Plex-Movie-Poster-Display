@@ -29,6 +29,27 @@ if ($customImageEnabled == "Yes") {
                 $poster = trim($poster[count($poster) - 1], '/');
                 $filename = '/cache/' . $poster;
 
+                # Display Time Played And Time Left
+				# Contributed by Alexander Feyaerts (Still not completed addding this in.)
+                $dur = $clients['duration'];
+                $durint = (int)$dur;
+                $time = $durint / 1000;
+                $days = floor($time / (24*60*60));
+                $hours = floor(($time - ($days*24*60*60)) / (60*60));
+                $minutes = floor(($time - ($days*24*60*60)-($hours*60*60)) / 60);
+                $seconds = ($time - ($days*24*60*60) - ($hours*60*60) - ($minutes*60)) % 60;
+                $playtime = sprintf("%02d:%02d:%02d",$hours,$minutes,$seconds);
+ 
+                $off = $clients['viewOffset'];
+                $offint = (int)$off;
+                $timeoff = $offint / 1000;
+                $daysoff = floor($timeoff / (24*60*60));
+                $hoursoff = floor(($timeoff - ($daysoff*24*60*60)) / (60*60));
+                $minutesoff = floor(($timeoff - ($daysoff*24*60*60)-($hoursoff*60*60)) / 60);
+                $secondsoff = ($timeoff - ($daysoff*24*60*60) - ($hoursoff*60*60) - ($minutesoff*60)) % 60;
+                $offset = sprintf("%02d:%02d:%02d",$hoursoff,$minutesoff,$secondsoff);
+                #
+
                 if (file_exists($filename)) {
                     #Future Code Coming
                 } else {
@@ -63,6 +84,17 @@ if ($customImageEnabled == "Yes") {
 
   #If Nothing is Playing
   if ($display == NULL) {
+
+    #Clean Up Cache Dir (Files Older than 24 hours)
+    $cachePath = 'cache/';
+    if ($handle = opendir($cachePath)) {
+      while (false !== ($file = readdir($handle))) {
+        if ((time()-filectime($cachePath.$file)) > 86400) {
+              unlink($cachePath.$file);
+        }
+      }
+    }
+
     $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> $comingSoonTopText </p>";
    
     $UnWatchedMoviesURL = 'http://'.$plexServer.':32400/library/sections/'.$plexServerMovieSection.'/unwatched?X-Plex-Token='.$plexToken.'';
