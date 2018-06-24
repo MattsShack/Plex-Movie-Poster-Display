@@ -25,7 +25,7 @@
         <div id="container">
             <div id="alert" align="center" class="center"></div>
             <div id="top" align="center" class="center"></div>
-            <div id="middle" class="middle"></div>
+            <div id="middle" class="middle">Loading...</div>
             <div id="bottom" align="center" class="center"></div>
         </div>
     </body>
