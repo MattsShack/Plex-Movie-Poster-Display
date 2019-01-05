@@ -1,10 +1,9 @@
 <?php if (!empty($_POST)) {
-
   $uploaddir = 'cache/';
   $uploadfile = $uploaddir . basename($_FILES['newCustomImage']['name']);
 
   if (move_uploaded_file($_FILES['newCustomImage']['tmp_name'], $uploadfile)) {
-    echo "OK";
+    //echo "OK";
   } else {
     $uploadfile = $_POST[customImage];
   }
@@ -12,28 +11,31 @@
   $myfile = fopen("config.php", "w") or die("Unable to open file!");
 
   //Hack to fix '... Need to fix this later.
-  $_POST[comingSoonTopText] = str_replace("'", "\'", $_POST[comingSoonTopText]);
+  $_POST[comingSoonTopText]    = str_replace("'", "\'", $_POST[comingSoonTopText]);
   $_POST[comingSoonBottomText] = str_replace("'", "\'", $_POST[comingSoonBottomText]);
-  $_POST[nowShowingTopText] = str_replace("'", "\'", $_POST[nowShowingTopText]);
+  $_POST[nowShowingTopText]    = str_replace("'", "\'", $_POST[nowShowingTopText]);
+  $_POST[customTopText]        = str_replace("'", "\'", $_POST[customTopText]);
+  $_POST[customBottomText]     = str_replace("'", "\'", $_POST[customBottomText]);
 
   $txt = "
-
-<?php
-//Server Configuration
-\$plexServer = '$_POST[plexServer]';
-\$plexToken = '$_POST[plexToken]';
-\$plexServerMovieSection = '$_POST[plexServerMovieSection]';
-\n//Cleint Configuration
-\$plexClient = '$_POST[plexClient]';
-\n//Custom Image
-\$customImageEnabled = '$_POST[customImageEnabled]';
-\$customImage = '$uploadfile';
-\n//Misc
-\$comingSoonTopText = '$_POST[comingSoonTopText]';
-\$comingSoonBottomText = '$_POST[comingSoonBottomText]';
-\$nowShowingTopText = '$_POST[nowShowingTopText]';
-?>
-";
+    <?php
+      //Server Configuration
+      \$plexServer = '$_POST[plexServer]';
+      \$plexToken = '$_POST[plexToken]';
+      \$plexServerMovieSection = '$_POST[plexServerMovieSection]';
+      \n//Cleint Configuration
+      \$plexClient = '$_POST[plexClient]';
+      \n//Custom Image
+      \$customImageEnabled = '$_POST[customImageEnabled]';
+      \$customImage = '$uploadfile';
+      \$customTopText = '$_POST[customTopText]';
+      \$customBottomText = '$_POST[customBottomText]';
+      \n//Misc
+      \$comingSoonTopText = '$_POST[comingSoonTopText]';
+      \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
+      \$nowShowingTopText = '$_POST[nowShowingTopText]';
+    ?>
+  ";
 
   echo  $txt;
   fwrite($myfile, $txt);
@@ -85,6 +87,20 @@
     <label class="control-label col-sm-2">Upload New Image: </label>
     <div class="col-sm-10">
       <input type="file" class="form-control" name="newCustomImage">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2">Custom Top Text: </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="customTopText" value="<?php echo "$customTopText"; ?>">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2">Custom Bottom Text: </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="customBottomText" value="<?php echo "$customBottomText"; ?>">
     </div>
   </div>
 
