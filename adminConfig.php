@@ -1,30 +1,33 @@
 <?php if (!empty($_POST)) {
 
   $myfile = fopen("config.php", "w") or die("Unable to open file!");
- 
-  //Hack to fix '... Need to fix this later.
-  $_POST[comingSoonTopText] = str_replace("'", "\'", $_POST[comingSoonTopText]);
+
+ //Hack to fix '... Need to fix this later.
+  $_POST[comingSoonTopText]    = str_replace("'", "\'", $_POST[comingSoonTopText]);
   $_POST[comingSoonBottomText] = str_replace("'", "\'", $_POST[comingSoonBottomText]);
-  $_POST[nowShowingTopText] = str_replace("'", "\'", $_POST[nowShowingTopText]);
+  $_POST[nowShowingTopText]    = str_replace("'", "\'", $_POST[nowShowingTopText]);
+  $_POST[customTopText]        = str_replace("'", "\'", $_POST[customTopText]);
+  $_POST[customBottomText]     = str_replace("'", "\'", $_POST[customBottomText]);
 
   $txt = "
-
-<?php
-//Server Configuration
-\$plexServer = '$_POST[plexServer]';
-\$plexToken = '$_POST[plexToken]';
-\$plexServerMovieSection = '$_POST[plexServerMovieSection]';
-\n//Cleint Configuration
-\$plexClient = '$_POST[plexClient]';
-\n//Custom Image
-\$customImageEnabled = '$_POST[customImageEnabled]';
-\$customImage = '$_POST[customImage]';
-\n//Misc
-\$comingSoonTopText = '$_POST[comingSoonTopText]';
-\$comingSoonBottomText = '$_POST[comingSoonBottomText]';
-\$nowShowingTopText = '$_POST[nowShowingTopText]';
-?>
-";
+    <?php
+      //Server Configuration
+      \$plexServer = '$_POST[plexServer]';
+      \$plexToken = '$_POST[plexToken]';
+      \$plexServerMovieSection = '$_POST[plexServerMovieSection]';
+      \n//Cleint Configuration
+      \$plexClient = '$_POST[plexClient]';
+      \n//Custom Image
+      \$customImageEnabled = '$_POST[customImageEnabled]';
+      \$customImage = '$uploadfile';
+      \$customTopText = '$_POST[customTopText]';
+      \$customBottomText = '$_POST[customBottomText]';
+      \n//Misc
+      \$comingSoonTopText = '$_POST[comingSoonTopText]';
+      \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
+      \$nowShowingTopText = '$_POST[nowShowingTopText]';
+    ?>
+  ";
 
   echo  $txt;
   fwrite($myfile, $txt);
@@ -76,6 +79,8 @@
             <div class="col-sm-10">
               <input type="hidden" class="form-control" name="customImageEnabled" value="<?php echo "$customImageEnabled"; ?>">
               <input type="hidden" class="form-control" name="customImage" value="<?php echo "$customImage"; ?>">
+              <input type="hidden" class="form-control" name="customTopText" value="<?php echo "$customTopText"; ?>">
+              <input type="hidden" class="form-control" name="customBottomText" value="<?php echo "$customBottomText"; ?>">
             </div>
           </div>
 
