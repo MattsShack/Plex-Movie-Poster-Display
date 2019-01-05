@@ -1,5 +1,4 @@
 
-
 <?php
 //Server Configuration
 $plexServer = 'PLEX_SERVER_IP';
@@ -12,6 +11,8 @@ $plexClient = 'PLEX_CLIENT_IP';
 //Custom Image
 $customImageEnabled = 'No';
 $customImage = '';
+$customTopText = 'CUSTOM_TOP_TEXT';
+$customBottomText = 'CUSTOM_BOTTTOM_TEXT';
 
 //Misc
 $comingSoonTopText = 'COMING SOON';
