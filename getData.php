@@ -5,11 +5,10 @@ $movies = Array();
 
 #Display Custom Image
 if ($customImageEnabled == "Yes") {
-  $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> &nbsp; </p>";
+  $title = "<br /><p style='font-size: 55px; -webkit-text-stroke: 2px yellow;'> $customTopText </p>";
   $display = "<img src='$customImage' style='width: 100%'>";
-  $info = "<p style='font-size: 25px;'> &nbsp; </p>";
+  $info = "<p style='font-size: 25px;'> $customBottomText </p>";
 } else {
-
   #Plex Module
   $url     = 'http://'.$plexServer.':32400/status/sessions?X-Plex-Token='.$plexToken.'';
   $getxml  = file_get_contents($url);
@@ -30,7 +29,7 @@ if ($customImageEnabled == "Yes") {
                 $filename = '/cache/' . $poster;
 
                 # Display Time Played And Time Left
-				# Contributed by Alexander Feyaerts (Still not completed addding this in.)
+		# Contributed by Alexander Feyaerts 
                 $dur = $clients['duration'];
                 $durint = (int)$dur;
                 $time = $durint / 1000;
