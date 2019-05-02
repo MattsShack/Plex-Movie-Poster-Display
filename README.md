@@ -11,25 +11,5 @@ This script scraps http://IP_ADDRESS_OF_PLEX_SERVER>:32400/status/sessions for c
 Plex Media Server is running on a dedicated server.
 Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a screen via HDMI. On boot up the Pi launches Chromium in kiosk mode and loads the Plex Movie Poster Display URL.
 
-## Prerequisites
- - A functioning Plex Server
- - Web Server – I am running NGINX
- - PHP – I am running version  5.6.22
- - Your X-Plex-Token. https://support.plex.tv/hc/en-us/articles/204059436-Finding-your-account-token-X-Plex-Token
-
-## Features 
-- Custom Text on top and bottom of posters.
-- Cache posters locally.
-- Custom Image
-- Custom Image Top and Bottom Text
-- Web Frontend for configuration (ALPHA) 
-
-## Installation
-- Copy all the files into the root of your web server.
-- Fix permission on cache folder (chmod 777 cache)
-- Fix permission on config.php file. (chmod 777 config.php)
-- Open the URL to your server in a browser and configure. http://SERVER_IP_ADDRESS/admin.php
-
-## Upgrading
-- Delete all files in the cache directory.
-- Check permissions on cache and config.php.
+## Help
+https://www.mattsshack.com/plex-movie-poster-display/
