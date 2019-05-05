@@ -1,4 +1,3 @@
-
 <?php
   //PMPD Config
   $pmpUsername = 'admin';
@@ -10,17 +9,17 @@
 
 
   //Server Configuration
-  $plexServer = '192.168.111.10';
-  $plexToken = '';
-  $plexServerMovieSection = '2';
+  $plexServer = 'Server IP Address';
+  $plexToken = 'Plex Tocken';
+  $plexServerMovieSection = '';
 
   //Cleint Configuration
-  $plexClient = '192.168.111.1';
+  $plexClient = 'Client IP';
 
   //Custom Image
   $customImageEnabled = 'Disabled'; //Default Disabled
   $customImage = '';
-  $customTopText = 'CUSTOM_TOP_TEXT';
+  $customTopText = 'CUSTOM TOP TEXT';
   $customTopFontSize = '55'; //Default 55
   $customTopFontColor = '#FFFFFF'; //Default #FFFFFF (White)
   $customTopFontOutlineSize = '2'; //Default 2p
@@ -30,9 +29,9 @@
   $customBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
   //Coming Soon Config
-  $comingSoonTopText = 'COMING SOON_TEST';
+  $comingSoonTopText = 'COMING SOON';
   $comingSoonTopFontSize = '55'; //Default 55
-  $comingSoonTopFontColor = '#FFFF00'; //Default Yellow
+  $comingSoonTopFontColor = '#FFFF00'; //Default #FFFF00 (Yellow)
   $comingSoonTopFontOutlineColor = '#FFFF00'; //Default Yellow
   $comingSoonTopFontOutlineSize = '2'; //Default 2
   $comingSoonBottomText = 'www.mattsshack.com';
@@ -44,7 +43,7 @@
   $nowShowingTopFontSize = '55'; //Default 55
   $nowShowingTopFontColor = '#FFFFFF'; //Default Yellow
   $nowShowingTopFontOutlineSize = '2'; //Default 2
-  $nowShowingTopFontOutlineColor = '#0024FF'; //Default Yellow
+  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow
   $nowShowingBottomFontSize = '15'; //Default 25
   $nowShowingBottomFontColor = '#000000'; //Default #FFFFFF (White)
 
