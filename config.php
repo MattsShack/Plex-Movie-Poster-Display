@@ -11,7 +11,7 @@
 
   //Server Configuration
   $plexServer = '192.168.111.10';
-  $plexToken = '2ztgzq2eZUzYko5UGAzW';
+  $plexToken = '';
   $plexServerMovieSection = '2';
 
   //Cleint Configuration
