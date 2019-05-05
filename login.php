@@ -1,15 +1,19 @@
 <?php
+  $msg = NULL;
+
   if (isset($_POST['username']) && !empty($_POST['password'])) {
    include_once 'config.php'; 
  
-   if (($_POST['username'] == $pmpUsername) && ($_POST['password'] == $pmpPassword)) {
-     session_start();
-     $_SESSION['username'] = $pmpUsername;
-     $_SESSION['access'] = '1'; 
-     header("Location: admin.php");
-     die();
-   }
- }
+    if (($_POST['username'] == $pmpUsername) && ($_POST['password'] == $pmpPassword)) {
+      session_start();
+      $_SESSION['username'] = $pmpUsername;
+      $_SESSION['access'] = '1'; 
+      header("Location: admin.php");
+      die();
+    } else {
+      $msg =  "Invalid Username or Password";
+    }
+  }
 ?>
 
 <!doctype html>
@@ -42,6 +46,13 @@
   <body class="text-center">
     <form class="form-login needs-validation" novalidate action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
       <img class="d-block mx-auto mb-4" src="assets/images/android-chrome-192x192.png" alt="" width="100" height="100">
+
+      <?php 
+        if ($msg != NULL) { 
+          echo "<p class='alert alert-danger'> $msg </p>";
+        }
+      ?>
+
       <label for="inputUsername" class="sr-only">Username</label>
       <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
