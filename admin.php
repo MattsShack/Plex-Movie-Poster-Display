@@ -46,10 +46,9 @@
   \$pmpUsername = 'admin';
   \$pmpPassword = 'password1';
   \$pmpClearImageCache = 'Yes'; //Default Yes
-  \$pmpImageSpeed = '30'; //Default 30 Seconds
-  \$pmpPosterDir = 'cache/posters/'; //Default cache/posters/
-  \$pmpCustomDir = 'cache/custom/'; //Default cache/custom/
-
+  \$pmpImageSpeed = '30'; //Default 30 Seconds (FUTURE)
+  \$pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
+  \$pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
 
   //Server Configuration
   \$plexServer = '$_POST[plexServer]';
@@ -91,8 +90,10 @@
   \$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default #FFFFFF (White)
 
   //Misc
-  \$pmpDisplayCounter = 'Disabled'; //Default Disabled
-  \$pmpDisplayClock = 'Disabled'; //Default Disabled
+  \$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; //Default Disabled
+  \$pmpDisplayProgressSize = '$_POST[pmpDisplayProgressSize]'; //Default 5
+  \$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; //Default #FFF300
+  \$pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
 ?>";
 
     echo  $newConfig;
@@ -150,6 +151,16 @@
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="assets/images/android-chrome-192x192.png" alt="" width="100" height="100">
         <h2>Plex Movie Poster Display</h2>
+        <p class="text-muted text-center text-small">
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#Server">Server</a></li>
+            <li class="list-inline-item"><a href="#Client">Client</a></li>
+            <li class="list-inline-item"><a href="#ComingSoon">Coming Soon</a></li>
+            <li class="list-inline-item"><a href="#NowShowing">Now Showing</a></li>
+            <li class="list-inline-item"><a href="#CustomImages">Custom Images</a></li>
+            <li class="list-inline-item"><a href="logout.php">Logout</a></li>
+          </ul>
+        </p>
         <p class="small">Please allow 60 seconds for display to update with changes.</p>
       </div>
 
@@ -192,7 +203,7 @@
 
         <div class="col-md-8 order-md-1">
 
-          <h4 class="mb-3">Server Configuration</h4>
+          <h4 class="mb-3"> <a name="Server"></a> Server Configuration</h4>
           <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
               <label for="plexServer">Plex Server IP</label>
@@ -226,7 +237,7 @@
 
             <hr class="mb-4">
 
-            <h4 class="mb-3">Client Configuration</h4>
+            <h4 class="mb-3"> <a name="Client"></a> Client Configuration</h4>
             <div class="mb-3">
               <label for="plexClient">Plex Client IP</label>
               <div class="input-group">
@@ -239,7 +250,7 @@
 
             <hr class="mb-4">
 
-            <h4 class="mb-3">Coming Soon Configuration</h4>
+            <h4 class="mb-3"> <a name="ComingSoon"></a> Coming Soon Configuration</h4>
             <div class="mb-3">
               <label for="comingSoonTopText">Coming Soon Top Text</label>
               <span class="text-muted">(Optional)</span></label>
@@ -353,7 +364,7 @@
 
             <hr class="mb-4">
 
-            <h4 class="mb-3">Now Showing Configuration</h4>
+            <h4 class="mb-3"> <a name="NowShowing"></a> Now Showing Configuration</h4>
             <div class="mb-3">
               <label for="nowShowingTopText">Now Showing Top Text</label>
               <span class="text-muted">(Optional)</span></label>
@@ -407,6 +418,7 @@
                   <option value="5" <?php if($nowShowingTopFontOutlineSize == '5'){ echo "selected"; } ?>>5px</option>
                 </select>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="nowShowingTopFontOutlineColor">Now Showing Top Font Outline Color</label>
                 <div class="input-group">
@@ -458,9 +470,46 @@
               });
             </script>
 
+            <div class="mb-3">
+              <label for="pmpDisplayProgress">Progress Bar</label>
+              <select class="custom-select d-block w-100" id="pmpDisplayProgress" name="pmpDisplayProgress">
+                <option value="Disabled" <?php if($pmpDisplayProgress == 'Disabled'){ echo "selected"; } ?>>Disabled</option>
+                <option value="Enabled"  <?php if($pmpDisplayProgress == 'Enabled'){ echo "selected"; } ?>>Enabled</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="pmpDisplayProgressSize">Progress Bar Height</label>
+                <select class="custom-select d-block w-100" id="pmpDisplayProgressSize" name="pmpDisplayProgressSize">
+                  <option value="1" <?php if($pmpDisplayProgressSize == '1'){ echo "selected"; } ?>>1px</option>
+                  <option value="2" <?php if($pmpDisplayProgressSize == '2'){ echo "selected"; } ?>>2px</option>
+                  <option value="3" <?php if($pmpDisplayProgressSize == '3'){ echo "selected"; } ?>>3px</option>
+                  <option value="4" <?php if($pmpDisplayProgressSize == '4'){ echo "selected"; } ?>>4px</option>
+                  <option value="5" <?php if($pmpDisplayProgressSize == '5'){ echo "selected"; } ?>>5px</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="pmpDisplayProgressColor">Progress Bar Color</label>
+                <div class="input-group">
+                  <input type="text" id="pmpDisplayProgressColor" name="pmpDisplayProgressColor" class="form-control" data-position="bottom left" value="<?php echo $pmpDisplayProgressColor; ?>">
+                </div>
+              </div>
+            </div>
+
+            <script>
+              $(function () {
+                $('#pmpDisplayProgressColor').colorpicker();
+                $('#pmpDisplayProgressColor').on('colorpickerChange', function(event) {
+                  $('.jumbotron').css('background-color', event.color.toString());
+                });
+              });
+            </script>
+
             <hr class="mb-4">
 
-            <h4 class="mb-3">Custom Image Configuration</h4>
+            <h4 class="mb-3"> <a name="CustomImages"></a> Custom Images Configuration</h4>
 
             <div class="mb-3">
               <label for="customImageUpload">Custom Image Upload</label>
@@ -613,7 +662,7 @@
         <ul class="list-inline">
           <li class="list-inline-item"><a href="#">Terms</a></li>
           <li class="list-inline-item"><a href="https://github.com/MattsShack/Plex-Movie-Poster-Display" target="_blank">GitHub</a></li>
-          <li class="list-inline-item"><a href="#">Support</a></li>
+          <li class="list-inline-item"><a href="https://www.mattsshack.com/plex-movie-poster-display/" target="_blank">Support</a></li>
         </ul>
       </footer>
     </div>

@@ -1,16 +1,43 @@
 <?php
+  //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
+
   include 'config.php';
   $results = Array();
   $movies = Array();
 
-  #Display Custom Image if Enabled
+  //Display Custom Image if Enabled
   if ($customImageEnabled == "Enabled") {
     $title = "<br /><p style='font-size: " .  $customTopFontSize . "px; color : " . $customTopFontColor  . "; -webkit-text-stroke: " . $customTopFontOutlineSize . "px " .  $customTopFontOutlineColor . ";'> $customTopText </p>";
     $display = "<img src='cache/custom/$customImage' style='width: 100%'>";
     $info = "<br /><p style='font-size: " . $customBottomFontSize  . "px; color : " . $customBottomFontColor . ";'> $customBottomText </p>";
   } else {
 
-    #Plex Module Connect to Plex
+    function getProgress($dur, $off) {
+      //Display Time Played And Time Left - Contributed by Alexander Feyaerts
+	  //Modified to display progress bar
+      //$dur = $clients['duration'];
+      $durint = (int)$dur;
+      $time = $durint / 1000;
+      $days = floor($time / (24*60*60));
+      $hours = floor(($time - ($days*24*60*60)) / (60*60));
+      $minutes = floor(($time - ($days*24*60*60)-($hours*60*60)) / 60);
+      $seconds = ($time - ($days*24*60*60) - ($hours*60*60) - ($minutes*60)) % 60;
+      $playtime = sprintf("%02d:%02d:%02d",$hours,$minutes,$seconds);
+
+      //$off = $clients['viewOffset'];
+      $offint = (int)$off;
+      $timeoff = $offint / 1000;
+      $daysoff = floor($timeoff / (24*60*60));
+      $hoursoff = floor(($timeoff - ($daysoff*24*60*60)) / (60*60));
+      $minutesoff = floor(($timeoff - ($daysoff*24*60*60)-($hoursoff*60*60)) / 60);
+      $secondsoff = ($timeoff - ($daysoff*24*60*60) - ($hoursoff*60*60) - ($minutesoff*60)) % 60;
+      $offset = sprintf("%02d:%02d:%02d",$hoursoff,$minutesoff,$secondsoff);
+
+      $percentComplete = ($timeoff / $time) * 100;
+      return $percentComplete;
+    }
+
+    //Plex Module Connect to Plex
     $url     = 'http://'.$plexServer.':32400/status/sessions?X-Plex-Token='.$plexToken.'';
     $getxml  = file_get_contents($url);
     $xml     = simplexml_load_string($getxml) or die("feed not loading");
@@ -21,59 +48,57 @@
       foreach ($xml->Video as $clients) {
         if(strstr($clients->Player['address'], $plexClient)) {
 
-          #Now Showing Sections
-          #If Client is playing a Movie
+          //Now Showing Sections
+          //If Client is playing a Movie
           if(strstr($clients['type'], "movie")) {
             $art = $clients['thumb'];
             $poster = explode("/", $art);
             $poster = trim($poster[count($poster) - 1], '/');
             $filename = 'cache/posters/' . $poster;
 
-            #Display Time Played And Time Left - Contributed by Alexander Feyaerts
-            $dur = $clients['duration'];
-            $durint = (int)$dur;
-            $time = $durint / 1000;
-            $days = floor($time / (24*60*60));
-            $hours = floor(($time - ($days*24*60*60)) / (60*60));
-            $minutes = floor(($time - ($days*24*60*60)-($hours*60*60)) / 60);
-            $seconds = ($time - ($days*24*60*60) - ($hours*60*60) - ($minutes*60)) % 60;
-            $playtime = sprintf("%02d:%02d:%02d",$hours,$minutes,$seconds);
+            //Progrss Bar
+            if ($pmpDisplayProgress == 'Enabled') {
+              $percentComplete = getProgress($clients['duration'], $clients['viewOffset']);
+              $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
+            } else {
+              $progressBar = NULL;
+            } 
 
-            $off = $clients['viewOffset'];
-            $offint = (int)$off;
-            $timeoff = $offint / 1000;
-            $daysoff = floor($timeoff / (24*60*60));
-            $hoursoff = floor(($timeoff - ($daysoff*24*60*60)) / (60*60));
-            $minutesoff = floor(($timeoff - ($daysoff*24*60*60)-($hoursoff*60*60)) / 60);
-            $secondsoff = ($timeoff - ($daysoff*24*60*60) - ($hoursoff*60*60) - ($minutesoff*60)) % 60;
-            $offset = sprintf("%02d:%02d:%02d",$hoursoff,$minutesoff,$secondsoff);
-
-            #Check if file is local if not cache.
+            //Check if image is in local cache.
             if (file_exists($filename)) {
-              #Future Code Coming
+              //Future Code Coming
             } else {
               file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
             }
-            $title = "<br /><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p>";
+
+            $title = "<br /><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p> $progressBar";
             $display = "<img src='cache/posters/$poster' style='width: 100%'>";
             $info = "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['summary'] . "</p>";
 	  }
 
-          #If Client is playing a TV Show
+          //If Client is playing a TV Show
           if(strstr($clients['type'], "episode")) {
             $art = $clients['grandparentThumb'];
             $poster = explode("/", $art);
             $poster = trim($poster[count($poster) - 1], '/');
             $filename = 'cache/posters/' . $poster;
 
-            #Check if file is local if not cache.
+            //Progrss Bar
+            if ($pmpDisplayProgress == 'Enabled') {
+              $percentComplete = getProgress($clients['duration'], $clients['viewOffset']);
+              $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
+            } else {
+              $progressBar = NULL;
+            }
+
+            //Check if image is in local cache.
             if (file_exists($filename)) {
-              #Future Code Coming
+              //Future Code Coming
             } else {
               file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
             }
 
-            $title = "<br /><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p>";
+            $title = "<br/><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p> $progressBar";
             $display = "<img src='cache/posters/$poster' style='width: 100%'>";
             $info = "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>Episode: " . $clients['title'] . " - " . $clients['summary'] . "</p>";
           }
@@ -81,10 +106,10 @@
       }
     }
 
-    #Coming Soon (If Nothing is Playing)
+    //Coming Soon (If Nothing is Playing)
     if ($display == NULL) {
 
-      #Clean Up Cache Dir (Files Older than 24 hours)
+      //Clean Up Cache Dir (Files Older than 24 hours)
       $cachePath = 'cache/posters/';
       if ($handle = opendir($cachePath)) {
         while (false !== ($file = readdir($handle))) {
@@ -94,7 +119,7 @@
         }
       }
 
-      #First Attempt at Multi Movie Section Support
+      //First Attempt at Multi Movie Section Support
       $plexServerMovieSections = explode(",", $plexServerMovieSection);
       $useSection = rand(0, count($plexServerMovieSections) -1);
 
@@ -118,7 +143,7 @@
             $filename = 'cache/posters/' . $poster;
 
            if (file_exists($filename)) {
-             #Future Code Coming
+             //Future Code Coming
            } else {
              file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
            }
@@ -132,7 +157,7 @@
     }
   }
 
-  #Display
+  //Display
   $results['top'] = "$title";
   $results['middle'] = "$display";
   $results['bottom'] = "$info";

@@ -1,22 +1,24 @@
+
 <?php
   //PMPD Config
   $pmpUsername = 'admin';
   $pmpPassword = 'password1';
   $pmpClearImageCache = 'Yes'; //Default Yes
-  $pmpImageSpeed = '30'; //Default 30 Seconds
-  $pmpPosterDir = 'cache/posters/'; //Default /cache/posters
-  $pmpCustomDir = 'cache/custom/'; //Default /cache/custom
+  $pmpImageSpeed = '30'; //Default 30 Seconds (FUTURE)
+  $pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
+  $pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
+
 
   //Server Configuration
-  $plexServer = 'PLEX_SERVER_IP_TEST';
-  $plexToken = 'PLEX_SERVER_TOKEN_TEST';
-  $plexServerMovieSection = 'PLEX_SERVER_MOVIES_SECTION_NUMBER';
+  $plexServer = '192.168.111.10';
+  $plexToken = '2ztgzq2eZUzYko5UGAzW';
+  $plexServerMovieSection = '2';
 
   //Cleint Configuration
-  $plexClient = 'PLEX_CLIENT_IP';
+  $plexClient = '192.168.111.1';
 
   //Custom Image
-  $customImageEnabled = 'Enabled'; //Default Disabled
+  $customImageEnabled = 'Disabled'; //Default Disabled
   $customImage = '';
   $customTopText = 'CUSTOM_TOP_TEXT';
   $customTopFontSize = '55'; //Default 55
@@ -28,7 +30,7 @@
   $customBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
   //Coming Soon Config
-  $comingSoonTopText = 'COMING_SOON_TEXT';
+  $comingSoonTopText = 'COMING SOON_TEST';
   $comingSoonTopFontSize = '55'; //Default 55
   $comingSoonTopFontColor = '#FFFF00'; //Default Yellow
   $comingSoonTopFontOutlineColor = '#FFFF00'; //Default Yellow
@@ -38,15 +40,17 @@
   $comingSoonBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
   //Now Showing Config
-  $nowShowingTopText = 'NOW_SHOWING_TEXT';
+  $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default 55
-  $nowShowingTopFontColor = '#FFFF00'; //Default Yellow
+  $nowShowingTopFontColor = '#FFFFFF'; //Default Yellow
   $nowShowingTopFontOutlineSize = '2'; //Default 2
-  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default Yellow
-  $nowShowingBottomFontSize = '25'; //Default 25
-  $nowShowingBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
+  $nowShowingTopFontOutlineColor = '#0024FF'; //Default Yellow
+  $nowShowingBottomFontSize = '15'; //Default 25
+  $nowShowingBottomFontColor = '#000000'; //Default #FFFFFF (White)
 
   //Misc
-  $pmpDisplayCounter = 'Disabled'; //Default Disabled
-  $pmpDisplayClock = 'Disabled'; //Default Disabled
+  $pmpDisplayProgress = 'Enabled'; //Default Disabled
+  $pmpDisplayProgressSize = '5'; //Default 5
+  $pmpDisplayProgressColor = '#FF0000'; //Default #FFF300
+  $pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
 ?>
