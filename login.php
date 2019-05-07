@@ -34,9 +34,6 @@
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="assets/bootstrap-4.3.1/css/bootstrap.min.css">
 
-    <!-- Fontawesome CSS-->
-    <link rel="stylesheet" href="assets/fontawesome-free-5.8.1-web/css/all.min.css">
-
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="assets/styles/default/login.css">
     <link rel="stylesheet" href="assets/styles/default/form-validation.css">

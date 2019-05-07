@@ -2,7 +2,7 @@
   include_once('loginCheck.php');
 
   //Clear Poster Cache Directory
-  if(!empty($_POST[clearPosterCache])) {
+  if (!empty($_POST['clearPosterCache'])) {
     $files = glob('cache/posters/*');
     foreach($files as $file) {
       if(is_file($file)) {
@@ -12,7 +12,7 @@
   }
 
   //Clear Custom Cache Directory
-  if(!empty($_POST[clearCustomCache])) {
+  if (!empty($_POST['clearCustomCache'])) {
     $files = glob('cache/custom/*');
     foreach($files as $file) {
       if(is_file($file)) {
@@ -21,15 +21,15 @@
     }
   }
 
-  if (!empty($_POST[saveConfig])) {
+  if (!empty($_POST['saveConfig'])) {
     //Custom Image Upload
-    if(!empty($_FILES[customImageUpload])) {
+    if ($_FILES['customImageUpload'] != "") {
       $uploaddir = 'cache/custom/';
       $uploadfile = $uploaddir . basename($_FILES['customImageUpload']['name']);
 
       if (move_uploaded_file($_FILES['customImageUpload']['tmp_name'], $uploadfile)) {
       } else {
-        $uploadfile = $_POST[customImageUpload];
+        $uploadfile = $_POST['customImageUpload'];
       }
     }
 
@@ -43,10 +43,11 @@
     $newConfig = "
 <?php
   //PMPD Config
+  \$pmpConfigVersion = '2';
   \$pmpUsername = 'admin';
   \$pmpPassword = 'password1';
   \$pmpClearImageCache = 'Yes'; //Default Yes
-  \$pmpImageSpeed = '30'; //Default 30 Seconds (FUTURE)
+  \$pmpImageSpeed = '$_POST[pmpImageSpeed]'; //Default 30 Seconds
   \$pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
   \$pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
 
@@ -94,15 +95,14 @@
   \$pmpDisplayProgressSize = '$_POST[pmpDisplayProgressSize]'; //Default 5
   \$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; //Default #FFF300
   \$pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
+  \$pmpBottomScroll = 'Disabled'; //Default Disabled (FUTURE)
 ?>";
 
-    echo  $newConfig;
+    echo $newConfig;
     fwrite($myfile, $newConfig);
     fclose($myfile);
-    $update = "1";
+    header("Location: admin.php");
   }
-
-  include_once('config.php');
 
   //Count Items in Posters
   $posters = scandir('cache/posters');
@@ -112,6 +112,7 @@
   $custom = scandir('cache/custom');
   $customCount = count($custom)-2;
 
+  include('config.php');
 ?>
 
 <!doctype html>
@@ -146,7 +147,6 @@
   </head>
 
   <body class="bg-light">
-
     <div class="container">
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="assets/images/android-chrome-192x192.png" alt="" width="100" height="100">
@@ -161,7 +161,7 @@
             <li class="list-inline-item"><a href="logout.php">Logout</a></li>
           </ul>
         </p>
-        <p class="small">Please allow 60 seconds for display to update with changes.</p>
+        <p class="small">Please allow <?php echo $pmpImageSpeed; ?> seconds for display to update with changes.</p>
       </div>
 
       <div class="row">
@@ -253,30 +253,35 @@
             <h4 class="mb-3"> <a name="ComingSoon"></a> Coming Soon Configuration</h4>
             <div class="mb-3">
               <label for="comingSoonTopText">Coming Soon Top Text</label>
-              <span class="text-muted">(Optional)</span></label>
               <div class="input-group">
                 <input type="text" class="form-control" id="comingSoonTopText" name="comingSoonTopText" placeholder="Coming Soon Top Text" value="<?php echo $comingSoonTopText; ?>">
               </div>
             </div>
 
+            <div class="mb-3">
+              <label for="pmpImageSpeed">Poster Transition Speed <small>( Seconds )</small></label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="pmpImageSpeed" name="pmpImageSpeed" placeholder="Poster Transition Speed" value="<?php echo $pmpImageSpeed; ?>" required>
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Seconds</div>
+                </div>
+              </div>
+            </div>
+
+
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="comingSoonTopFontSize">Coming Soon Top Font Size</label>
-                <select class="custom-select d-block w-100" id="comingSoonTopFontSize" name="comingSoonTopFontSize">
-                  <option value="15" <?php if($comingSoonTopFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($comingSoonTopFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($comingSoonTopFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($comingSoonTopFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($comingSoonTopFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($comingSoonTopFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($comingSoonTopFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($comingSoonTopFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($comingSoonTopFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($comingSoonTopFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="comingSoonTopFontColor">Coming Soon Top Font Color</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="comingSoonTopFontSize" name="comingSoonTopFontSize" value="<?php echo $comingSoonTopFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div> 
+               </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="comingSoonTopFontColor">Coming Soon Top Font Color</label>
                 <div class="input-group">
                   <input type="text" id="comingSoonTopFontColor" name="comingSoonTopFontColor" class="form-control" data-position="bottom left" value="<?php echo $comingSoonTopFontColor; ?>">
                 </div>
@@ -295,15 +300,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="comingSoonTopFontOutlineSize">Coming Soon Top Font Outline Size</label>
-                <select class="custom-select d-block w-100" id="comingSoonTopFontOutlineSize" name="comingSoonTopFontOutlineSize">
-                  <option value="0" <?php if($comingSoonTopFontOutlineSize == '0'){ echo "selected"; } ?>>No Outline</option>
-                  <option value="1" <?php if($comingSoonTopFontOutlineSize == '1'){ echo "selected"; } ?>>1px</option>
-                  <option value="2" <?php if($comingSoonTopFontOutlineSize == '2'){ echo "selected"; } ?>>2px</option>
-                  <option value="3" <?php if($comingSoonTopFontOutlineSize == '3'){ echo "selected"; } ?>>3px</option>
-                  <option value="4" <?php if($comingSoonTopFontOutlineSize == '4'){ echo "selected"; } ?>>4px</option>
-                  <option value="5" <?php if($comingSoonTopFontOutlineSize == '5'){ echo "selected"; } ?>>5px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="comingSoonTopFontOutlineSize" name="comingSoonTopFontOutlineSize" value="<?php echo $comingSoonTopFontOutlineSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="comingSoonTopFontOutlineColor">Coming Soon Top Font Outline Color</label>
                 <div class="input-group">
@@ -323,7 +327,6 @@
 
             <div class="mb-3">
               <label for="comingSoonBottomText">Coming Soon Bottom Text</label>
-              <span class="text-muted">(Optional)</span></label>
               <div class="input-group">
                 <input type="text" class="form-control" id="comingSoonBottomText" name="comingSoonBottomText" placeholder="Coming Soon Bottom Text" value="<?php echo $comingSoonBottomText; ?>">
               </div>
@@ -332,19 +335,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="comingSoonBottomFontSize">Coming Soon Bottom Font Size</label>
-                <select class="custom-select d-block w-100" id="comingSoonBottomFontSize" name="comingSoonBottomFontSize">
-                  <option value="15" <?php if($comingSoonBottomFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($comingSoonBottomFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($comingSoonBottomFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($comingSoonBottomFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($comingSoonBottomFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($comingSoonBottomFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($comingSoonBottomFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($comingSoonBottomFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($comingSoonBottomFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($comingSoonBottomFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="comingSoonBottomFontSize" name="comingSoonBottomFontSize" value="<?php echo $comingSoonBottomFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="comingSoonBottomFontColor">Coming Soon Bottom Font Color</label>
                 <div class="input-group">
@@ -376,19 +374,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="nowShowingTopFontSize">Now Showing Top Font Size</label>
-                <select class="custom-select d-block w-100" id="nowShowingTopFontSize" name="nowShowingTopFontSize">
-                  <option value="15" <?php if($nowShowingTopFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($nowShowingTopFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($nowShowingTopFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($nowShowingTopFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($nowShowingTopFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($nowShowingTopFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($nowShowingTopFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($nowShowingTopFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($nowShowingTopFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($nowShowingTopFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="nowShowingTopFontSize" name="nowShowingTopFontSize" value="<?php echo $nowShowingTopFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="nowShowingTopFontColor">Now Showing Top Font Color</label>
                 <div class="input-group">
@@ -409,14 +402,12 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="nowShowingTopFontOutlineSize">Now Showing Top Font Outline Size</label>
-                <select class="custom-select d-block w-100" id="nowShowingTopFontOutlineSize" name="nowShowingTopFontOutlineSize">
-                  <option value="0" <?php if($nowShowingTopFontOutlineSize == '0'){ echo "selected"; } ?>>No Outline</option>
-                  <option value="1" <?php if($nowShowingTopFontOutlineSize == '1'){ echo "selected"; } ?>>1px</option>
-                  <option value="2" <?php if($nowShowingTopFontOutlineSize == '2'){ echo "selected"; } ?>>2px</option>
-                  <option value="3" <?php if($nowShowingTopFontOutlineSize == '3'){ echo "selected"; } ?>>3px</option>
-                  <option value="4" <?php if($nowShowingTopFontOutlineSize == '4'){ echo "selected"; } ?>>4px</option>
-                  <option value="5" <?php if($nowShowingTopFontOutlineSize == '5'){ echo "selected"; } ?>>5px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="nowShowingTopFontOutlineSize" name="nowShowingTopFontOutlineSize" value="<?php echo $nowShowingTopFontOutlineSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -439,18 +430,12 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="nowShowingBottomFontSize">Now Showing Bottom Font Size</label>
-                <select class="custom-select d-block w-100" id="nowShowingBottomFontSize" name="nowShowingBottomFontSize">
-                  <option value="15" <?php if($nowShowingBottomFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($nowShowingBottomFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($nowShowingBottomFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($nowShowingBottomFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($nowShowingBottomFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($nowShowingBottomFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($nowShowingBottomFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($nowShowingBottomFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($nowShowingBottomFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($nowShowingBottomFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="nowShowingBottomFontSize" name="nowShowingBottomFontSize" value="<?php echo $nowShowingBottomFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -481,13 +466,12 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="pmpDisplayProgressSize">Progress Bar Height</label>
-                <select class="custom-select d-block w-100" id="pmpDisplayProgressSize" name="pmpDisplayProgressSize">
-                  <option value="1" <?php if($pmpDisplayProgressSize == '1'){ echo "selected"; } ?>>1px</option>
-                  <option value="2" <?php if($pmpDisplayProgressSize == '2'){ echo "selected"; } ?>>2px</option>
-                  <option value="3" <?php if($pmpDisplayProgressSize == '3'){ echo "selected"; } ?>>3px</option>
-                  <option value="4" <?php if($pmpDisplayProgressSize == '4'){ echo "selected"; } ?>>4px</option>
-                  <option value="5" <?php if($pmpDisplayProgressSize == '5'){ echo "selected"; } ?>>5px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="pmpDisplayProgressSize" name="pmpDisplayProgressSize" value="<?php echo $pmpDisplayProgressSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -515,7 +499,7 @@
               <label for="customImageUpload">Custom Image Upload</label>
               <span class="text-muted"></span></label>
               <div class="input-group">
-                <input type="file" class="form-control" id="customImageUpload" name="customImageUpload">
+                <input type="file" class="form-control" id="customImageUpload" name="customImageUpload" value="">
               </div>
             </div>
 
@@ -552,19 +536,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="customTopFontSize">Custom Image Top Font Size</label>
-                <select class="custom-select d-block w-100" id="customTopFontSize" name="customTopFontSize">
-                  <option value="15" <?php if($customTopFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($customTopFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($customTopFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($customTopFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($customTopFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($customTopFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($customTopFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($customTopFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($customTopFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($customTopFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="customTopFontSize" name="customTopFontSize" value="<?php echo $customTopFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="customTopFontColor">Custom Image Top Font Color</label>
                 <div class="input-group">
@@ -585,15 +564,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="customTopFontOutlineSize">Custom Image Top Font Outline Size</label>
-                <select class="custom-select d-block w-100" id="customTopFontOutlineSize" name="customTopFontOutlineSize">
-                  <option value="0" <?php if($customTopFontOutlineSize == '0'){ echo "selected"; } ?>>No Outline</option>
-                  <option value="1" <?php if($customTopFontOutlineSize == '1'){ echo "selected"; } ?>>1px</option>
-                  <option value="2" <?php if($customTopFontOutlineSize == '2'){ echo "selected"; } ?>>2px</option>
-                  <option value="3" <?php if($customTopFontOutlineSize == '3'){ echo "selected"; } ?>>3px</option>
-                  <option value="4" <?php if($customTopFontOutlineSize == '4'){ echo "selected"; } ?>>4px</option>
-                  <option value="5" <?php if($customTopFontOutlineSize == '5'){ echo "selected"; } ?>>5px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="customTopFontOutlineSize" name="customTopFontOutlineSize" value="<?php echo $customTopFontOutlineSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="customTopFontOutlineColor">Custom Image Top Font Outline Color</label>
                 <div class="input-group">
@@ -622,19 +600,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="customBottomFontSize">Custom Image Bottom  Font Size</label>
-                <select class="custom-select d-block w-100" id="customBottomFontSize" name="customBottomFontSize">
-                  <option value="15" <?php if($customBottomFontSize == '15'){ echo "selected"; } ?>>15px</option>
-                  <option value="20" <?php if($customBottomFontSize == '20'){ echo "selected"; } ?>>20px</option>
-                  <option value="25" <?php if($customBottomFontSize == '25'){ echo "selected"; } ?>>25px</option>
-                  <option value="30" <?php if($customBottomFontSize == '30'){ echo "selected"; } ?>>30px</option>
-                  <option value="35" <?php if($customBottomFontSize == '35'){ echo "selected"; } ?>>35px</option>
-                  <option value="40" <?php if($customBottomFontSize == '40'){ echo "selected"; } ?>>40px</option>
-                  <option value="45" <?php if($customBottomFontSize == '45'){ echo "selected"; } ?>>45px</option>
-                  <option value="50" <?php if($customBottomFontSize == '50'){ echo "selected"; } ?>>50px</option>
-                  <option value="55" <?php if($customBottomFontSize == '55'){ echo "selected"; } ?>>55px</option>
-                  <option value="60" <?php if($customBottomFontSize == '60'){ echo "selected"; } ?>>60px</option>
-                </select>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="customBottomFontSize" name="customBottomFontSize" value="<?php echo $customBottomFontSize; ?>">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">px</div>
+                  </div>
+                </div>
               </div>
+
               <div class="col-md-6 mb-3">
                 <label for="customBottomFontColor">Custom Image Bottom Font Color</label>
                 <div class="input-group">

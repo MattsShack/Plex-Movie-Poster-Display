@@ -1,3 +1,8 @@
+<?php 
+  include_once('config.php');
+  $pmpImageSpeed = ($pmpImageSpeed * 1000);
+?>
+
 <html>
   <head>
     <title></title>
@@ -11,12 +16,9 @@
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="assets/bootstrap-4.3.1/css/bootstrap.min.css">
 
-    <!-- Fontawesome CSS-->
-    <link rel="stylesheet" href="assets/fontawesome-free-5.8.1-web/css/all.min.css">
-
     <!-- Default Poster Template CSS -->
     <link rel="stylesheet" href="assets/styles/default/poster.css">
- 
+
     <script>
       $(document).ready(
         function() {
@@ -26,7 +28,7 @@
                 $('#'+key).html(val);
               });
             });
-          }, 30000);
+          }, <?php echo $pmpImageSpeed; ?>);
         });
     </script>
   </head>
@@ -35,7 +37,7 @@
     <div id="container">
       <div id="alert" align="center" class="center"></div>
       <div id="top" align="center" class="center"></div>
-      <div id="middle" class="middle">Loading...</div>
+      <div id="middle" class="middle">Loading... First load will take <?php echo ($pmpImageSpeed / 1000); ?> Seconds.</div>
       <div id="bottom" align="center" class="center"></div>
     </div>
   </body>

@@ -1,20 +1,21 @@
+
 <?php
   //PMPD Config
+  $pmpConfigVersion = '2';
   $pmpUsername = 'admin';
   $pmpPassword = 'password1';
   $pmpClearImageCache = 'Yes'; //Default Yes
-  $pmpImageSpeed = '30'; //Default 30 Seconds (FUTURE)
+  $pmpImageSpeed = '30'; //Default 30 Seconds
   $pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
   $pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
 
-
   //Server Configuration
-  $plexServer = 'Server IP Address';
-  $plexToken = 'Plex Token';
+  $plexServer = '';
+  $plexToken = '';
   $plexServerMovieSection = '';
 
   //Cleint Configuration
-  $plexClient = 'Client IP';
+  $plexClient = '';
 
   //Custom Image
   $customImageEnabled = 'Disabled'; //Default Disabled
@@ -24,7 +25,7 @@
   $customTopFontColor = '#FFFFFF'; //Default #FFFFFF (White)
   $customTopFontOutlineSize = '2'; //Default 2p
   $customTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
-  $customBottomText = 'CUSTOM_BOTTTOM_TEXT';
+  $customBottomText = 'CUSTOM BOTTOM TEXT';
   $customBottomFontSize = '25'; //Default 25
   $customBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
@@ -32,7 +33,7 @@
   $comingSoonTopText = 'COMING SOON';
   $comingSoonTopFontSize = '55'; //Default 55
   $comingSoonTopFontColor = '#FFFF00'; //Default #FFFF00 (Yellow)
-  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default Yellow
+  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
   $comingSoonTopFontOutlineSize = '2'; //Default 2
   $comingSoonBottomText = 'www.mattsshack.com';
   $comingSoonBottomFontSize = '55'; //Default 55
@@ -41,15 +42,16 @@
   //Now Showing Config
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default 55
-  $nowShowingTopFontColor = '#FFFFFF'; //Default Yellow
+  $nowShowingTopFontColor = '#FFFF00'; //Default #FFFF00 (Yellow)
   $nowShowingTopFontOutlineSize = '2'; //Default 2
-  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow
-  $nowShowingBottomFontSize = '15'; //Default 25
-  $nowShowingBottomFontColor = '#000000'; //Default #FFFFFF (White)
+  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
+  $nowShowingBottomFontSize = '25'; //Default 25
+  $nowShowingBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
   //Misc
-  $pmpDisplayProgress = 'Enabled'; //Default Disabled
+  $pmpDisplayProgress = 'Disabled'; //Default Disabled
   $pmpDisplayProgressSize = '5'; //Default 5
-  $pmpDisplayProgressColor = '#FF0000'; //Default #FFF300
+  $pmpDisplayProgressColor = '#FFF300'; //Default #FFF300
   $pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
+  $pmpBottomScroll = 'Disabled'; //Default Disabled (FUTURE)
 ?>
