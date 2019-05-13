@@ -95,7 +95,8 @@
   \$pmpDisplayProgressSize = '$_POST[pmpDisplayProgressSize]'; //Default 5
   \$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; //Default #FFF300
   \$pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
-  \$pmpBottomScroll = 'Disabled'; //Default Disabled (FUTURE)
+  \$pmpBottomScroll = '$_POST[pmpBottomScroll]'; //Default Disabled
+  \$pmpBottomScrollSpeed = '1'; //Default 1 (FUTURE)
 ?>";
 
     echo $newConfig;
@@ -111,6 +112,14 @@
   //Count Items in Custom Images
   $custom = scandir('cache/custom');
   $customCount = count($custom)-2;
+
+  //Fixup Size Calculations
+  function fixupSize($bytes){
+    $places = '2';
+    $size=array('B','KB','MB','GB');
+    $factor=floor((strlen($bytes)-1)/3);
+    return sprintf("%.{$places}f",$bytes/pow(1024,$factor)).@$size[$factor];
+  }
 
   include('config.php');
 ?>
@@ -195,7 +204,7 @@
                 <h6 class="my-0">Free Space</h6>
                 <small class="text-muted">Free space on /</small>
               </div>
-              <span class="text-muted"><?php echo disk_free_space("/"); ?></span>
+              <span class="text-muted"><?php echo fixupSize(disk_free_space("/")); ?></span>
             </li>
           </ul>
 
@@ -249,14 +258,7 @@
             </div>
 
             <hr class="mb-4">
-
             <h4 class="mb-3"> <a name="ComingSoon"></a> Coming Soon Configuration</h4>
-            <div class="mb-3">
-              <label for="comingSoonTopText">Coming Soon Top Text</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="comingSoonTopText" name="comingSoonTopText" placeholder="Coming Soon Top Text" value="<?php echo $comingSoonTopText; ?>">
-              </div>
-            </div>
 
             <div class="mb-3">
               <label for="pmpImageSpeed">Poster Transition Speed <small>( Seconds )</small></label>
@@ -268,6 +270,12 @@
               </div>
             </div>
 
+            <div class="mb-3">
+              <label for="comingSoonTopText">Coming Soon Top Text</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="comingSoonTopText" name="comingSoonTopText" placeholder="Coming Soon Top Text" value="<?php echo $comingSoonTopText; ?>">
+              </div>
+            </div>
 
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -490,6 +498,14 @@
                 });
               });
             </script>
+
+            <div class="mb-3">
+              <label for="pmpBottomScroll">Scolling Text </label>
+              <select class="custom-select d-block w-100" id="pmpBottomScroll" name="pmpBottomScroll">
+                <option value="Disabled" <?php if($pmpBottomScroll == 'Disabled'){ echo "selected"; } ?>>Disabled</option>
+                <option value="Enabled"  <?php if($pmpBottomScroll == 'Enabled'){ echo "selected"; } ?>>Enabled</option>
+              </select>
+            </div>
 
             <hr class="mb-4">
 
