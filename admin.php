@@ -1,4 +1,5 @@
 <?php 
+  //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
   include_once('loginCheck.php');
 
   //Clear Poster Cache Directory
@@ -44,8 +45,8 @@
 <?php
   //PMPD Config
   \$pmpConfigVersion = '2';
-  \$pmpUsername = 'admin';
-  \$pmpPassword = 'password1';
+  \$pmpUsername = '$_POST[pmpUsername]';
+  \$pmpPassword = '$_POST[pmpPassword]';
   \$pmpClearImageCache = 'Yes'; //Default Yes
   \$pmpImageSpeed = '$_POST[pmpImageSpeed]'; //Default 30 Seconds
   \$pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
@@ -80,6 +81,7 @@
   \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
   \$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default 55
   \$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default #FFFFFF (White)
+  \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default unwatched
 
   //Now Showing Config
   \$nowShowingTopText = '$_POST[nowShowingTopText]';
@@ -211,6 +213,27 @@
         </div>
 
         <div class="col-md-8 order-md-1">
+          <h4 class="mb-3"> <a name="Server"></a>Plex Movie Poster Display Config</h4>
+          <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="pmpUsername">Username</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="pmpUsername" name="pmpUsername" placeholder="Username" value="<?php echo $pmpUsername; ?>" required>
+                <div class="invalid-feedback" style="width: 100%;">
+                  Movie Poster Display Username.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="pmpPassword">Password</label>
+              <div class="input-group" id="password_view">
+                <input type="password" class="form-control" id="pmpPassword" name="pmpPassword" placeholder="Password" value="<?php echo $pmpPassword; ?>" required>
+                <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button" id="password_view_btn" onclick="passwordView()">Show</button>
+                </span>
+              </div>
+            </div>
 
           <h4 class="mb-3"> <a name="Server"></a> Server Configuration</h4>
           <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
@@ -259,6 +282,16 @@
 
             <hr class="mb-4">
             <h4 class="mb-3"> <a name="ComingSoon"></a> Coming Soon Configuration</h4>
+
+            <div class="mb-3">
+              <label for="comingSoonShowSelection">Show Movies</label>
+              <select class="custom-select d-block w-100" id="comingSoonShowSelection" name="comingSoonShowSelection">
+                <option value="unwatched" <?php if($comingSoonShowSelection == 'unwatched'){ echo "selected"; } ?>>UnWatched</option>
+                <option value="all" <?php if($comingSoonShowSelection == 'all'){ echo "selected"; } ?>>All</option>
+                <option value="recentlyAdded" <?php if($comingSoonShowSelection == 'recentlyAdded'){ echo "selected"; } ?>>Recently Added</option>
+                <option value="newest" <?php if($comingSoonShowSelection == 'newest'){ echo "selected"; } ?>>Newest</option>
+              </select>
+            </div>
 
             <div class="mb-3">
               <label for="pmpImageSpeed">Poster Transition Speed <small>( Seconds )</small></label>
@@ -500,7 +533,7 @@
             </script>
 
             <div class="mb-3">
-              <label for="pmpBottomScroll">Scolling Text </label>
+              <label for="pmpBottomScroll">Scrolling Text </label>
               <select class="custom-select d-block w-100" id="pmpBottomScroll" name="pmpBottomScroll">
                 <option value="Disabled" <?php if($pmpBottomScroll == 'Disabled'){ echo "selected"; } ?>>Disabled</option>
                 <option value="Enabled"  <?php if($pmpBottomScroll == 'Enabled'){ echo "selected"; } ?>>Enabled</option>
@@ -656,4 +689,18 @@
       </footer>
     </div>
 
+  <script>
+    function passwordView() {
+      event.preventDefault();
+      if($('#password_view input').attr("type") == "text"){
+        document.getElementById('password_view_btn').innerHTML = "Show";
+        $('#password_view input').attr('type', 'password');
+      }else if($('#password_view input').attr("type") == "password"){
+        $('#password_view input').attr('type', 'text');
+        document.getElementById('password_view_btn').innerHTML = "Hide";
+      }
+    }
+  </script>
+
+  </body>
 </html>

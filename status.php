@@ -1,3 +1,6 @@
+
 <?php
   $lastNowShowing = '';
+  $lastNowShowingBottomFontSize = '';
+  $lastNowShowingBottomFontColor = '';
 ?>

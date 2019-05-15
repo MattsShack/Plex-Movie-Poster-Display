@@ -32,19 +32,20 @@
   //Coming Soon Config
   $comingSoonTopText = 'COMING SOON';
   $comingSoonTopFontSize = '55'; //Default 55
-  $comingSoonTopFontColor = '#FFFF00'; //Default #FFFF00 (Yellow)
-  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
+  $comingSoonTopFontColor = '#FFFF00'; //Default Yellow
+  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default Yellow
   $comingSoonTopFontOutlineSize = '2'; //Default 2
   $comingSoonBottomText = 'www.mattsshack.com';
   $comingSoonBottomFontSize = '55'; //Default 55
   $comingSoonBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
+  $comingSoonShowSelection = 'unwatched'; //Default unwatched
 
   //Now Showing Config
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default 55
-  $nowShowingTopFontColor = '#FFFF00'; //Default #FFFF00 (Yellow)
+  $nowShowingTopFontColor = '#FFFF00'; //Default Yellow
   $nowShowingTopFontOutlineSize = '2'; //Default 2
-  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
+  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default Yellow
   $nowShowingBottomFontSize = '25'; //Default 25
   $nowShowingBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
 
@@ -53,5 +54,6 @@
   $pmpDisplayProgressSize = '5'; //Default 5
   $pmpDisplayProgressColor = '#FFF300'; //Default #FFF300
   $pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
-  $pmpBottomScroll = 'Disabled'; //Default Disabled (FUTURE)
+  $pmpBottomScroll = 'Disabled'; //Default Disabled
+  $pmpBottomScrollSpeed = '1'; //Default 1 (FUTURE)
 ?>

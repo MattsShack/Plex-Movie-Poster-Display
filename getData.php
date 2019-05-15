@@ -64,12 +64,14 @@
       return $percentComplete;
     }
 
-    function updateStatus($lastNowShowing) {
+    function updateStatus($lastNowShowing,$fontSize,$fontColor) {
       //Update Status
       $myfile = fopen("status.php", "w") or die("Unable to open file!");
       $newStatus = "
 <?php
   \$lastNowShowing = '$lastNowShowing';
+  \$lastNowShowingBottomFontSize = '$fontSize';
+  \$lastNowShowingBottomFontColor = '$fontColor';
 ?>";
 
       fwrite($myfile, $newStatus);
@@ -124,20 +126,20 @@
           $results['middle'] = "$display";
 
           //Check if same Movie / TV Show is still playing and adjust scrolling.
-          if (($lastNowShowing != $addAt) && ($pmpBottomScroll == 'Enabled')) {
+          if ((($lastNowShowing != $addAt) || ($lastNowShowingBottomFontSize != $nowShowingBottomFontSize) || ($lastNowShowingBottomFontColor != $nowShowingBottomFontColor)) && ($pmpBottomScroll == 'Enabled')) {
             $info = "" . $scrollPrepend . "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>" . $scrollAppend . "";
             $results['top'] = "$title";
             $results['middle'] = "$display";
             $results['bottom'] = "$info";
 
-            updateStatus($addAt);
+            updateStatus($addAt,$nowShowingBottomFontSize,$nowShowingBottomFontColor);
 	  } elseif ($pmpBottomScroll == 'Disabled') {
             $info = "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>";
             $results['top'] = "$title";
             $results['middle'] = "$display";
             $results['bottom'] = "$info";
 
-            updateStatus();
+            updateStatus(NULL,NULL,NULL);
           }
 	}
       }
@@ -150,14 +152,14 @@
       $cachePath = 'cache/posters/';
       if ($handle = opendir($cachePath)) {
         while (false !== ($file = readdir($handle))) {
-          if ((time()-filectime($cachePath.$file)) > 86400) {
+          if ($file != "." && $file != ".." && ((time()-filectime($cachePath.$file)) > 86400)) {
             unlink($cachePath.$file);
           }
         }
       }
 
       //Clean Up Status
-      updateStatus();
+      updateStatus(NULL,NULL,NULL);
 
       //Multi Movie Section Support
       $plexServerMovieSections = explode(",", $plexServerMovieSection);
@@ -165,8 +167,8 @@
 
       $title = "<br /><p style='font-size: " .  $comingSoonTopFontSize . "px; color : " . $comingSoonTopFontColor  . "; -webkit-text-stroke: " . $comingSoonTopFontOutlineSize . "px " .  $comingSoonTopFontOutlineColor . ";'> $comingSoonTopText </p>";
 
-      $UnWatchedMoviesURL = 'http://'.$plexServer.':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/unwatched?X-Plex-Token='.$plexToken.'';
-      $getMovies  = file_get_contents($UnWatchedMoviesURL);
+      $MoviesURL = 'http://'.$plexServer.':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token='.$plexToken.'';
+      $getMovies  = file_get_contents($MoviesURL);
       $xmlMovies = simplexml_load_string($getMovies) or die("feed not loading");
       $countMovies = count($xmlMovies);
       if ($countMovies > '0') {
@@ -200,5 +202,5 @@
     }
   }
 
-  echo json_encode($results);
+ echo json_encode($results);
 ?>
