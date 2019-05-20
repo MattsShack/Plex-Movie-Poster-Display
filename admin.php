@@ -103,6 +103,7 @@
 
     echo $newConfig;
     fwrite($myfile, $newConfig);
+    sleep(1);
     fclose($myfile);
     header("Location: admin.php");
   }
@@ -133,6 +134,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="www.mattsshack.com">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon-16x16.png"/>
 
