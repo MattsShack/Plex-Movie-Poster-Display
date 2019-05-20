@@ -97,51 +97,53 @@
             $art = $clients['grandparentThumb'];
           }
 
-          $poster = explode("/", $art);
-          $poster = trim($poster[count($poster) - 1], '/');
-          $filename = 'cache/posters/' . $poster;
-          $addAt = $clients['addedAt'];
+          if ($art != NULL) {
+            $poster = explode("/", $art);
+            $poster = trim($poster[count($poster) - 1], '/');
+            $filename = 'cache/posters/' . $poster;
+            $addAt = $clients['addedAt'];
 
-          $client = "true";
+            $client = "true";
 
-          //Check if image is in local cache.
-          if (file_exists($filename)) {
-            //Future Code Coming
+            //Check if image is in local cache.
+            if (file_exists($filename)) {
+              //Future Code Coming
+              } else {
+                file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
+              }
+
+            //Progrss Bar
+            if ($pmpDisplayProgress == 'Enabled') {
+              $percentComplete = getProgress($clients['duration'], $clients['viewOffset']);
+              $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
             } else {
-              file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
+              $progressBar = NULL;
             }
 
-          //Progrss Bar
-          if ($pmpDisplayProgress == 'Enabled') {
-            $percentComplete = getProgress($clients['duration'], $clients['viewOffset']);
-            $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
-          } else {
-            $progressBar = NULL;
-          }
+            $title = "<br/><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p> $progressBar";
+            $display = "<img src='cache/posters/$poster' style='width: 100%'>";
 
-	  $title = "<br/><p style='font-size: " .  $nowShowingTopFontSize . "px; color : " . $nowShowingTopFontColor  . "; -webkit-text-stroke: " . $nowShowingTopFontOutlineSize . "px " .  $nowShowingTopFontOutlineColor . ";'> $nowShowingTopText </p> $progressBar";
-          $display = "<img src='cache/posters/$poster' style='width: 100%'>";
-
-          $results['top'] = "$title";
-          $results['middle'] = "$display";
-
-          //Check if same Movie / TV Show is still playing and adjust scrolling.
-          if ((($lastNowShowing != $addAt) || ($lastNowShowingBottomFontSize != $nowShowingBottomFontSize) || ($lastNowShowingBottomFontColor != $nowShowingBottomFontColor)) && ($pmpBottomScroll == 'Enabled')) {
-            $info = "" . $scrollPrepend . "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>" . $scrollAppend . "";
             $results['top'] = "$title";
             $results['middle'] = "$display";
-            $results['bottom'] = "$info";
 
-            updateStatus($addAt,$nowShowingBottomFontSize,$nowShowingBottomFontColor);
-	  } elseif ($pmpBottomScroll == 'Disabled') {
-            $info = "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>";
-            $results['top'] = "$title";
-            $results['middle'] = "$display";
-            $results['bottom'] = "$info";
+            //Check if same Movie / TV Show is still playing and adjust scrolling.
+            if ((($lastNowShowing != $addAt) || ($lastNowShowingBottomFontSize != $nowShowingBottomFontSize) || ($lastNowShowingBottomFontColor != $nowShowingBottomFontColor)) && ($pmpBottomScroll == 'Enabled')) {
+              $info = "" . $scrollPrepend . "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>" . $scrollAppend . "";
+              $results['top'] = "$title";
+              $results['middle'] = "$display";
+              $results['bottom'] = "$info";
 
-            updateStatus(NULL,NULL,NULL);
-          }
-	}
+              updateStatus($addAt,$nowShowingBottomFontSize,$nowShowingBottomFontColor);
+            } elseif ($pmpBottomScroll == 'Disabled') {
+              $info = "<p style='font-size: " . $nowShowingBottomFontSize  . "px; color : " . $nowShowingBottomFontColor . ";'>" . $clients['title'] . ": " . $clients['summary'] . "</p>";
+              $results['top'] = "$title";
+              $results['middle'] = "$display";
+              $results['bottom'] = "$info";
+
+              updateStatus(NULL,NULL,NULL);
+            }
+	  }
+        }
       }
     }
 
