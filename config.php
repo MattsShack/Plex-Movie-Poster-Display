@@ -1,4 +1,3 @@
-
 <?php
   //PMPD Config
   $pmpConfigVersion = '2';

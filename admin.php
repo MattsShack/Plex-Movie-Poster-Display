@@ -41,8 +41,7 @@
     $_POST = array_map("stripslashes", $_POST);
 
     //Create New Config
-    $newConfig = "
-<?php
+    $newConfig = "<?php
   //PMPD Config
   \$pmpConfigVersion = '2';
   \$pmpUsername = '$_POST[pmpUsername]';
