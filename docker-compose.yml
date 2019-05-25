@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  pmpd:
+    build: .
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8080:80
