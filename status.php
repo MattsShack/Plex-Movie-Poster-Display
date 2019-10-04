@@ -1,6 +1,1 @@
-
-<?php
-  $lastNowShowing = '';
-  $lastNowShowingBottomFontSize = '';
-  $lastNowShowingBottomFontColor = '';
-?>
+ <?php $lastNowShowing = "";
