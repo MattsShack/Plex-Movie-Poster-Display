@@ -50,24 +50,39 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                 fitty('.userText', {maxSize: 100, minSize: 10});
                 fitty.fitAll();
             });
+
+            $(document).keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                console.log("Keypress: " + keycode);
+                if(keycode == '115'){
+                    $('#myModal').modal({show:true});
+                    $("#settingFrame").attr('src', 'admin.php');
+                }
+
+            });
+
+
+
+                $('#myModal').on('hidden.bs.modal', function(){
+                    $('#settingFrame').html("").attr("src", "");
+                });
+
+
+            setInterval(function () {
+                $.getJSON('getData.php', function (data) {
+                    $.each(data, function (key, val) {
+                        if (key == "middle") {
+                            $('#' + key).css('background-image', val);
+                        } else {
+                            $('#' + key).html(val);
+                        }
+                    });
+                });
+                fitty('.userText', {maxSize: 100, minSize: 10});
+                fitty.fitAll();
+            }, <?php echo $pmpImageSpeed; ?>);
         });
 
-        $(document).ready(
-            function () {
-                setInterval(function () {
-                    $.getJSON('getData.php', function (data) {
-                        $.each(data, function (key, val) {
-                            if (key == "middle") {
-                                $('#' + key).css('background-image', val);
-                            } else {
-                                $('#' + key).html(val);
-                            }
-                        });
-                    });
-                    fitty('.userText', {maxSize: 100, minSize: 10});
-                    fitty.fitAll();
-                }, <?php echo $pmpImageSpeed; ?>);
-            });
     </script>
 </head>
 
@@ -78,6 +93,22 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
     <div id="middle" class="middle"></div>
     <div id="bottom" style="overflow: hidden;" align="center" class="center"></div>
 </div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bmd-modalContent">
+
+            <div class="modal-body">
+
+                <div class="close-button">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <iframe class="embed-responsive-item" id='settingFrame' frameborder="0"></iframe>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 
 </html>
