@@ -60,6 +60,7 @@ if (!empty($_POST['saveConfig'])) {
 
 //Cleint Configuration
 \$plexClient = '$_POST[plexClient]';
+\$plexClientName = '$_POST[plexClientName]';
 
 //Custom Image
 \$customImageEnabled = '$_POST[customImageEnabled]'; //Default Disabled
@@ -72,29 +73,43 @@ if (!empty($_POST['saveConfig'])) {
 \$customBottomText = '$_POST[customBottomText]';
 \$customBottomFontSize = '$_POST[customBottomFontSize]'; //Default 25
 \$customBottomFontColor = '$_POST[customBottomFontColor]'; //Default #FFFFFF (White)
+\$customBottomFontOutlineSize = '$_POST[customBottomFontOutlineSize]'; //Default 2p
+\$customBottomFontOutlineColor = '$_POST[customBottomFontOutlineColor]'; //Default #FFFF00 (Yellow)
 
 //Coming Soon Config
+\$comingSoonTop = '$_POST[comingSoonTop]';
+\$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]';
 \$comingSoonTopText = '$_POST[comingSoonTopText]';
 \$comingSoonTopFontSize = '$_POST[comingSoonTopFontSize]'; //Default 55
 \$comingSoonTopFontColor = '$_POST[comingSoonTopFontColor]'; //Default Yellow
 \$comingSoonTopFontOutlineColor = '$_POST[comingSoonTopFontOutlineColor]'; //Default Yellow
 \$comingSoonTopFontOutlineSize = '$_POST[comingSoonTopFontOutlineSize]'; //Default 2
 \$showComingSoonInfo = '$_POST[showComingSoonInfo]'; // Default false
+\$comingSoonBottom = '$_POST[comingSoonBottom]'; // Default title
 \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
 \$comingSoonBottomAutoScale = '$_POST[comingSoonBottomAutoScale]';
 \$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default 55
 \$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default #FFFFFF (White)
+\$comingSoonBottomFontOutlineColor = '$_POST[comingSoonBottomFontOutlineColor]'; //Default Yellow
+\$comingSoonBottomFontOutlineSize = '$_POST[comingSoonBottomFontOutlineSize]'; //Default 2
 \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default unwatched
 
 //Now Showing Config
+\$nowShowingTop = '$_POST[nowShowingTop]';
+\$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; // Default is false?
 \$nowShowingTopText = '$_POST[nowShowingTopText]';
 \$nowShowingTopFontSize = '$_POST[nowShowingTopFontSize]'; //Default 55
 \$nowShowingTopFontColor = '$_POST[nowShowingTopFontColor]'; //Default Yellow
 \$nowShowingTopFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default 2
 \$nowShowingTopFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default Yellow
+\$nowShowingBottom = '$_POST[nowShowingBottom]';
+\$nowShowingBottomText = '$_POST[nowShowingBottom]';
 \$nowShowingBottomAutoScale = '$_POST[nowShowingBottomAutoScale]'; // Default is false?
 \$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; //Default 25
 \$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default #FFFFFF (White)
+\$nowShowingBottomFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default 2
+\$nowShowingBottomFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default Yellow
+
 
 //Misc
 \$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; //Default Disabled
@@ -250,6 +265,15 @@ include('config.php');
                 </span>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <label for="cacheEnabled" class="checkLabel">Cache Images</label>
+                        <div class="form-check">
+                            <input type="checkbox" name="cacheEnabled" class="form-check-input" id="cacheEnabled" value="1" <?php if ($cacheEnabled) echo " checked"?>>
+                            <label class="form-check-label" for="cacheEnabled"></label>
+                        </div>
+                    </div>
+                </div>
 
                 <h4 class="mb-3"><a name="Server"></a> Server Configuration</h4>
                 <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
@@ -304,12 +328,10 @@ include('config.php');
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="plexClient">Plex Client Name</label>
                         <div class="input-group">
-                            <label for="cacheEnabled" class="checkLabel">Cache Images</label>
-                            <div class="form-check">
-                                <input type="checkbox" name="cacheEnabled" class="form-check-input" id="cacheEnabled" value="1" <?php if ($cacheEnabled) echo " checked"?>>
-                                <label class="form-check-label" for="cacheEnabled"></label>
-                            </div>
+                            <input type="text" class="form-control" id="plexClientName" name="plexClientName"
+                                   placeholder="Plex Client Name" value="<?php echo $plexClientName; ?>">
                         </div>
                     </div>
 
@@ -349,7 +371,27 @@ include('config.php');
                             </div>
                         </div>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="comingSoonTop" class="checkLabel">Coming Soon Top Text Option</label>
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonTop" id="csb1" value="title"<?php if($comingSoonTop == 'title' || $comingSoonTop == '') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio1">Title</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonTop" id="csb2" value="summary"<?php if($comingSoonTop == 'summary') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonTop" id="csb3" value="tagline"<?php if($comingSoonTop == 'tagline') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Tagline</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonTop" id="csb4" value="custom"<?php if($comingSoonTop == 'custom') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio3">Custom</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="comingSoonTopText">Coming Soon Top Text</label>
                         <div class="input-group">
@@ -423,13 +465,34 @@ include('config.php');
                     </script>
                     <div class="mb-3">
                         <div class="input-group">
-                            <label for="showComingSoonInfo" class="checkLabel">Show Coming Soon Information</label>
+                            <label for="comingSoonTopAutoScale" class="checkLabel">Auto-scale top text</label>
                             <div class="form-check">
-                                <input type="checkbox" name="showComingSoonInfo" class="form-check-input" id="showComingSoonInfo" value="1" <?php if ($showComingSoonInfo) echo " checked"?>>
-                                <label class="form-check-label" for="cacheEnabled"></label>
+                                <input type="checkbox" name="comingSoonTopAutoScale" class="form-check-input" id="comingSoonTopAutoScale" value="1" <?php if ($comingSoonTopAutoScale) echo " checked"?>>
                             </div>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="comingSoonBottom" class="checkLabel">Coming Soon Bottom Text Option</label>
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonBottom" id="csb1" value="title"<?php if($comingSoonBottom == 'title' || $comingSoonBottom == '') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio1">Title</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonBottom" id="csb2" value="summary"<?php if($comingSoonBottom == 'summary') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonBottom" id="csb3" value="tagline"<?php if($comingSoonBottom == 'tagline') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Tagline</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comingSoonBottom" id="csb4" value="custom"<?php if($comingSoonBottom == 'custom') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio3">Custom</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="comingSoonBottomText">Coming Soon Bottom Text</label>
                         <div class="input-group">
@@ -460,6 +523,39 @@ include('config.php');
                             </div>
                         </div>
                     </div>
+                    <script>
+                        $(function () {
+                            $('#comingSoonBottomFontOutlineColor').colorpicker();
+                            $('#comingSoonBottomFontOutlineColor').on('colorpickerChange', function (event) {
+                                $('.jumbotron').css('background-color', event.color.toString());
+                            });
+                        });
+                    </script>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="comingSoonBottomFontOutlineSize">Coming Soon Bottom Font Outline Size</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="comingSoonBottomFontOutlineSize"
+                                       name="comingSoonBottomFontOutlineSize"
+                                       value="<?php echo $comingSoonBottomFontOutlineSize; ?>">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">px</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="comingSoonBottomFontOutlineColor">Coming Soon Bottom Font Outline Color</label>
+                            <div class="input-group">
+                                <input type="text" id="comingSoonBottomFontOutlineColor"
+                                       name="comingSoonBottomFontOutlineColor" class="form-control"
+                                       data-position="bottom left"
+                                       value="<?php echo $comingSoonBottomFontOutlineColor; ?>">
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="mb-3">
                         <div class="input-group">
                             <label for="comingSoonBottomAutoScale" class="checkLabel">Auto-scale bottom text</label>
@@ -481,7 +577,28 @@ include('config.php');
 
                     <h4 class="mb-3"><a name="NowShowing"></a> Now Showing Configuration</h4>
                     <div class="mb-3">
-                        <label for="nowShowingTopText">Now Showing Top Text</label>
+                        <label for="nowShowingTop" class="checkLabel">Now Showing Top Text Option</label>
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingTop" id="csb1" value="title"<?php if($nowShowingTop == 'title' || $nowShowingTop == '') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio1">Title</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingTop" id="csb2" value="summary"<?php if($nowShowingTop == 'summary') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingTop" id="csb3" value="tagline"<?php if($nowShowingTop == 'tagline') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Tagline</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingTop" id="csb4" value="custom"<?php if($nowShowingTop == 'custom') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio3">Custom</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nowShowingTopText">Now Showing Custom Top Text</label>
                         <span class="text-muted">(Optional)</span></label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="nowShowingTopText" name="nowShowingTopText"
@@ -533,6 +650,15 @@ include('config.php');
                             </div>
                         </div>
 
+                        <script>
+                            $(function () {
+                                $('#nowShowingTopFontOutlineColor').colorpicker();
+                                $('#nowShowingTopFontOutlineColor').on('colorpickerChange', function (event) {
+                                    $('.jumbotron').css('background-color', event.color.toString());
+                                });
+                            });
+                        </script>
+
                         <div class="col-md-6 mb-3">
                             <label for="nowShowingTopFontOutlineColor">Now Showing Top Font Outline Color</label>
                             <div class="input-group">
@@ -542,16 +668,46 @@ include('config.php');
                                        value="<?php echo $nowShowingTopFontOutlineColor; ?>">
                             </div>
                         </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <label for="nowShowingTopAutoScale" class="checkLabel">Auto-scale top text</label>
+                            <div class="form-check">
+                                <input type="checkbox" name="nowShowingTopAutoScale" class="form-check-input" id="nowShowingTopAutoScale" value="1" <?php if ($nowShowingTopAutoScale) echo " checked"?>>
+                            </div>
+                        </div>
                     </div>
 
-                    <script>
-                        $(function () {
-                            $('#nowShowingTopFontOutlineColor').colorpicker();
-                            $('#nowShowingTopFontOutlineColor').on('colorpickerChange', function (event) {
-                                $('.jumbotron').css('background-color', event.color.toString());
-                            });
-                        });
-                    </script>
+                    <div class="mb-3">
+                        <label for="nowShowingBottom" class="checkLabel">Now Showing Top Text Option</label>
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb1" value="title"<?php if($nowShowingBottom == 'title' || $nowShowingBottom == '') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio1">Title</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb2" value="summary"<?php if($nowShowingBottom == 'summary') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb3" value="tagline"<?php if($nowShowingBottom == 'tagline') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio2">Tagline</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb4" value="custom"<?php if($nowShowingBottom == 'custom') echo " checked"?>>
+                                <label class="form-check-label" for="inlineRadio3">Custom</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nowShowingBottomText">Now Showing Custom Bottom Text</label>
+                        <span class="text-muted">(Optional)</span></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="nowShowingBottomText" name="nowShowingBottomText"
+                                   placeholder="Now Showing Top Text" value="<?php echo $nowShowingBottomText; ?>">
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -574,14 +730,6 @@ include('config.php');
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <label for="nowShowingBottomAutoScale" class="checkLabel">Auto-scale bottom text</label>
-                            <div class="form-check">
-                                <input type="checkbox" name="nowShowingBottomAutoScale" class="form-check-input" id="nowShowingBottomAutoScale" value="1" <?php if ($nowShowingBottomAutoScale) echo " checked"?>>
-                            </div>
-                        </div>
-                    </div>
                     <script>
                         $(function () {
                             $('#nowShowingBottomFontColor').colorpicker();
@@ -590,7 +738,47 @@ include('config.php');
                             });
                         });
                     </script>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nowShowingBottomFontOutlineSize">Now Showing Bottom Font Outline Size</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="nowShowingBottomFontOutlineSize"
+                                       name="nowShowingBottomFontOutlineSize"
+                                       value="<?php echo $nowShowingBottomFontOutlineSize; ?>">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">px</div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <script>
+                            $(function () {
+                                $('#nowShowingBottomFontOutlineColor').colorpicker();
+                                $('#nowShowingBottomFontOutlineColor').on('colorpickerChange', function (event) {
+                                    $('.jumbotron').css('background-color', event.color.toString());
+                                });
+                            });
+                        </script>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="nowShowingBottomFontOutlineColor">Now Showing Bottom Font Outline Color</label>
+                            <div class="input-group">
+                                <input type="text" id="nowShowingBottomFontOutlineColor"
+                                       name="nowShowingBottomFontOutlineColor" class="form-control"
+                                       data-position="bottom left"
+                                       value="<?php echo $nowShowingBottomFontOutlineColor; ?>">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <label for="nowShowingBottomAutoScale" class="checkLabel">Auto-scale bottom text</label>
+                            <div class="form-check">
+                                <input type="checkbox" name="nowShowingBottomAutoScale" class="form-check-input" id="nowShowingBottomAutoScale" value="1" <?php if ($nowShowingBottomAutoScale) echo " checked"?>>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="pmpDisplayProgress">Progress Bar</label>
                         <select class="custom-select d-block w-100" id="pmpDisplayProgress" name="pmpDisplayProgress">
@@ -808,7 +996,36 @@ include('config.php');
                             });
                         });
                     </script>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="customBottomFontOutlineSize">Custom Image Bottom Font Outline Size</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="customBottomFontOutlineSize"
+                                       name="customBottomFontOutlineSize" value="<?php echo $customBottomFontOutlineSize; ?>">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">px</div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6 mb-3">
+                            <label for="customBottomFontOutlineColor">Custom Image Bottom Font Outline Color</label>
+                            <div class="input-group">
+                                <input type="text" id="customBottomFontOutlineColor" name="customBottomFontOutlineColor"
+                                       class="form-control" data-position="bottom left"
+                                       value="<?php echo $customBottomFontOutlineColor; ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(function () {
+                            $('#customBottomFontOutlineColor').colorpicker();
+                            $('#customBottomFontOutlineColor').on('colorpickerChange', function (event) {
+                                $('.jumbotron').css('background-color', event.color.toString());
+                            });
+                        });
+                    </script>
                     <hr class="mb-4">
                     <button name="saveConfig" class="btn btn-primary btn-lg btn-block" type="submit" value="saveConfig">
                         Update Settings
