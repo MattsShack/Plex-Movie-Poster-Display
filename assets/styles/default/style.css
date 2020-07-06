@@ -9,6 +9,10 @@ body {
   background-color: #272B35;
 }
 
+.checkLabel {
+    margin-right: 10px;
+}
+
 .navbar-custom {
   text-align: left;
   margin: auto;
@@ -20,7 +24,7 @@ body {
 }
 
 .card {
-    border: 1;
+    border: 1px;
     background-color: #1A1E27;
 }
 
