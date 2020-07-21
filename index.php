@@ -47,8 +47,6 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                         $('#' + key).html(val);
                     }
                 });
-                fitty('.userText', {maxSize: 100, minSize: 10});
-                fitty.fitAll();
             });
 
             $(document).keypress(function(event){
@@ -78,8 +76,6 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                         }
                     });
                 });
-                fitty('.userText', {maxSize: 100, minSize: 10});
-                fitty.fitAll();
             }, <?php echo $pmpImageSpeed; ?>);
         });
 
