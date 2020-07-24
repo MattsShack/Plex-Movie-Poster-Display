@@ -2,6 +2,11 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include 'config.php';
 include 'status.php';
+
+// Security Work Around (quick fix)
+include 'getPoster.php';
+
+
 $results = Array();
 $movies = Array();
 ob_start();
@@ -175,7 +180,7 @@ if ($customImageEnabled != "Enabled") {
         }
         $display = "url('cache/posters/$poster')";
     } else {
-        $display = "url('http://$plexServer:32400$art?X-Plex-Token=$plexToken')";
+        $display = "url('data:image/jpeg;base64,".getPoster($art)."')";
     }
     // Figure out which text goes where
     switch($topSelection) {
