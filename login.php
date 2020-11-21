@@ -53,6 +53,7 @@ if (isset($_POST['username']) && !empty($_POST['password'])) {
 
     <label for="inputUsername" class="sr-only">Username</label>
     <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+    <hr class="login">
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
     <p></p>
