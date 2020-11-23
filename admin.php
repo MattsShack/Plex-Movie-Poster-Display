@@ -37,13 +37,13 @@ if (!empty($_POST['saveConfig'])) {
     //Define Config File
     $myfile = fopen("config.php", "w") or die("Unable to open file!");
 
-    //FixUP POST Data 
+    //FixUP POST Data
     $_POST = array_map("stripslashes", $_POST);
 
     //Create New Config
     $newConfig = "
 <?php
-//PMPD Config
+//PMPD Configuration
 \$pmpConfigVersion = '2';
 \$pmpUsername = '$_POST[pmpUsername]';
 \$pmpPassword = '$_POST[pmpPassword]';
@@ -58,66 +58,65 @@ if (!empty($_POST['saveConfig'])) {
 \$plexServerMovieSection = '$_POST[plexServerMovieSection]';
 \$cacheEnabled = '$_POST[cacheEnabled]'; //Default true
 
-//Cleint Configuration
+//Client Configuration
 \$plexClient = '$_POST[plexClient]';
 \$plexClientName = '$_POST[plexClientName]';
 
-//Custom Image
-\$customImageEnabled = '$_POST[customImageEnabled]'; //Default Disabled
+//Custom Image Configuration
+\$customImageEnabled = '$_POST[customImageEnabled]'; //Default: Disabled
 \$customImage = '$_POST[customImage]';
 \$customTopText = '$_POST[customTopText]';
-\$customTopFontSize = '$_POST[customTopFontSize]'; //Default 55
-\$customTopFontColor = '$_POST[customTopFontColor]'; //Default #FFFFFF (White)
-\$customTopFontOutlineSize = '$_POST[customTopFontOutlineSize]'; //Default 2p
-\$customTopFontOutlineColor = '$_POST[customTopFontOutlineColor]'; //Default #FFFF00 (Yellow)
+\$customTopFontSize = '$_POST[customTopFontSize]'; //Default: 55 (px)
+\$customTopFontColor = '$_POST[customTopFontColor]'; //Default: #FFFF00 (Yellow)
+\$customTopFontOutlineSize = '$_POST[customTopFontOutlineSize]'; //Default: 2 (px)
+\$customTopFontOutlineColor = '$_POST[customTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
 \$customBottomText = '$_POST[customBottomText]';
-\$customBottomFontSize = '$_POST[customBottomFontSize]'; //Default 25
-\$customBottomFontColor = '$_POST[customBottomFontColor]'; //Default #FFFFFF (White)
-\$customBottomFontOutlineSize = '$_POST[customBottomFontOutlineSize]'; //Default 2p
-\$customBottomFontOutlineColor = '$_POST[customBottomFontOutlineColor]'; //Default #FFFF00 (Yellow)
+\$customBottomFontSize = '$_POST[customBottomFontSize]'; //Default: 25 (px)
+\$customBottomFontColor = '$_POST[customBottomFontColor]'; //Default: #FFFFFF (White)
+\$customBottomFontOutlineSize = '$_POST[customBottomFontOutlineSize]'; //Default: 2 (px)
+\$customBottomFontOutlineColor = '$_POST[customBottomFontOutlineColor]'; //Default: #FFFF00 (Yellow)
 
-//Coming Soon Config
-\$comingSoonTop = '$_POST[comingSoonTop]';
-\$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]';
+//Coming Soon Configuration
+\$comingSoonTop = '$_POST[comingSoonTop]'; //Default: custom (title/summary/tagline/custom)
+\$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]'; //Default: false
 \$comingSoonTopText = '$_POST[comingSoonTopText]';
-\$comingSoonTopFontSize = '$_POST[comingSoonTopFontSize]'; //Default 55
-\$comingSoonTopFontColor = '$_POST[comingSoonTopFontColor]'; //Default Yellow
-\$comingSoonTopFontOutlineColor = '$_POST[comingSoonTopFontOutlineColor]'; //Default Yellow
-\$comingSoonTopFontOutlineSize = '$_POST[comingSoonTopFontOutlineSize]'; //Default 2
-\$showComingSoonInfo = '$_POST[showComingSoonInfo]'; // Default false
-\$comingSoonBottom = '$_POST[comingSoonBottom]'; // Default title
+\$comingSoonTopFontSize = '$_POST[comingSoonTopFontSize]'; //Default: 55 (px)
+\$comingSoonTopFontColor = '$_POST[comingSoonTopFontColor]'; //Default: #FFFF00 (Yellow)
+\$comingSoonTopFontOutlineSize = '$_POST[comingSoonTopFontOutlineSize]'; //Default: 2 (px)
+\$comingSoonTopFontOutlineColor = '$_POST[comingSoonTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
+\$showComingSoonInfo = '$_POST[showComingSoonInfo]'; //Default: false
+\$comingSoonBottom = '$_POST[comingSoonBottom]'; //Default: custom (title/summary/tagline/custom)
 \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
-\$comingSoonBottomAutoScale = '$_POST[comingSoonBottomAutoScale]';
-\$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default 55
-\$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default #FFFFFF (White)
-\$comingSoonBottomFontOutlineColor = '$_POST[comingSoonBottomFontOutlineColor]'; //Default Yellow
-\$comingSoonBottomFontOutlineSize = '$_POST[comingSoonBottomFontOutlineSize]'; //Default 2
-\$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default unwatched
+\$comingSoonBottomAutoScale = '$_POST[comingSoonBottomAutoScale]'; //Default: false
+\$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default: 25 (px)
+\$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default: #FFFFFF (White)
+\$comingSoonBottomFontOutlineSize = '$_POST[comingSoonBottomFontOutlineSize]'; //Default: 2 (px)
+\$comingSoonBottomFontOutlineColor = '$_POST[comingSoonBottomFontOutlineColor]'; //Default: #FFFF00 (Yellow)
+\$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default: unwatched
 
-//Now Showing Config
-\$nowShowingTop = '$_POST[nowShowingTop]';
-\$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; // Default is false?
+//Now Showing Configuration
+\$nowShowingTop = '$_POST[nowShowingTop]'; //Default: custom (title/summary/tagline/custom)
+\$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; //Default: false
 \$nowShowingTopText = '$_POST[nowShowingTopText]';
-\$nowShowingTopFontSize = '$_POST[nowShowingTopFontSize]'; //Default 55
-\$nowShowingTopFontColor = '$_POST[nowShowingTopFontColor]'; //Default Yellow
-\$nowShowingTopFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default 2
-\$nowShowingTopFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default Yellow
-\$nowShowingBottom = '$_POST[nowShowingBottom]';
-\$nowShowingBottomText = '$_POST[nowShowingBottom]';
-\$nowShowingBottomAutoScale = '$_POST[nowShowingBottomAutoScale]'; // Default is false?
-\$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; //Default 25
-\$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default #FFFFFF (White)
-\$nowShowingBottomFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default 2
-\$nowShowingBottomFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default Yellow
+\$nowShowingTopFontSize = '$_POST[nowShowingTopFontSize]'; //Default: 55 (px)
+\$nowShowingTopFontColor = '$_POST[nowShowingTopFontColor]'; //Default: #FFFF00 (Yellow)
+\$nowShowingTopFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default: 2 (px)
+\$nowShowingTopFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
+\$nowShowingBottom = '$_POST[nowShowingBottom]'; //Default: title (title/summary/tagline/custom)
+\$nowShowingBottomText = '$_POST[nowShowingBottomText]';
+\$nowShowingBottomAutoScale = '$_POST[nowShowingBottomAutoScale]'; //Default: false
+\$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; //Default: 25 (px)
+\$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default: #FFFFFF (White)
+\$nowShowingBottomFontOutlineSize = '$_POST[nowShowingBottomFontOutlineSize]'; //Default: 2 (px)
+\$nowShowingBottomFontOutlineColor = '$_POST[nowShowingBottomFontOutlineColor]'; //Default: #FFFF00 (Yellow)
 
-
-//Misc
-\$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; //Default Disabled
-\$pmpDisplayProgressSize = '$_POST[pmpDisplayProgressSize]'; //Default 5
-\$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; //Default #FFF300
-\$pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
-\$pmpBottomScroll = '$_POST[pmpBottomScroll]'; //Default Disabled
-\$pmpBottomScrollSpeed = '1'; //Default 1 (FUTURE)";
+//Misc Configuration
+\$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; //Default: Disabled
+\$pmpDisplayProgressSize = '$_POST[pmpDisplayProgressSize]'; //Default: 5 (px)
+\$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; //Default: #FFFF00 (Yellow)
+\$pmpDisplayClock = 'Disabled'; //Default: Disabled (FUTURE)
+\$pmpBottomScroll = '$_POST[pmpBottomScroll]'; //Default: Disabled
+\$pmpBottomScrollSpeed = '1'; //Default: 1 (FUTURE)";
 
     echo $newConfig;
     fwrite($myfile, $newConfig);
@@ -176,7 +175,7 @@ include('config.php');
     <script src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 
     <!-- Custom styles for this template -->
-    <link href="assets/styles/default/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/default/style.css">
     <link rel="stylesheet" href="assets/styles/default/form-validation.css">
 </head>
 
@@ -237,7 +236,6 @@ include('config.php');
                     <span class="text-muted"><?php echo fixupSize(disk_free_space("/")); ?></span>
                 </li>
             </ul>
-
         </div>
 
         <div class="col-md-8 order-md-1">

@@ -47,6 +47,7 @@ if ($handle = opendir($cachePath)) {
 $title = "";
 $display = "";
 $bottomLine = "";
+$topLine = "";
 $isPlaying = false;
 $mediaTitle = "";
 $mediaSummary = "";
@@ -119,7 +120,10 @@ if ($customImageEnabled == "Enabled") {
 
                 //Progress Bar
                 if ($pmpDisplayProgress == 'Enabled') {
-                    $percentComplete = (((int)$clients['duration'] / 1000) / ((int)$clients['viewOffset'] / 1000)) * 100;
+                    $progress_duration = ((int)$clients['duration'] / 1000);
+                    $progress_viewOffset = ((int)$clients['viewOffset'] / 1000);
+
+                    $percentComplete = (((int)$clients['viewOffset'] / 1000) / ((int)$clients['duration'] / 1000)) * 100;
                     $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
                 } else {
                     $progressBar = NULL;
@@ -203,8 +207,6 @@ if ($customImageEnabled != "Enabled") {
     $bottomStrokeColor = $isPlaying ? $comingSoonBottomFontOutlineColor : $nowShowingBottomFontOutlineColor;
 }
 
-
-
 $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
 if (!$autoScaleTop) $topStyle .= "font-size: ${topSize}px;";
 $topLine = "<div><span class='userText' style='$topStyle'> $topText</span></div>";
@@ -212,8 +214,9 @@ $topLine = "<div><span class='userText' style='$topStyle'> $topText</span></div>
 $bottomStyle = "color: ${bottomColor};";
 if (!$autoScaleBottom) $bottomStyle .= "font-size: ${bottomSize}px;";
 $bottomLine = "$scrollPrepend<div><span class='userText' style='$bottomStyle'>${bottomText}</span></div>$scrollAppend";
+
 $results = [];
-$results['top'] = $topLine;
+$results['top'] = $topLine . $progressBar;
 $results['middle'] = $display;
 $results['bottom'] = $bottomLine;
 ob_end_clean();

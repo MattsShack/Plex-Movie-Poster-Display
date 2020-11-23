@@ -65,3 +65,69 @@ body {
 .gm-style-iw {
   color: #000;
 }
+
+.showhideconfigButton {
+  display:block;
+}
+
+.showhideconfig {
+  display:none;
+}
+
+.showhideconfig::before {
+  /* content:'This is my menumode' */
+}
+
+.fieldInfo-password {
+  max-width: 330px;
+}
+
+.fieldInfo-username {
+  max-width: 330px;
+}
+
+.fieldInfo-token {
+  max-width: 330px;
+}
+
+.fieldInfo-ipaddress {
+  max-width: 150px;
+}
+
+.fieldInfo-xsmall {
+  max-width: 50px;
+}
+
+.fieldInfo-small {
+  max-width: 75px;
+}
+
+.fieldInfo-medium {
+  max-width: 100px;
+}
+
+.fieldInfo-large {
+  max-width: 150px;
+}
+
+.fieldInfo-xlarge {
+  max-width: 250px;
+}
+
+.fieldInfo-select {
+  /* display:inline-block; */
+  max-width: 200px;
+}
+
+.form-alignment label{
+  margin-top:.5rem;
+}
+
+.fieldInfo-group-text{
+  margin-bottom:.5rem;
+}
+
+/* Dashed red border */
+hr.internalconfigbreak {
+  border-top: 1px dashed gray;
+}

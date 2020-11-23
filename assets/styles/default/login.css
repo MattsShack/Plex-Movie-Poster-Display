@@ -48,3 +48,9 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+hr.login {
+  margin-top:.25rem;
+  margin-bottom:.25rem;
+  border-top: 0px none gray;
+}
