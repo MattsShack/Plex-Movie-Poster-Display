@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     # git \
     # nano \
     nginx \
+    php-curl \
     php-fpm \
     php-xml \
     # python3 \
