@@ -6,7 +6,6 @@ include 'status.php';
 // Security Work Around (quick fix)
 include 'getPoster.php';
 
-
 $results = Array();
 $movies = Array();
 ob_start();
@@ -185,6 +184,10 @@ if ($customImageEnabled != "Enabled") {
         $display = "url('cache/posters/$poster')";
     } else {
         $display = "url('data:image/jpeg;base64,".getPoster($art)."')";
+        
+        if (empty($display)) {
+            $display = "url('http://$plexServer:32400$art?X-Plex-Token=$plexToken')";
+        }
     }
     // Figure out which text goes where
     switch($topSelection) {

@@ -7,9 +7,35 @@ I decided to rewrite the program in PHP and make it browser based. This allows m
 
 This script scraps http://IP_ADDRESS_OF_PLEX_SERVER>:32400/status/sessions for clients and displays the poster of the currently playing movie or TV show. If nothing is currently playing it will pull a random poster of an unwatched movie.
 
+## Dev Branch
+I have added a dev branch to merge all changes too. I will be adding my changes to the branch in the future.
+
 ## My Setup
 Plex Media Server is running on a dedicated server.
 Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a screen via HDMI. On boot up the Pi launches Chromium in kiosk mode and loads the Plex Movie Poster Display URL.
 
 ## Help
 https://www.mattsshack.com/plex-movie-poster-display/
+
+## Local Installation
+If you would like to setup locally the installation instructions can be found [here](docs/Setup_local.md).
+
+## Docker Setup
+If you would like to create a docker image locally the instructions can be found [here](docs/Setup_docker.md).
+
+## [Change Logs](documentation/ChangeLogs.md)
+
+**v2.x To Do**\
+Font Outline Size and Color for the Bottom Text.\
+Installation script for Raspberry Pi.
+
+**Ideas for Future Releases:**\
+Art mode.\
+Options to display audio and video information.\
+Aspect ratio detection / fix (Example 3:2).\
+Information from items being played from music section.
+
+**Credits**\
+Plex Movie Poster Display is built using Bootstrap , JQuery, Popper.js, jQuery – Marquee and bootstrap-colorpicker. The admin page is based on the Bootstrap “Checkout Example“.
+
+PLEX, PLEX PASS, myPLEX, PLEX MEDIA SERVER, PLEX MEDIA CENTER, PLEX MEDIA MANAGER, PLEX HOME THEATER, PLEX TV, PLEX.TV, the Plex Play Logo (“>” in stylized format) are trademarks that are the exclusive property of Plex, Inc.

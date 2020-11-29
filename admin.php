@@ -262,7 +262,7 @@ include('config.php');
         </div>
 
         <div class="col-md-8 order-md-1">
-            
+
             <!-- Security Configuration -->
             <h4 class="mb-3"><a name="Server"></a>Security Configuration</h4>
             <input class="btn btn-secondary showhideconfigButton" type="button" value="Show"></input>
@@ -292,7 +292,7 @@ include('config.php');
                         </div>
                     </div>
             </div>
-            
+
             <hr class="mb-4">
 
             <!-- Plex Movie Poster Display Common Configuration -->
