@@ -41,31 +41,31 @@ class CustomSettings:
 
     def DisplayClassActions(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # if DisplayMSG == True or self.Config_DisplayMSG == True:
             # print ("")
 
     def DisplayHelpInfo(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # if DisplayMSG == True or self.Config_DisplayMSG == True:
             # print ("")
 
     def DisplayHelpInfo_Options(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # if DisplayMSG == True or self.Config_DisplayMSG == True:
             # print ("")
 
     def DisplayHelpInfo_MgtCommands(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # if DisplayMSG == True or self.Config_DisplayMSG == True:
             # print ("")
 
     def DisplayHelpInfo_Commands(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # if DisplayMSG == True or self.Config_DisplayMSG == True:
             # print ("")
 
@@ -97,7 +97,7 @@ class DockerCompile:
 
     def __init__(self,DisplayMSG=False):
         self.ScriptPath = self.os.path.dirname(self.os.path.realpath('__file__'))
-        
+
         self.ConfigFileName = "DockerSetup.config"
         self.ConfigPath = self.os.path.abspath(self.os.path.join(self.ScriptPath))
         self.ConfigFileFullName = self.os.path.abspath(self.os.path.join(self.ConfigPath, self.ConfigFileName))
@@ -138,13 +138,13 @@ class DockerCompile:
         self.configfile.read(ConfigFilePath)
 
         ConfigSegment = "DEFAULT"
-        
+
         self.PortExternal = self.configfile.get(ConfigSegment, 'PortExternal')
         self.PortInternal = self.configfile.get(ConfigSegment, 'PortInternal')
-        
+
         self.OSPlatform = self.configfile.get(ConfigSegment, 'OSPlatform')
         self.OSPlatform = self.OSPlatform.lower()
-        
+
         self.imageNameRoot = self.configfile.get(ConfigSegment, 'imageNameRoot')
         self.imageNameRoot = self.imageNameRoot.lower()
 
@@ -285,9 +285,15 @@ class DockerCompile:
     def BuildImage(self,DisplayMSG=False):
         self.UpdateVariables()
 
+        self.BuildParameters = ""
+        self.BuildParameters = "{} --no-cache".format(self.BuildParameters)
+        self.BuildParameters = "{} --tag {}".format(self.BuildParameters,self.imageNameFull)
+
         print ("\nBuild Image (Full Name): {}\n".format(self.imageNameFull))
-        cmd = ("docker build -t {} {}".format(self.imageNameFull,self.DockerfilePath))
-        # print ("{}".format(cmd))
+        cmd = ("docker build {} {}".format(self.BuildParameters,self.DockerfilePath))
+
+        if DisplayMSG == True or self.Config_DisplayMSG == True:
+            print ("{}".format(cmd))
 
         self.subprocess.run(cmd,shell = True)
 
@@ -324,9 +330,9 @@ class DockerCompile:
         self.CustomSettings.RunContainer()
 
         self.RunParameters = ""
-        
+
         self.RunParameters = "{} -d".format(self.RunParameters)
-        
+
         self.RunParameters = "{} -p {}:{}".format(self.RunParameters,self.PortExternal,self.PortInternal)
 
         if self.CustomSettings.RunParameters:
@@ -357,7 +363,7 @@ class DockerCompile:
 
     def dockerCompose(self,DisplayMSG=False):
         MethodStatus = "EMPTY" # Create an empty variable for empty methoud to be used in the future.
-        
+
         # self.UpdateVariables()
 
         # print ("\nBuild Image (Full Name): {}\n".format(self.imageNameFull))
