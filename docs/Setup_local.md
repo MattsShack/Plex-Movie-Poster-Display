@@ -4,7 +4,7 @@
 <p>
 <blockquote>
 Sorry, there is no upgrade path from PMPD version 1 to version 2. There
- are just to many changes. Please backup your PMPD directory and 
+ are just to many changes. Please backup your PMPD directory and
 install fresh.
 </blockquote><p>
 
@@ -80,18 +80,18 @@ _Increase PHP upload_max_filesize_
 
 - Save File
 - Reboot Raspberry Pi (Might not need to reboot, but I had to for change to work).
- 
+
 ## Install Plex Movie Poster Display
 
 Get Code from GitHub:
 
-    cd /your_preferred_directory 
+    cd /your_preferred_directory
     sudo git clone https://github.com/MattsShack/Plex-Movie-Poster-Display.git
     cd Plex-Movie-Poster-Display
     sudo cp -R * /var/www/html
-    
+
 - You can replace index.php used for in the testing above.
- 
+
 Permissions:
 
     sudo chmod -R 774 /var/www/html/
@@ -113,7 +113,7 @@ Login Page:
     sudo nano /etc/xdg/autostart/chromium.desktop
 
     - Add the following to the file:
-    
+
     [Desktop Entry]
     Type=Application
     Exec=/usr/bin/unclutter & /usr/bin/chromium-browser --noerrdialogs --disable-session-crashed-bubble --disable-infobars --kiosk http://IP_ADDRESS_OF_RASPBERRY_PI
@@ -125,32 +125,32 @@ Login Page:
 
 - Save File
 - Reboot to Test
- 
+
 **Raspbian Buster**: After upgrading to Raspbian Buster I was not able to use the .desktop file method to auto start Chromium. Instead I had to create a directory and file. I am not sure if this method needs unclutter installed so I left it in the instructions.
 
     mkdir -p /home/pi/.config/lxsession/LXDE-pi/
     nano /home/pi/.config/lxsession/LXDE-pi/autostart
 
     - Add the following:
-    
+
     @chromium-browser --kiosk [PMPD IP Address]
 
 - Save File
 - Reboot to Test
- 
+
  ## Raspberry Pi Boot Config Settings -- Use at own risk --
 
     sudo nano /boot/config.txt
-    
+
     -Remove black border from around screen. Uncomment:
     disable_overscan=1
-    
+
     - Rotate Screen 90 Degrees:
     display_rotate=1
-    
+
     - Remove Raspberry Pi Power Warning:
     avoid_warnings=2
-    
+
     - Fix color depth on Raspberry Pi:
     framebuffer_depth=32
     framebuffer_ignore_alpha=1
