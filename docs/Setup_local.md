@@ -20,7 +20,7 @@ _**Note:** I recommend changing the default Raspberry Pi password before continu
 _Install Required software packages:_
 
     sudo apt update && sudo apt upgrade -y
-    sudo apt-get install nginx php-fpm php-xml git unclutter -y
+    sudo apt-get install nginx php-curl php-fpm php-xml git unclutter -y
 
 ### **Setup PHP with NGINX**
 
