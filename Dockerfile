@@ -19,6 +19,7 @@ ARG htmlbackup=${htmldefault}backup/
 RUN apt-get update && apt-get install -y \
     # apt-utils \
     # dialog \
+    dos2unix \
     # git \
     # nano \
     nginx \
@@ -105,6 +106,8 @@ WORKDIR /home/
 # CMD ["nginx", "-g", "daemon off;"]
 
 COPY ${localconfig}/start.sh start.sh
+RUN dos2unix start.sh
+
 # COPY ${buildconfig}/Setup.sh Setup.sh
 CMD ["/bin/bash","start.sh"]
 #endregion
