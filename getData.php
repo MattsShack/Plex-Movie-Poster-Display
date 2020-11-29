@@ -6,7 +6,6 @@ include 'status.php';
 // Security Work Around (quick fix)
 include 'getPoster.php';
 
-
 $results = Array();
 $movies = Array();
 ob_start();

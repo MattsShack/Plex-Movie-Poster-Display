@@ -41,7 +41,7 @@ body {
 .modal-content  {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;
-    border-radius: 0px !important; 
+    border-radius: 0px !important;
     background-color: #1A1E27;
     border-bottom: 0;
 }
