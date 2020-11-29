@@ -55,3 +55,12 @@ Fix blank image while playing media with no art (Example: Live TV).\
 
 **v2 Final**\
 RC2 is now v2 Final.
+
+**v2.5 Community Updates**\
+Admin UI/UX updates\
+Security fix to prevent exposing Plex Token\
+Updates to clean up formatting in CSS files\
+Misc. formatting adjustments\
+Docker Support\
+Documentation integration\
+GitVersion integration

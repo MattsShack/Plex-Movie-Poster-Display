@@ -25,7 +25,7 @@ If you would like to create a docker image locally the instructions can be found
 
 ## [Change Logs](documentation/ChangeLogs.md)
 
-**v2.1 To Do**\
+**v2.x To Do**\
 Font Outline Size and Color for the Bottom Text.\
 Installation script for Raspberry Pi.
 
