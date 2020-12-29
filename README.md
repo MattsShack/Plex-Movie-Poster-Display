@@ -16,3 +16,26 @@ Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a s
 
 ## Help
 https://www.mattsshack.com/plex-movie-poster-display/
+
+## Local Installation
+If you would like to setup locally the installation instructions can be found [here](docs/Setup_local.md).
+
+## Docker Setup
+If you would like to create a docker image locally the instructions can be found [here](docs/Setup_docker.md).
+
+## [Change Logs](documentation/ChangeLogs.md)
+
+**v2.x To Do**\
+Font Outline Size and Color for the Bottom Text.\
+Installation script for Raspberry Pi.
+
+**Ideas for Future Releases:**\
+Art mode.\
+Options to display audio and video information.\
+Aspect ratio detection / fix (Example 3:2).\
+Information from items being played from music section.
+
+**Credits**\
+Plex Movie Poster Display is built using Bootstrap , JQuery, Popper.js, jQuery – Marquee and bootstrap-colorpicker. The admin page is based on the Bootstrap “Checkout Example“.
+
+PLEX, PLEX PASS, myPLEX, PLEX MEDIA SERVER, PLEX MEDIA CENTER, PLEX MEDIA MANAGER, PLEX HOME THEATER, PLEX TV, PLEX.TV, the Plex Play Logo (“>” in stylized format) are trademarks that are the exclusive property of Plex, Inc.

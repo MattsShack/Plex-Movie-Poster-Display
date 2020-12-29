@@ -7,13 +7,21 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 <html>
 <head>
     <title>Plex Movie Poster Display</title>
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon-16x16.png"/>
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-touch-fullscreen" content="yes">
 
     <!-- JQuery -->
     <script src="assets/jquery-3.4.0/jquery-3.4.0.min.js"></script>
     <script src="assets/jquery-3.4.0/jquery.marquee.min.js"></script>
     <script src="assets/jquery-3.4.0/jquery.easing.min.js"></script>
+
     <!-- Text Scaler -->
     <script src="assets/fitty/fitty.js"></script>
+
     <!-- Bootstrap JavaScript-->
     <script src="assets/bootstrap-4.3.1/js/bootstrap.min.js"></script>
 
@@ -22,6 +30,7 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 
     <!-- Default Poster Template CSS -->
     <link rel="stylesheet" href="assets/styles/default/poster.css">
+
     <style>
         .comingSoonTop {
             font-size: <?php echo $comingSoonTopFontSize?>px;
@@ -47,8 +56,6 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                         $('#' + key).html(val);
                     }
                 });
-                fitty('.userText', {maxSize: 100, minSize: 10});
-                fitty.fitAll();
             });
 
             $(document).keypress(function(event){
@@ -61,12 +68,9 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 
             });
 
-
-
                 $('#myModal').on('hidden.bs.modal', function(){
                     $('#settingFrame').html("").attr("src", "");
                 });
-
 
             setInterval(function () {
                 $.getJSON('getData.php', function (data) {
@@ -78,8 +82,6 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                         }
                     });
                 });
-                fitty('.userText', {maxSize: 100, minSize: 10});
-                fitty.fitAll();
             }, <?php echo $pmpImageSpeed; ?>);
         });
 

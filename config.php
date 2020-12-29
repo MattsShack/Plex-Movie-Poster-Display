@@ -1,6 +1,6 @@
 
 <?php
-  //PMPD Config
+  //PMPD Configuration
   $pmpConfigVersion = '2';
   $pmpUsername = 'admin';
   $pmpPassword = 'password1';
@@ -13,47 +13,65 @@
   $plexServer = '';
   $plexToken = '';
   $plexServerMovieSection = '';
+  $cacheEnabled = ''; //Default true
 
-  //Cleint Configuration
+  //Client Configuration
   $plexClient = '';
+  $plexClientName = '';
 
-  //Custom Image
-  $customImageEnabled = 'Disabled'; //Default Disabled
+  //Custom Image Configuration
+  $customImageEnabled = 'Disabled'; //Default: Disabled
   $customImage = '';
-  $customTopText = 'CUSTOM TOP TEXT';
-  $customTopFontSize = '55'; //Default 55
-  $customTopFontColor = '#FFFFFF'; //Default #FFFFFF (White)
-  $customTopFontOutlineSize = '2'; //Default 2p
-  $customTopFontOutlineColor = '#FFFF00'; //Default #FFFF00 (Yellow)
-  $customBottomText = 'CUSTOM BOTTOM TEXT';
-  $customBottomFontSize = '25'; //Default 25
-  $customBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
+  $customTopText = '';
+  $customTopFontSize = '55'; //Default: 55 (px)
+  $customTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $customTopFontOutlineSize = '2'; //Default: 2 (px)
+  $customTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $customBottomText = '';
+  $customBottomFontSize = '25'; //Default: 25 (px)
+  $customBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $customBottomFontOutlineSize = '2'; //Default: 2 (px)
+  $customBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
 
-  //Coming Soon Config
+  //Coming Soon Configuration
+  $comingSoonTop = 'custom'; //Default: custom (title/summary/tagline/custom)
+  $comingSoonTopAutoScale = ''; //Default: false
   $comingSoonTopText = 'COMING SOON';
-  $comingSoonTopFontSize = '55'; //Default 55
-  $comingSoonTopFontColor = '#FFFF00'; //Default Yellow
-  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default Yellow
-  $comingSoonTopFontOutlineSize = '2'; //Default 2
+  $comingSoonTopFontSize = '55'; //Default: 55 (px)
+  $comingSoonTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $comingSoonTopFontOutlineSize = '2'; //Default: 2 (px)
+  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $showComingSoonInfo = ''; //Default: false
+  $comingSoonBottom = 'custom'; //Default: custom (title/summary/tagline/custom)
   $comingSoonBottomText = 'www.mattsshack.com';
-  $comingSoonBottomFontSize = '55'; //Default 55
-  $comingSoonBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
-  $comingSoonShowSelection = 'unwatched'; //Default unwatched
+  $comingSoonBottomAutoScale = ''; //Default: false
+  $comingSoonBottomFontSize = '25'; //Default: 25 (px)
+  $comingSoonBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $comingSoonBottomFontOutlineSize = '2'; //Default: 2 (px)
+  $comingSoonBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $comingSoonShowSelection = 'unwatched'; //Default: unwatched
 
-  //Now Showing Config
+  //Now Showing Configuration
+  $nowShowingTop = 'custom'; //Default: custom (title/summary/tagline/custom)
+  $nowShowingTopAutoScale = ''; //Default: false
   $nowShowingTopText = 'NOW SHOWING';
-  $nowShowingTopFontSize = '55'; //Default 55
-  $nowShowingTopFontColor = '#FFFF00'; //Default Yellow
-  $nowShowingTopFontOutlineSize = '2'; //Default 2
-  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default Yellow
-  $nowShowingBottomFontSize = '25'; //Default 25
-  $nowShowingBottomFontColor = '#FFFFFF'; //Default #FFFFFF (White)
+  $nowShowingTopFontSize = '55'; //Default: 55 (px)
+  $nowShowingTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $nowShowingTopFontOutlineSize = '2'; //Default: 2 (px)
+  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
+  $nowShowingBottomText = '';
+  $nowShowingBottomAutoScale = ''; //Default: false
+  $nowShowingBottomFontSize = '25'; //Default: 25 (px)
+  $nowShowingBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $nowShowingBottomFontOutlineSize = '2'; //Default: 2 (px)
+  $nowShowingBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
 
-  //Misc
-  $pmpDisplayProgress = 'Disabled'; //Default Disabled
-  $pmpDisplayProgressSize = '5'; //Default 5
-  $pmpDisplayProgressColor = '#FFF300'; //Default #FFF300
-  $pmpDisplayClock = 'Disabled'; //Default Disabled (FUTURE)
-  $pmpBottomScroll = 'Disabled'; //Default Disabled
-  $pmpBottomScrollSpeed = '1'; //Default 1 (FUTURE)
+  //Misc Configuration
+  $pmpDisplayProgress = 'Disabled'; //Default: Disabled
+  $pmpDisplayProgressSize = '5'; //Default: 5 (px)
+  $pmpDisplayProgressColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $pmpDisplayClock = 'Disabled'; //Default: Disabled (FUTURE)
+  $pmpBottomScroll = 'Disabled'; //Default: Disabled
+  $pmpBottomScrollSpeed = '1'; //Default: 1 (FUTURE)
 ?>
