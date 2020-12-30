@@ -11,9 +11,11 @@
 
   //Server Configuration
   $plexServer = '';
+  $plexServerDirect = '';
   $plexToken = '';
   $plexServerMovieSection = '';
   $cacheEnabled = ''; //Default true
+  $plexServerSSL = ''; //Default: Unchecked
 
   //Client Configuration
   $plexClient = '';
