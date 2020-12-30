@@ -27,13 +27,13 @@
   $customTopText = '';
   $customTopFontSize = '55'; //Default: 55 (px)
   $customTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $customTopFontOutlineSize = '2'; //Default: 2 (px)
+  $customTopFontOutlineSize = '0'; //Default: 0 (px)
   $customTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $customBottomText = '';
   $customBottomFontSize = '25'; //Default: 25 (px)
   $customBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $customBottomFontOutlineSize = '2'; //Default: 2 (px)
-  $customBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $customBottomFontOutlineSize = '0'; //Default: 0 (px)
+  $customBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
 
   //Coming Soon Configuration
   $comingSoonTop = 'custom'; //Default: custom (title/summary/tagline/custom)
@@ -41,7 +41,7 @@
   $comingSoonTopText = 'COMING SOON';
   $comingSoonTopFontSize = '55'; //Default: 55 (px)
   $comingSoonTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $comingSoonTopFontOutlineSize = '2'; //Default: 2 (px)
+  $comingSoonTopFontOutlineSize = '0'; //Default: 0 (px)
   $comingSoonTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $showComingSoonInfo = ''; //Default: false
   $comingSoonBottom = 'custom'; //Default: custom (title/summary/tagline/custom)
@@ -49,8 +49,8 @@
   $comingSoonBottomAutoScale = ''; //Default: false
   $comingSoonBottomFontSize = '25'; //Default: 25 (px)
   $comingSoonBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $comingSoonBottomFontOutlineSize = '2'; //Default: 2 (px)
-  $comingSoonBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $comingSoonBottomFontOutlineSize = '0'; //Default: 0 (px)
+  $comingSoonBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
   $comingSoonShowSelection = 'unwatched'; //Default: unwatched
 
   //Now Showing Configuration
@@ -59,15 +59,15 @@
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default: 55 (px)
   $nowShowingTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $nowShowingTopFontOutlineSize = '2'; //Default: 2 (px)
+  $nowShowingTopFontOutlineSize = '0'; //Default: 2 (px)
   $nowShowingTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
   $nowShowingBottomText = '';
   $nowShowingBottomAutoScale = ''; //Default: false
   $nowShowingBottomFontSize = '25'; //Default: 25 (px)
   $nowShowingBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $nowShowingBottomFontOutlineSize = '2'; //Default: 2 (px)
-  $nowShowingBottomFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $nowShowingBottomFontOutlineSize = '0'; //Default: 0 (px)
+  $nowShowingBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
 
   //Misc Configuration
   $pmpDisplayProgress = 'Disabled'; //Default: Disabled
