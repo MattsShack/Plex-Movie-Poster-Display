@@ -216,18 +216,26 @@ if ($customImageEnabled != "Enabled") {
         case 'tagline': $bottomText = $mediaTagline;break;
         case 'custom': $bottomText = $isPlaying ? $nowShowingBottomText : $comingSoonBottomText;break;
     }
+
     // Set our stroke size and color for top and bottom
-    $topStrokeSize = $isPlaying ? $comingSoonTopFontOutlineSize : $nowShowingTopFontOutlineSize;
-    $topStrokeColor = $isPlaying ? $comingSoonTopFontOutlineColor : $nowShowingTopFontOutlineColor;
-    $bottomStrokeSize = $isPlaying ? $comingSoonBottomFontOutlineSize : $nowShowingBottomFontOutlineSize;
-    $bottomStrokeColor = $isPlaying ? $comingSoonBottomFontOutlineColor : $nowShowingBottomFontOutlineColor;
+    if ($isPlaying) {
+        $topStrokeSize = $nowShowingTopFontOutlineSize;
+        $topStrokeColor = $nowShowingTopFontOutlineColor;
+        $bottomStrokeSize = $nowShowingBottomFontOutlineSize;
+        $bottomStrokeColor = $nowShowingBottomFontOutlineColor;
+    } else {
+        $topStrokeSize = $comingSoonTopFontOutlineSize;
+        $topStrokeColor = $comingSoonTopFontOutlineColor;
+        $bottomStrokeSize = $comingSoonBottomFontOutlineSize;
+        $bottomStrokeColor = $comingSoonBottomFontOutlineColor;
+    }
 }
 
 $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
 if (!$autoScaleTop) $topStyle .= "font-size: ${topSize}px;";
-$topLine = "<div><span class='userText' style='$topStyle'> $topText</span></div>";
+$topLine = "<div><span class='userText' style='$topStyle'> $topText</span></div>"; // Missing: Scroll Append?
 
-$bottomStyle = "color: ${bottomColor};";
+$bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
 if (!$autoScaleBottom) $bottomStyle .= "font-size: ${bottomSize}px;";
 $bottomLine = "$scrollPrepend<div><span class='userText' style='$bottomStyle'>${bottomText}</span></div>$scrollAppend";
 

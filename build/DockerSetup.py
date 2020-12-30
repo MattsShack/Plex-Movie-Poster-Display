@@ -110,6 +110,7 @@ class DockerCompile:
         self.ImageType = ""
         self.imageNameRoot = ""
         self.tag = ""
+        self.noCache = False
 
         self.PortExternal = 80
         self.PortInternal = 80
@@ -151,6 +152,12 @@ class DockerCompile:
         self.tag = self.configfile.get(ConfigSegment, 'tag')
         self.tag = self.tag.lower()
 
+        self.noCache = self.configfile.get(ConfigSegment, 'noCache')
+        if self.noCache.lower() == "true":
+            self.noCache = True
+        else:
+            self.noCache = False
+
         self.DockerfileRoot = self.configfile.get(ConfigSegment, 'DockerfileRoot')
 
         self.ImageType = self.configfile.get(ConfigSegment, 'ImageType')
@@ -173,6 +180,7 @@ class DockerCompile:
             print ("\tDocker Image (tag): {}".format(self.tag))
             print ("\tDocker Image (imageNameFull): {}".format(self.imageNameFull))
             print ("\tDocker Image (container): {}".format(self.containerName))
+            print ("\tDocker Image (no-cache): {}".format(self.noCache))
             print ("")
             print ("\tPort (External): {}".format(self.PortExternal))
             print ("\tPort (Internal): {}".format(self.PortInternal))
@@ -286,7 +294,10 @@ class DockerCompile:
         self.UpdateVariables()
 
         self.BuildParameters = ""
-        self.BuildParameters = "{} --no-cache".format(self.BuildParameters)
+        
+        if self.noCache:
+            self.BuildParameters = "{} --no-cache".format(self.BuildParameters)
+        
         self.BuildParameters = "{} --tag {}".format(self.BuildParameters,self.imageNameFull)
 
         print ("\nBuild Image (Full Name): {}\n".format(self.imageNameFull))
