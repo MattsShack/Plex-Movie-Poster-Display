@@ -54,9 +54,11 @@ if (!empty($_POST['saveConfig'])) {
 
 //Server Configuration
 \$plexServer = '$_POST[plexServer]';
+\$plexServerDirect = '$_POST[plexServerDirect]';
 \$plexToken = '$_POST[plexToken]';
 \$plexServerMovieSection = '$_POST[plexServerMovieSection]';
 \$cacheEnabled = '$_POST[cacheEnabled]'; //Default true
+\$plexServerSSL = '$_POST[plexServerSSL]'; //Default: Unchecked
 
 //Client Configuration
 \$plexClient = '$_POST[plexClient]';
@@ -177,6 +179,7 @@ include('config.php');
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="assets/styles/default/style.css">
     <link rel="stylesheet" href="assets/styles/default/form-validation.css">
+    <link rel="stylesheet" href="assets/styles/default/tooltips.css">
 
     <script>
         $(document).ready(function(){
@@ -358,6 +361,34 @@ include('config.php');
                     </div>
 
                     <div class="mb-3">
+                        <div class="input-group">
+                            <label for="plexServerSSL" class="checkLabel">Plex SSL:</label>
+                            <div class="form-check">
+                                <input type="checkbox" name="plexServerSSL" class="form-check-input" id="plexServerSSL" value="1" <?php if ($plexServerSSL) echo " checked"?>>
+                                <label class="form-check-label" for="plexServerSSL"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-alignment input-group">
+                            <label for="plexServer">
+                                <div class="customtooltip">Plex Server Direct: 
+                                    <a href="https://support.plex.tv/articles/206225077-how-to-use-secure-server-connections/" target=_blank>
+                                    <span class="badge badge-primary">?</span></a>
+                                    <span class="tooltiptext"><small>A Plex server direct URL is required (.plex.direct).</small></span>
+                                </div>
+                                &nbsp;
+                            </label>
+                            <input type="text" class="form-control" id="plexServerDirect" name="plexServerDirect" maxlength="65"
+                                placeholder="Plex Server Direct" value="<?php echo $plexServerDirect; ?>" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                A Plex server direct URL is required (.plex.direct).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
                         <div class="form-alignment input-group" id="token_view">
                             <label for="plexToken">Plex Token: <a
                                         href="https://support.plex.tv/hc/en-us/articles/204059436-Finding-your-account-token-X-Plex-Token"
@@ -376,7 +407,12 @@ include('config.php');
 
                     <div class="mb-3">
                         <div class="form-alignment input-group">
-                        <label for="plexServerMovieSection">Plex Movie Sections <small>(Comma Separated with no Spaces)</small>:&nbsp;</label>
+                            <label for="plexServerMovieSection">
+                                <div class="customtooltip">Plex Movie Section(s):
+                                    <span class="tooltiptext"><small>Multiple libraries can be added with a comma separated with no spaces.</small></span>
+                                </div>
+                                &nbsp;
+                            </label>
                             <input type="text" class="fieldInfo-medium form-control" id="plexServerMovieSection"
                                 name="plexServerMovieSection" placeholder="Plex Movie Sections"
                                 value="<?php echo $plexServerMovieSection; ?>" required>

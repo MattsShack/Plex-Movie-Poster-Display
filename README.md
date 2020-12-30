@@ -17,6 +17,9 @@ Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a s
 ## Help
 https://www.mattsshack.com/plex-movie-poster-display/
 
+## Plex Information for Setup
+Plex Information that is required for setup can be found [here](docs/PlexData.md)
+
 ## Local Installation
 If you would like to setup locally the installation instructions can be found [here](docs/Setup_local.md).
 

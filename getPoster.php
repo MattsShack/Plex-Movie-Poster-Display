@@ -5,9 +5,19 @@ include 'config.php';
 // This will grab the image server side.
 
 function getPoster($artWorkLocation) {
-	global $plexServer, $plexToken;
+	global $plexServer, $plexToken, $plexServerSSL;
 
-	$posterUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
+	// Setting SSL Prefix
+	if ($plexServerSSL) {
+		$URLScheme = "https";
+		$plexServer = $plexServerDirect;
+	}
+	else {
+		$URLScheme = "http";
+	}
+
+	// $posterUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
+	$posterUrl = "$URLScheme://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 
 	// Grab Poster
 	$ch = curl_init($posterUrl);
