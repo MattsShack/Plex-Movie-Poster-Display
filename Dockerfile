@@ -84,7 +84,7 @@ RUN sed -i "s|upload_max_filesize = 2M|upload_max_filesize = 25M|g" /etc/php/7.3
 
 COPY *.php ${htmldefault}
 COPY assets ${htmldefault}/assets/
-COPY cache ${htmldefault}/cache/
+# COPY cache ${htmldefault}/cache/
 
 # Restore Pre Existing Config
 # RUN rm ${htmldefault}/config.php
