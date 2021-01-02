@@ -33,13 +33,25 @@ if ($pmpBottomScroll == 'Enabled') {
 }
 
 //Clean Up Cache Dir (Files Older than 24 hours)
-$cachePath = 'cache/posters/';
+// $cachePath = 'cache/posters/';
+$cachePath = $pmpPosterDir; // Remove hard coded path and us variable.
+
+// Generate the Cache Poster Directory if it does not exist.
+if (!file_exists($cachePath)) {
+    mkdir($cachePath, 0777, true);
+}
 if ($handle = opendir($cachePath)) {
     while (false !== ($file = readdir($handle))) {
         if ($file != "." && $file != ".." && ((time() - filectime($cachePath . $file)) > 86400)) {
             unlink($cachePath . $file);
         }
     }
+}
+
+$customPath = $pmpCustomDir;
+// Generate the Custom Directory if it does not exist.
+if (!file_exists($customPath)) {
+    mkdir($customPath, 0777, true);
 }
 
 // Let's be lazy
@@ -85,7 +97,7 @@ if ($customImageEnabled == "Enabled") {
     $bottomText = $customBottomText;
     $topSelection = $nowShowingTop;
     $bottomSelection = $nowShowingBottom;
-    $display = "url('cache/custom/$customImage')";
+    $display = "url('$customPath/$customImage')";
     $topStrokeColor = $customTopFontOutlineColor;
     $topStrokeSize = $customTopFontOutlineSize;
     $bottomStrokeColor = $customBottomFontOutlineColor;
@@ -187,13 +199,13 @@ if ($customImageEnabled != "Enabled") {
     if ($cacheEnabled) {
         $poster = explode("/", $art);
         $poster = trim($poster[count($poster) - 1], '/');
-        $filename = 'cache/posters/' . $poster;
+        $filename = $cachePath . $poster;
         // There's nothing else to do here, just save it
         if (!file_exists($filename)) {
             // file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
-            file_put_contents("cache/posters/$poster", fopen("$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
+            file_put_contents("$cachePath/$poster", fopen("$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
         }
-        $display = "url('cache/posters/$poster')";
+        $display = "url('$cachePath/$poster')";
     } else {
         $display = "url('data:image/jpeg;base64,".getPoster($art)."')";
         // $display = "url('$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken')";
