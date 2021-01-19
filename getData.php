@@ -116,7 +116,6 @@ if ($customImageEnabled == "Enabled") {
     if ($xml['size'] != '0') {
         $data['hasXml'] = true;
         foreach ($xml->Video as $clients) {
-            $art = false;
             // If this matches our client IP or name, gather data
             if (strstr($clients->Player['address'], $plexClient) || strstr($clients->Player['title'], $plexClientName)) {
                 $isPlaying = true;
