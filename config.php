@@ -59,7 +59,7 @@
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default: 55 (px)
   $nowShowingTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $nowShowingTopFontOutlineSize = '0'; //Default: 2 (px)
+  $nowShowingTopFontOutlineSize = '0'; //Default: 0 (px)
   $nowShowingTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
   $nowShowingBottomText = '';
