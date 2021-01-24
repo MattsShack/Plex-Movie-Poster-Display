@@ -32,7 +32,9 @@ if ($pmpBottomScroll == 'Enabled') {
     $scrollAppend = "";
 }
 
-//Clean Up Cache Dir (Files Older than 24 hours)
+$placeHolderFile = "placeholder.txt";
+
+// Clean Up Cache Dir (Files Older than 24 hours)
 // $cachePath = 'cache/posters/';
 $cachePath = $pmpPosterDir; // Remove hard coded path and us variable.
 
@@ -40,6 +42,12 @@ $cachePath = $pmpPosterDir; // Remove hard coded path and us variable.
 if (!file_exists($cachePath)) {
     mkdir($cachePath, 0777, true);
 }
+
+// Clean Up placeholder files in cache folder.
+if (file_exists("$cachePath/$placeHolderFile")) {
+    unlink("$cachePath/$placeHolderFile");
+}
+
 if ($handle = opendir($cachePath)) {
     while (false !== ($file = readdir($handle))) {
         if ($file != "." && $file != ".." && ((time() - filectime($cachePath . $file)) > 86400)) {
@@ -52,6 +60,11 @@ $customPath = $pmpCustomDir;
 // Generate the Custom Directory if it does not exist.
 if (!file_exists($customPath)) {
     mkdir($customPath, 0777, true);
+}
+
+// Clean Up placeholder files in customPath folder.
+if (file_exists("$customPath/$placeHolderFile")) {
+    unlink("$customPath/$placeHolderFile");
 }
 
 // Let's be lazy

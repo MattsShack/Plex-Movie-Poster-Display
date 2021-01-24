@@ -82,8 +82,22 @@ body {
   max-width: 330px;
 }
 
+.fieldInfo-password-login {
+  max-width: 330px;
+  text-align: center;
+  width: 50%; 
+  margin: auto;
+}
+
 .fieldInfo-username {
   max-width: 330px;
+}
+
+.fieldInfo-username-login {
+  max-width: 330px;
+  text-align: center;
+  width: 50%; 
+  margin: auto;
 }
 
 .fieldInfo-token {
@@ -96,6 +110,7 @@ body {
 
 .fieldInfo-xsmall {
   max-width: 50px;
+  white-space: nowrap;
 }
 
 .fieldInfo-small {
@@ -112,6 +127,14 @@ body {
 
 .fieldInfo-xlarge {
   max-width: 250px;
+}
+
+.fieldInfo-2xlarge {
+  max-width: 350px;
+}
+
+.fieldInfo-3xlarge {
+  max-width: 450px;
 }
 
 .fieldInfo-select {

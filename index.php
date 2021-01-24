@@ -1,36 +1,16 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('config.php');
+include_once('assets/plexmovieposter/tokenCheck.php');
+include 'assets/plexmovieposter/CommonLib.php';
 $pmpImageSpeed = ($pmpImageSpeed * 1000);
 ?>
 
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Plex Movie Poster Display</title>
-    <link rel="shortcut icon" type="image/png" href="assets/images/favicon-16x16.png"/>
-    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-touch-fullscreen" content="yes">
-
-    <!-- JQuery -->
-    <script src="assets/jquery-3.4.0/jquery-3.4.0.min.js"></script>
-    <script src="assets/jquery-3.4.0/jquery.marquee.min.js"></script>
-    <script src="assets/jquery-3.4.0/jquery.easing.min.js"></script>
-
-    <!-- Text Scaler -->
-    <script src="assets/fitty/fitty.js"></script>
-
-    <!-- Bootstrap JavaScript-->
-    <script src="assets/bootstrap-4.3.1/js/bootstrap.min.js"></script>
-
-    <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="assets/bootstrap-4.3.1/css/bootstrap.min.css">
-
-    <!-- Default Poster Template CSS -->
-    <link rel="stylesheet" href="assets/styles/default/poster.css">
-
+    <?php HeaderInfo(basename(__FILE__)); ?>
+    
     <style>
         .comingSoonTop {
             font-size: <?php echo $comingSoonTopFontSize?>px;
