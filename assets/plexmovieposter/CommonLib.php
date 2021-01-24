@@ -170,7 +170,7 @@ function HeaderInfo($configPage) {
     echo "\t<!-- Plex Movie Poster Display Javascript & CSS -->\n";
 
     if ($configPage != "index.php") {
-        echo "\t<script src=\"CommonLib.js\"></script>\n";
+        echo "\t<script src=\"$paths/assets/plexmovieposter/CommonLib.js\"></script>\n";
         echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/styles/default/style.css\">\n";
         echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/styles/default/form-validation.css\">\n";
     }    
@@ -217,6 +217,42 @@ function HeaderInfoApple($configPage) {
     echo "\t<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)\" href=\"$paths/assets/plex/images/desktop/ios/startup-ipad-portrait@2x.png\">\n";
     echo "\t<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)\" href=\"$paths/assets/plex/images/desktop/ios/startup-ipad-landscape@2x.png\">\n";
 
+}
+
+function NavBar() {
+    echo "<div class=\"nav-bar\">\n";
+    echo "            <div class=\"NavBar-container-1T0BJz\">\n";
+    echo "                <div class=\"NavBar-left-2SrTGf NavBar-side-2kZrHV\">\n";
+    echo "                    <a id=\"id-261\" aria-label=\"Home\" data-uid=\"id-262\" href=\"../index.php\" role=\"link\" class=\"NavBar-button-diriIs NavBarIconButton-button-eR0v0j IconButton-button-9An-7I Link-link-2n0yJn Link-default-2XA2bN     \">\n";
+    echo "                        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 560 560\" id=\"plex-icon-navbar-home-560\" aria-hidden=\"true\" class=\"PlexIcon-plexIcon-8Tamaj NavBarIconButton-icon-2gdVPu\">\n";
+    echo "                        <path d=\"M84 448V291.598a28 28 0 0 1 8.201-19.799L280 84l187.799 187.799A28 28 0 0 1 476 291.598V448c0 15.464-12.536 28-28 28H322V336h-84v140H112c-15.464 0-28-12.536-28-28z\">\n";
+    echo "                        </path>\n";
+    echo "                        </svg>\n";
+    echo "                    </a>\n";
+    // Below is the 'Copyright Plex Logo" version of the NavBar
+    // echo "                    <a data-uid=\"id-2\" href=\"#\" role=\"link\" class=\"NavBar-plexLogo-3_NNRw NavBarIconButton-button-eR0v0j IconButton-button-9An-7I Link-link-2n0yJn Link-default-2XA2bN     \">\n";
+    // Below is the "Non-copyright Logo" version of the NavBar -- Coming Soon
+    // echo "                    <a data-uid=\"id-2\" href=\"#\" role=\"link\" class=\"NavBar-plexLogo-3_NNRw NavBarIconButton-button-eR0v0j IconButton-button-9An-7I Link-link-2n0yJn Link-default-2XA2bN     \">\n";
+    echo "                    </a>\n";
+    echo "                </div>\n";
+    echo "            </div>\n";
+    echo "        </div>\n";
+}
+
+function FooterInfo() {
+    // https://www.plex.tv/about/privacy-legal/plex-trademarks-and-guidelines/
+    // http://brand.plex.tv/d/qxmJ3odkK0fj/style-guide
+    // http://brand.plex.tv/d/qxmJ3odkK0fj/style-guide#/style-guide/typography
+
+    $CopyrightMsg_01 = "Plex is a copyright of the Plex Media Company";
+    $CopyrightMsg_02 = "Works with Plex";
+    $CopyrightMsg_03 = "Plex Move Poster Display for Plex";
+    
+    echo "<div style=\"position: absolute; left: 0; bottom: 0; width: 100%; text-align: center; \">";
+    echo "<p>";
+    echo "$CopyrightMsg_02";
+    echo "</p>";
+    echo "</div>";
 }
 
 //Fixup Size Calculations

@@ -33,20 +33,7 @@ if (!empty($_POST['saveConfig'])) {
                 </div>
             </div>
         </div>
-        <div class="nav-bar">
-            <div class="NavBar-container-1T0BJz">
-                <div class="NavBar-left-2SrTGf NavBar-side-2kZrHV">
-                    <a id="id-261" aria-label="Home" data-uid="id-262" href="../index.php" role="link" class="NavBar-button-diriIs NavBarIconButton-button-eR0v0j IconButton-button-9An-7I Link-link-2n0yJn Link-default-2XA2bN     ">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 560" id="plex-icon-navbar-home-560" aria-hidden="true" class="PlexIcon-plexIcon-8Tamaj NavBarIconButton-icon-2gdVPu">
-                        <path d="M84 448V291.598a28 28 0 0 1 8.201-19.799L280 84l187.799 187.799A28 28 0 0 1 476 291.598V448c0 15.464-12.536 28-28 28H322V336h-84v140H112c-15.464 0-28-12.536-28-28z">
-                        </path>
-                        </svg>
-                    </a>
-                    <a data-uid="id-2" href="#" role="link" class="NavBar-plexLogo-3_NNRw NavBarIconButton-button-eR0v0j IconButton-button-9An-7I Link-link-2n0yJn Link-default-2XA2bN     ">
-                    </a>
-                </div>
-            </div>
-        </div>
+        <?php NavBar() ;?>
         <div id="content" class="scroll-container dark-scrollbar">
             <div class="FullPage-container-17Y0cs">
                 <div class="Measure-container-3yONEe">
@@ -105,6 +92,7 @@ if (!empty($_POST['saveConfig'])) {
                                 </div>
                             </form>
                         </div>
+                        <?php FooterInfo() ; ?>
                     </div>
                 </div>
             </div>
