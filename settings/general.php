@@ -37,7 +37,7 @@ if (!empty($_GET['file'])) {
 }
 
 if(!empty($_POST['pmplogout'])) {
-    header("Location: logout.php");
+    header("Location: ../assets/plexmovieposter/logout.php");
 }
 
 uploadConfig();
