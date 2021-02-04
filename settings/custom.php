@@ -5,12 +5,15 @@ include '../assets/plexmovieposter/setData.php';
 include 'PMPInfo.php';
 include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/FontLib.php';
 include '../config.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
     setData(basename(__FILE__));
 }
+
+GenerateCSS_Font_ALL();
 
 ?>
 
@@ -197,6 +200,27 @@ if (!empty($_POST['saveConfig'])) {
                                         </script>
                                     </div>
 
+                                    <div class="form-group advanced-setting row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="checkbox" name="customTopFontEnabled" id="customTopFontEnabled" value="1" <?php if ($customTopFontEnabled) echo " checked"?>>
+                                            Use Custom Font (Top)
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            Custom Font (Top): &nbsp;
+                                            <?php 
+                                                // PHP 7.x
+                                                findFontFamily_Full(FALSE, TRUE, "customTopFontID");
+                                                // PHP 8.x
+                                                //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "customTopFontID");
+                                            ?>
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <hr>
                                         <h3>Bottom Text Option:</h3>
@@ -284,6 +308,29 @@ if (!empty($_POST['saveConfig'])) {
                                             });
                                         </script>
                                     </div>
+
+                                    <div class="form-group advanced-setting row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="checkbox" name="customBottomFontEnabled" id="customBottomFontEnabled" value="1" <?php if ($customBottomFontEnabled) echo " checked"?>>
+                                            Use Custom Font (Bottom)
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            Custom Font (Bottom): &nbsp;
+                                            <?php 
+                                                // PHP 7.x
+                                                findFontFamily_Full(FALSE, TRUE, "customBottomFontID");
+                                                // PHP 8.x
+                                                //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "customBottomFontID");
+                                            ?>
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                    </div>
+
                                 <!-- SEGMENT BLOCK END -->
 
                                 <!-- GHOST BLOCK START -->

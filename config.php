@@ -27,11 +27,15 @@
   $customTopText = '';
   $customTopFontSize = '55'; //Default: 55 (px)
   $customTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $customTopFontEnabled = ''; //Default: Unchecked
+  $customTopFontID = '';
   $customTopFontOutlineSize = '0'; //Default: 0 (px)
   $customTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $customBottomText = '';
   $customBottomFontSize = '25'; //Default: 25 (px)
   $customBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $customBottomFontEnabled = ''; //Default: Unchecked
+  $customBottomFontID = '';
   $customBottomFontOutlineSize = '0'; //Default: 0 (px)
   $customBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
 
@@ -41,6 +45,8 @@
   $comingSoonTopText = 'COMING SOON';
   $comingSoonTopFontSize = '55'; //Default: 55 (px)
   $comingSoonTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $comingSoonTopFontEnabled = ''; //Default: Unchecked
+  $comingSoonTopFontID = '';
   $comingSoonTopFontOutlineSize = '0'; //Default: 0 (px)
   $comingSoonTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $showComingSoonInfo = ''; //Default: false
@@ -49,6 +55,8 @@
   $comingSoonBottomAutoScale = ''; //Default: false
   $comingSoonBottomFontSize = '25'; //Default: 25 (px)
   $comingSoonBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $comingSoonBottomFontEnabled = ''; //Default: Unchecked
+  $comingSoonBottomFontID = '';
   $comingSoonBottomFontOutlineSize = '0'; //Default: 0 (px)
   $comingSoonBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
   $comingSoonShowSelection = 'unwatched'; //Default: unwatched
@@ -59,6 +67,8 @@
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; //Default: 55 (px)
   $nowShowingTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $nowShowingTopFontEnabled = ''; //Default: Unchecked
+  $nowShowingTopFontID = '';
   $nowShowingTopFontOutlineSize = '0'; //Default: 0 (px)
   $nowShowingTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
   $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
@@ -66,6 +76,8 @@
   $nowShowingBottomAutoScale = ''; //Default: false
   $nowShowingBottomFontSize = '25'; //Default: 25 (px)
   $nowShowingBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $nowShowingBottomFontEnabled = ''; //Default: Unchecked
+  $nowShowingBottomFontID = '';
   $nowShowingBottomFontOutlineSize = '0'; //Default: 0 (px)
   $nowShowingBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
 

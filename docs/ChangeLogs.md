@@ -64,3 +64,9 @@ Misc. formatting adjustments\
 Docker Support\
 Documentation integration\
 GitVersion integration
+
+**v2.6 Community Updates**\
+New configuration and administration pages
+
+**v2.7 Community Updates**\
+Custom Font Integration

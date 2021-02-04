@@ -26,6 +26,9 @@ If you would like to setup locally the installation instructions can be found [h
 ## Docker Setup
 If you would like to create a docker image locally the instructions can be found [here](docs/Setup_docker.md).
 
+## Font Support
+If you would like to use custom fonts for your posters, there is now options for that and extra instructions can be found [here](docs/FontConfig.md).
+
 ## [Change Logs](documentation/ChangeLogs.md)
 
 **v2.x To Do**\

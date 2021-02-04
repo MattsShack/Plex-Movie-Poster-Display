@@ -26,8 +26,20 @@ RUN apt-get update && apt-get install -y \
     php-curl \
     php-fpm \
     php-xml \
+    php-zip \
     # python3 \
     supervisor
+
+#region Install PHP 8.0 software packages (Prototype)
+# # RUN apt install apt-transport-https lsb-release ca-certificates wget -y
+# # RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg 
+# # RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+
+# # RUN apt-get update && apt-get install -y \
+# #     php8.0-curl \
+# #     php8.0-fpm \
+# #     php8.0-xml 
+
 
 # RUN apt-get upgrade -y
 #endregion
@@ -110,8 +122,11 @@ WORKDIR /home/
 COPY ${localconfig}/start.sh start.sh
 RUN dos2unix start.sh
 
+# Setting working directory to site root for development and debugging
+WORKDIR /var/www/html/
+
 # COPY ${buildconfig}/Setup.sh Setup.sh
-CMD ["/bin/bash","start.sh"]
+CMD ["/bin/bash","/home/start.sh"]
 #endregion
 
 #TODO:

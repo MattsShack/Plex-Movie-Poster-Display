@@ -70,25 +70,33 @@ if (file_exists("$customPath/$placeHolderFile")) {
 // Let's be lazy
 $title = "";
 $display = "";
-$bottomLine = "";
-$topLine = "";
 $isPlaying = false;
+
 $mediaTitle = "";
 $mediaSummary = "";
 $mediaTagline = "";
-$topText = "";
-$topCustom = "";
-$bottomText = "";
-$bottomCustom = "";
-$topColor = "";
-$bottomColor = "";
-$topSize = "";
-$bottomSize = "";
-$autoScaleBottom = false;
-$autoScaleTop = false;
-$scrollBottom = false;
+
 $topSelection = false;
+$topLine = "";
+$topText = "";
+$topSize = "";
+$topColor = "";
+$topCustom = "";
+$topFontEnabled = false;
+$topFontID = "";
+$autoScaleTop = false;
+$scrollTop = false;
+
 $bottomSelection = false;
+$bottomLine = "";
+$bottomText = "";
+$bottomSize = "";
+$bottomColor = "";
+$bottomCustom = "";
+$bottomFontEnabled = false;
+$bottomFontID = "";
+$autoScaleBottom = false;
+$scrollBottom = false;
 
 // Setting SSL Prefix
 if ($plexServerSSL) {
@@ -106,6 +114,10 @@ if ($customImageEnabled == "Enabled") {
     $topColor = $customTopFontColor;
     $bottomSize = $customBottomFontSize;
     $bottomColor = $customBottomFontColor;
+    $topFontEnabled = $customTopFontEnabled;
+    $topFontID = $customTopFontID;
+    $bottomFontEnabled = $customBottomFontEnabled;
+    $bottomFontID = $customBottomFontID;
     $topText = $customTopText;
     $bottomText = $customBottomText;
     $topSelection = $nowShowingTop;
@@ -144,6 +156,12 @@ if ($customImageEnabled == "Enabled") {
                 $topColor = $nowShowingTopFontColor;
                 $bottomSize = $nowShowingBottomFontSize;
                 $bottomColor = $nowShowingBottomFontColor;
+
+                $topFontEnabled = $nowShowingTopFontEnabled;
+                $topFontID = $nowShowingTopFontID;
+                
+                $bottomFontEnabled = $nowShowingBottomFontEnabled;
+                $bottomFontID = $nowShowingBottomFontID;
                 //Now Showing Sections
                 if (strstr($clients['type'], "movie")) {
                     $art = $clients['thumb'];
@@ -177,6 +195,11 @@ if ($customImageEnabled == "Enabled") {
         $bottomSize = $comingSoonBottomFontSize;
         $topSelection = $comingSoonTop;
         $bottomSelection = $comingSoonBottom;
+
+        $topFontEnabled = $comingSoonTopFontEnabled;
+        $topFontID = $comingSoonTopFontID;
+        $bottomFontEnabled = $comingSoonBottomFontEnabled;
+        $bottomFontID = $comingSoonBottomFontID;
 
         //Multi Movie Section Support
         $plexServerMovieSections = explode(",", $plexServerMovieSection);
@@ -256,12 +279,14 @@ if ($customImageEnabled != "Enabled") {
 }
 
 $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
-if (!$autoScaleTop) $topStyle .= "font-size: ${topSize}px;";
-$topLine = "<div><span class='userText' style='$topStyle'> $topText</span></div>"; // Missing: Scroll Append?
+if ($topFontEnabled) $topStyle .= " font-family: '$topFontID';";
+if (!$autoScaleTop) $topStyle .= " font-size: ${topSize}px;";
+$topLine = "<div><span class='userText' style=\"$topStyle\">${topText}</span></div>"; // Missing: Scroll Append?
 
 $bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
-if (!$autoScaleBottom) $bottomStyle .= "font-size: ${bottomSize}px;";
-$bottomLine = "$scrollPrepend<div><span class='userText' style='$bottomStyle'>${bottomText}</span></div>$scrollAppend";
+if ($bottomFontEnabled) $bottomStyle .= " font-family: '$bottomFontID';";
+if (!$autoScaleBottom) $bottomStyle .= " font-size: ${bottomSize}px;";
+$bottomLine = "$scrollPrepend<div><span class='userText' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
 
 $results = [];
 $results['top'] = $topLine . $progressBar;
