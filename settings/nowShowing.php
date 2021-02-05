@@ -5,12 +5,15 @@ include '../assets/plexmovieposter/setData.php';
 include 'PMPInfo.php';
 include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/FontLib.php';
 include '../config.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
     setData(basename(__FILE__));
 }
+
+GenerateCSS_Font_ALL();
 
 ?>
 
@@ -183,8 +186,29 @@ if (!empty($_POST['saveConfig'])) {
                                         </script>
                                     </div>
 
+                                    <div class="form-group advanced-setting row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="checkbox" name="nowShowingTopFontEnabled" id="nowShowingTopFontEnabled" value="1" <?php if ($nowShowingTopFontEnabled) echo " checked"?>>
+                                            Use Custom Font (Top)
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            Custom Font (Top): &nbsp;
+                                            <?php 
+                                                // PHP 7.x
+                                                findFontFamily_Full(FALSE, TRUE, "nowShowingTopFontID");
+                                                // PHP 8.x
+                                                //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "nowShowingTopFontID");
+                                            ?>
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                    </div>
+
                                     <div class="form-group advanced-setting">
-                                        <input type="checkbox" name="nowShowingTopAutoScale" id="comingSoonTopAutoScale" value="1" <?php if ($comingSoonTopAutoScale) echo " checked"?>>
+                                        <input type="checkbox" name="nowShowingTopAutoScale" id="nowShowingTopAutoScale" value="1" <?php if ($nowShowingTopAutoScale) echo " checked"?>>
                                         Auto-scale top text
 
                                         <!-- <p class="help-block">
@@ -321,8 +345,30 @@ if (!empty($_POST['saveConfig'])) {
                                         </script>
                                     </div>
 
+                                    <div class="form-group advanced-setting row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="checkbox" name="nowShowingBottomFontEnabled" id="nowShowingBottomFontEnabled" value="1" <?php if ($nowShowingBottomFontEnabled) echo " checked"?>>
+                                            Use Custom Font (Bottom)
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            Custom Font (Bottom): &nbsp;
+                                            <?php 
+                                                // PHP 7.x
+                                                findFontFamily_Full(FALSE, TRUE, "nowShowingBottomFontID");
+                                                // PHP 8.x
+                                                //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "nowShowingBottomFontID");
+                                            ?>
+
+                                            <!-- <p class="help-block">
+                                            </p> -->
+                                        </div>
+                                    </div>
+
                                     <div class="form-group advanced-setting">
-                                        <input type="checkbox" name="nowShowingBottomAutoScale" id="nowShowingBottomAutoScale" value="1" <?php if ($comingSoonBottomAutoScale) echo " checked"?>>
+                                        <input type="checkbox" name="nowShowingBottomAutoScale" id="nowShowingBottomAutoScale" value="1" <?php if ($nowShowingBottomAutoScale) echo " checked"?>>
                                         Auto-scale bottom text
 
                                         <!-- <p class="help-block">

@@ -1,4 +1,4 @@
-next-version: 2.5
+next-version: 2.7
 mode: ContinuousDelivery
 branches: {}
 ignore:

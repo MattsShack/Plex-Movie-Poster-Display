@@ -5,6 +5,8 @@ include '../assets/plexmovieposter/setData.php';
 include 'PMPInfo.php';
 include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/CacheLib.php';
+include '../assets/plexmovieposter/importExportLib.php';
 include '../config.php';
 
 $CurrentPage = basename(__FILE__);
@@ -15,7 +17,8 @@ if (!empty($_POST['saveConfig'])) {
 }
 
 //Count Items in Posters
-PosterCache();
+// PosterCache();
+GeneralCache("../cache/posters/", "posterCount");
 
 //Clear Poster Cache Directory
 if (!empty($_POST['clearPosterCache'])) {
@@ -24,7 +27,8 @@ if (!empty($_POST['clearPosterCache'])) {
 }
 
 //Count Items in Custom Images
-CustomCache();
+// CustomCache();
+GeneralCache("../cache/custom/", "customCount");
 
 //Clear Custom Cache Directory
 if (!empty($_POST['clearCustomCache'])) {
@@ -32,15 +36,24 @@ if (!empty($_POST['clearCustomCache'])) {
     header("Location: $CurrentPage");
 }
 
+//Count Items in Custom Fonts
+CustomFontCache();
+
+//Clear Custom Font Cache Directory
+if (!empty($_POST['clearFontCache'])) {
+    CustomFontCacheClear();
+    header("Location: $CurrentPage");
+}
+
 if (!empty($_GET['file'])) {
-    exportConfig(basename($_GET['file']));
+    exportFiles_Config(basename($_GET['file']));
 }
 
 if(!empty($_POST['pmplogout'])) {
     header("Location: ../assets/plexmovieposter/logout.php");
 }
 
-uploadConfig();
+importFiles_Config();
 
 ?>
 
@@ -176,7 +189,7 @@ uploadConfig();
                                     <div class="form-group">
                                         Posters:
 
-                                        <div style="display: inline; padding-left:8.75em">
+                                        <div style="display: inline; padding-left:8.85em">
                                             <?php echo $posterCount; ?>
                                         </div>
 
@@ -205,19 +218,43 @@ uploadConfig();
                                         </div>
 
                                         <form method="post" class="needs-validation" novalidate style="display: inline; padding-left:5em">
-                                            <label for="clearPosterCache" style="cursor: pointer;">
+                                            <label for="clearCustomCache" style="cursor: pointer;">
                                                 <div class= "label label-btn label-primary">
                                                     <i class="label-icon glyphicon remove circle"></i>
                                                     Clear Cache
                                                 </div>
                                             </label>
-                                            <button name="clearPosterCache" id="clearPosterCache" type="submit" class="btn btn-danger btn-sm" value="clearPosterCache" style="opacity: 0; display: inline;">
+                                            <button name="clearCustomCache" id="clearCustomCache" type="submit" class="btn btn-danger btn-sm" value="clearCustomCache" style="opacity: 0; display: inline;">
                                                 Clear
                                             </button>
                                         </form>
 
                                         <p class="help-block">
                                             <small class="text-muted">Items in cache/custom</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Custom Fonts:
+
+                                        <div style="display: inline; padding-left:5.9em">
+                                            <?php echo $customFontCount; ?>
+                                        </div>
+
+                                        <!-- <form method="post" class="needs-validation" novalidate style="display: inline; padding-left:5em">
+                                            <label for="clearFontCache" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon remove circle"></i>
+                                                    Clear Cache
+                                                </div>
+                                            </label>
+                                            <button name="clearFontCache" id="clearFontCache" type="submit" class="btn btn-danger btn-sm" value="clearFontCache" style="opacity: 0; display: inline;">
+                                                Clear
+                                            </button>
+                                        </form> -->
+
+                                        <p class="help-block">
+                                            <small class="text-muted">Items in cache/fonts</small>
                                         </p>
                                     </div>
 
