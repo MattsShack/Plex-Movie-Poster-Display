@@ -1,16 +1,17 @@
 <?php
 include 'config.php';
+include '/assets/plexmovieposter/tools.php';
 
 // Hot Fix. Security!
 // This will grab the image server side.
 
 function getPoster($artWorkLocation) {
-	global $plexServer, $plexToken, $plexServerSSL;
+	global $plexServer, $plexToken, $plexServerSSL, $plexServerDirect;
 
 	// Setting SSL Prefix
 	if ($plexServerSSL) {
 		$URLScheme = "https";
-		$plexServer = $plexServerDirect;
+		$plexServer = "$plexServerDirect";
 	}
 	else {
 		$URLScheme = "http";
@@ -18,6 +19,8 @@ function getPoster($artWorkLocation) {
 
 	// $posterUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 	$posterUrl = "$URLScheme://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
+
+	pmp_Logging("getPoster", "$posterUrl");
 
 	// Grab Poster
 	$ch = curl_init($posterUrl);

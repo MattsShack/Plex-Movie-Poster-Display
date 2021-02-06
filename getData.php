@@ -2,12 +2,17 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include 'config.php';
 include 'status.php';
+include 'assets/plexmovieposter/tools.php';
 
 // Security Work Around (quick fix)
 include 'getPoster.php';
 
 $results = Array();
 $movies = Array();
+$shows = Array();
+// $TVCoverArt_Play = "show";
+$TVCoverArt_Play = "season";
+
 ob_start();
 $data = [];
 //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
@@ -159,14 +164,22 @@ if ($customImageEnabled == "Enabled") {
 
                 $topFontEnabled = $nowShowingTopFontEnabled;
                 $topFontID = $nowShowingTopFontID;
-                
+
                 $bottomFontEnabled = $nowShowingBottomFontEnabled;
                 $bottomFontID = $nowShowingBottomFontID;
                 //Now Showing Sections
                 if (strstr($clients['type'], "movie")) {
                     $art = $clients['thumb'];
                 } elseif (strstr($clients['type'], "episode")) {
-                    $art = $clients['grandparentThumb'];
+                    if ($TVCoverArt_Play == "show") {
+                        $art = $clients['grandparentThumb']; // Show Cover Art
+                    }
+                    elseif ($TVCoverArt_Play == "season") {
+                        $art = $clients['parentThumb']; // Season Cover Art
+                    }
+                    else {
+                        $art = $clients['grandparentThumb']; // Show Cover Art
+                    }
                 }
 
                 //Progress Bar
@@ -207,20 +220,35 @@ if ($customImageEnabled == "Enabled") {
         // $MoviesURL = 'http://' . $plexServer . ':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token=' . $plexToken . '';
         $MoviesURL = $URLScheme . '://' . $plexServer . ':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token=' . $plexToken . '';
         $getMovies = file_get_contents($MoviesURL);
-        $xmlMovies = simplexml_load_string($getMovies) or die("feed not loading");
-        $countMovies = count($xmlMovies);
+        $xmlMedia = simplexml_load_string($getMovies) or die("feed not loading");
+        $countMovies = count($xmlMedia);
         if ($countMovies > '0') {
-            foreach ($xmlMovies->Video as $movie) {
+            // Movies
+            foreach ($xmlMedia->Video as $movie) {
                 $movies[] = strip_tags($movie['title']);
             }
             $random_keys = array_rand($movies, 1);
-            $showMovie = $movies[$random_keys];
-            foreach ($xmlMovies->Video as $movie) {
-                if (strstr($movie['title'], $showMovie)) {
+            $showMedia = $movies[$random_keys];
+            foreach ($xmlMedia->Video as $movie) {
+                if (strstr($movie['title'], $showMedia)) {
                     $art = $movie['thumb'];
                     $mediaTitle = $movie['title'];
                     $mediaSummary = $movie['summary'];
                     $mediaTagline = $movie['tagline'];
+                }
+            }
+            // TV Shows
+            foreach ($xmlMedia->Directory as $show) {
+                $shows[] = strip_tags($show['title']);
+            }
+            $random_keys = array_rand($shows, 1);
+            $showMedia = $shows[$random_keys];
+            foreach ($xmlMedia->Directory as $show) {
+                if (strstr($show['title'], $showMedia)) {
+                    $art = $show['thumb'];
+                    $mediaTitle = $show['title'];
+                    $mediaSummary = $show['summary'];
+                    $mediaTagline = $show['tagline']; // TV Shows do not contain tagline
                 }
             }
         }
@@ -237,15 +265,13 @@ if ($customImageEnabled != "Enabled") {
         $filename = $cachePath . $poster;
         // There's nothing else to do here, just save it
         if (!file_exists($filename)) {
-            // file_put_contents("cache/posters/$poster", fopen("http://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
-            file_put_contents("$cachePath/$poster", fopen("$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));
+            file_put_contents("$cachePath/$poster", fopen("$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));  // Not using getPoster function and using older un-secure function
         }
         $display = "url('$cachePath/$poster')";
     } else {
         $display = "url('data:image/jpeg;base64,".getPoster($art)."')";
         // $display = "url('$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken')";
         if (empty($display)) {
-            // $display = "url('http://$plexServer:32400$art?X-Plex-Token=$plexToken')";
             $display = "url('$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken')";
         }
     }
