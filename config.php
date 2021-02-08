@@ -7,6 +7,7 @@
   $pmpClearImageCache = 'Yes'; //Default Yes
   $pmpImageSpeed = '30'; //Default 30 Seconds
   $pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
+  $pmpArtDir = 'cache/art/'; //Default cache/art/ (FUTURE)
   $pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
 
   //Server Configuration

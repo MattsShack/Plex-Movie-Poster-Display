@@ -3,6 +3,7 @@
 include 'config.php';
 include 'status.php';
 include 'assets/plexmovieposter/tools.php';
+include 'assets/plexmovieposter/CacheLib.php';
 
 // Security Work Around (quick fix)
 include 'getPoster.php';
@@ -37,44 +38,28 @@ if ($pmpBottomScroll == 'Enabled') {
     $scrollAppend = "";
 }
 
-$placeHolderFile = "placeholder.txt";
+// -------------------------
+// Poster Cache
+$cachePath = $pmpPosterDir; 
+GeneralCache_Prep($cachePath, TRUE);
+// -------------------------
 
-// Clean Up Cache Dir (Files Older than 24 hours)
-// $cachePath = 'cache/posters/';
-$cachePath = $pmpPosterDir; // Remove hard coded path and us variable.
+// -------------------------
+// Art Cache
+$cacheArtPath = $pmpArtDir;
+GeneralCache_Prep($cacheArtPath, TRUE);
+// -------------------------
 
-// Generate the Cache Poster Directory if it does not exist.
-if (!file_exists($cachePath)) {
-    mkdir($cachePath, 0777, true);
-}
-
-// Clean Up placeholder files in cache folder.
-if (file_exists("$cachePath/$placeHolderFile")) {
-    unlink("$cachePath/$placeHolderFile");
-}
-
-if ($handle = opendir($cachePath)) {
-    while (false !== ($file = readdir($handle))) {
-        if ($file != "." && $file != ".." && ((time() - filectime($cachePath . $file)) > 86400)) {
-            unlink($cachePath . $file);
-        }
-    }
-}
-
+// -------------------------
+// Custom Cache
 $customPath = $pmpCustomDir;
-// Generate the Custom Directory if it does not exist.
-if (!file_exists($customPath)) {
-    mkdir($customPath, 0777, true);
-}
-
-// Clean Up placeholder files in customPath folder.
-if (file_exists("$customPath/$placeHolderFile")) {
-    unlink("$customPath/$placeHolderFile");
-}
+GeneralCache_Prep($customPath, FALSE);
+// -------------------------
 
 // Let's be lazy
 $title = "";
-$display = "";
+$mediaThumb_Display = "";
+$mediaArt_Display = "";
 $isPlaying = false;
 
 $mediaTitle = "";
@@ -127,7 +112,8 @@ if ($customImageEnabled == "Enabled") {
     $bottomText = $customBottomText;
     $topSelection = $nowShowingTop;
     $bottomSelection = $nowShowingBottom;
-    $display = "url('$customPath/$customImage')";
+    $mediaThumb_Display = "url('$customPath/$customImage')";
+    $mediaArt_Display = "url('$customPath/$customImage')";
     $topStrokeColor = $customTopFontOutlineColor;
     $topStrokeSize = $customTopFontOutlineSize;
     $bottomStrokeColor = $customBottomFontOutlineColor;
@@ -169,17 +155,19 @@ if ($customImageEnabled == "Enabled") {
                 $bottomFontID = $nowShowingBottomFontID;
                 //Now Showing Sections
                 if (strstr($clients['type'], "movie")) {
-                    $art = $clients['thumb'];
+                    $mediaThumb = $clients['thumb']; // Poster Art
+                    $mediaArt = $clients['art']; // Background Art
                 } elseif (strstr($clients['type'], "episode")) {
                     if ($TVCoverArt_Play == "show") {
-                        $art = $clients['grandparentThumb']; // Show Cover Art
+                        $mediaThumb = $clients['grandparentThumb']; // Show Cover Art
                     }
                     elseif ($TVCoverArt_Play == "season") {
-                        $art = $clients['parentThumb']; // Season Cover Art
+                        $mediaThumb = $clients['parentThumb']; // Season Cover Art
                     }
                     else {
-                        $art = $clients['grandparentThumb']; // Show Cover Art
+                        $mediaThumb = $clients['grandparentThumb']; // Show Cover Art
                     }
+                    $mediaArt = $clients['art']; // Background Art
                 }
 
                 //Progress Bar
@@ -231,10 +219,11 @@ if ($customImageEnabled == "Enabled") {
             $showMedia = $movies[$random_keys];
             foreach ($xmlMedia->Video as $movie) {
                 if (strstr($movie['title'], $showMedia)) {
-                    $art = $movie['thumb'];
+                    $mediaThumb = $movie['thumb']; // Poster Art
                     $mediaTitle = $movie['title'];
                     $mediaSummary = $movie['summary'];
                     $mediaTagline = $movie['tagline'];
+                    $mediaArt = $movie['art']; // Background Art
                 }
             }
             // TV Shows
@@ -245,10 +234,11 @@ if ($customImageEnabled == "Enabled") {
             $showMedia = $shows[$random_keys];
             foreach ($xmlMedia->Directory as $show) {
                 if (strstr($show['title'], $showMedia)) {
-                    $art = $show['thumb'];
+                    $mediaThumb = $show['thumb']; // Poster Art
                     $mediaTitle = $show['title'];
                     $mediaSummary = $show['summary'];
                     $mediaTagline = $show['tagline']; // TV Shows do not contain tagline
+                    $mediaArt = $show['art']; // Background Art
                 }
             }
         }
@@ -260,19 +250,38 @@ if ($customImageEnabled == "Enabled") {
 if ($customImageEnabled != "Enabled") {
     // Check to see if we should cache our art
     if ($cacheEnabled) {
-        $poster = explode("/", $art);
-        $poster = trim($poster[count($poster) - 1], '/');
-        $filename = $cachePath . $poster;
+        $mediaThumb_ID = explode("/", $mediaThumb);
+        $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
+        $filename = $cachePath . $mediaThumb_ID;
+        $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
         // There's nothing else to do here, just save it
         if (!file_exists($filename)) {
-            file_put_contents("$cachePath/$poster", fopen("$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken", 'r'));  // Not using getPoster function and using older un-secure function
+            file_put_contents("$cachePath/$mediaThumb_ID", fopen("$mediaThumb_URL", 'r'));  // Not using getPoster function and using older un-secure function
         }
-        $display = "url('$cachePath/$poster')";
+        $mediaThumb_Display = "url('$cachePath/$mediaThumb_ID')";
+        pmp_Logging("getMediaThumb", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
+
+        $mediaArt_ID = explode("/", $mediaArt);
+        $mediaArt_ID = trim($mediaArt_ID[count($mediaArt_ID) - 1], '/');
+        $filename = $cacheArtPath . $mediaArt_ID;
+        $mediaArt_URL = "$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken";
+        // There's nothing else to do here, just save it
+        if (!file_exists($filename)) {
+            file_put_contents("$cacheArtPath/$mediaArt_ID", fopen("$mediaArt_URL", 'r'));  // Not using getPoster function and using older un-secure function
+        }
+        $mediaArt_Display = "url('$cacheArtPath/$mediaArt_ID')";
+        pmp_Logging("getMediaArt", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
+
     } else {
-        $display = "url('data:image/jpeg;base64,".getPoster($art)."')";
-        // $display = "url('$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken')";
-        if (empty($display)) {
-            $display = "url('$URLScheme://$plexServer:32400$art?X-Plex-Token=$plexToken')";
+        $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')";
+        // $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')";
+        if (empty($mediaThumb_Display)) {
+            $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')";
+        }
+
+        $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')";
+        if (empty($mediaArt_Display)) {
+            $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')";
         }
     }
     // Figure out which text goes where
@@ -316,7 +325,7 @@ $bottomLine = "$scrollPrepend<div><span class='userText' style=\"$bottomStyle\">
 
 $results = [];
 $results['top'] = $topLine . $progressBar;
-$results['middle'] = $display;
+$results['middle'] = $mediaThumb_Display;
 $results['bottom'] = $bottomLine;
 ob_end_clean();
 echo json_encode($results);

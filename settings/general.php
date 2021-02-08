@@ -18,7 +18,7 @@ if (!empty($_POST['saveConfig'])) {
 
 //Count Items in Posters
 // PosterCache();
-GeneralCache("../cache/posters/", "posterCount");
+GeneralCache_Count("../cache/posters/", "posterCount");
 
 //Clear Poster Cache Directory
 if (!empty($_POST['clearPosterCache'])) {
@@ -27,8 +27,8 @@ if (!empty($_POST['clearPosterCache'])) {
 }
 
 //Count Items in Custom Images
-// CustomCache();
-GeneralCache("../cache/custom/", "customCount");
+// CustomCacheCount();
+GeneralCache_Count("../cache/custom/", "customCount");
 
 //Clear Custom Cache Directory
 if (!empty($_POST['clearCustomCache'])) {
@@ -37,11 +37,11 @@ if (!empty($_POST['clearCustomCache'])) {
 }
 
 //Count Items in Custom Fonts
-CustomFontCache();
+FontCacheCount();
 
 //Clear Custom Font Cache Directory
 if (!empty($_POST['clearFontCache'])) {
-    CustomFontCacheClear();
+    FontCacheClear();
     header("Location: $CurrentPage");
 }
 
