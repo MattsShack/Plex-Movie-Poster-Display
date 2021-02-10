@@ -3,6 +3,7 @@
 include_once('config.php');
 include_once('assets/plexmovieposter/tokenCheck.php');
 include 'assets/plexmovieposter/CommonLib.php';
+include 'assets/plexmovieposter/tools.php';
 $pmpImageSpeed = ($pmpImageSpeed * 1000);
 ?>
 
@@ -70,6 +71,7 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 
 <body>
 <div id="container">
+<!-- <div id="container" style="background-image: url('/cache/art/####'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"> -->
     <div id="alert" align="center" class="center"></div>
     <div id="top" style="overflow: hidden;" align="center" class="center"></div>
     <div id="middle" class="middle"></div>

@@ -9,12 +9,10 @@ function fixupSize($bytes) {
     return sprintf("%.{$places}f", $bytes / pow(1024, $factor)) . @$size[$factor];
 }
 
-function GeneralCache($destination = "../cache/posters/", $cacheField = "posterCount") {
+function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "posterCount") {
     //Count Items in Cache
     
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $posters = scandir("$destination");
     $GLOBALS[$cacheField] = count($posters) - 2;
@@ -23,12 +21,52 @@ function GeneralCache($destination = "../cache/posters/", $cacheField = "posterC
     }
 }
 
-function PosterCache($destination = "../cache/posters/", $cacheField = "posterCount") {
-    //Count Items in Posters
-
+function GeneralCache_Create($destination = "../cache/") {
+    // Generate the Cache Directory if it does not exist.
+    
     if (!file_exists($destination)) {
         mkdir($destination, 0777, true);
     }
+}
+
+function GeneralCache_Prep($destination = "../cache/", $Clear_24H = FALSE) {
+    GeneralCache_Create($destination);
+    GeneralCache_Clear_Placeholder($destination);
+    
+    if($Clear_24H == TRUE) {
+        GeneralCache_Clear_24H($destination);
+    }
+}
+
+function GeneralCache_Clear_Placeholder($destination) {
+    // Clean Up placeholder files in cache folder.
+    $placeHolderFile = "placeholder.txt";
+
+    if ($destination != "") {
+        if (file_exists("$destination/$placeHolderFile")) {
+            unlink("$destination/$placeHolderFile");
+        }
+    }
+}
+
+function GeneralCache_Clear_24H ($destination) {
+    // Clean Up Cache Dir (Files Older than 24 hours)
+
+    if ($destination != "") {
+        if ($handle = opendir($destination)) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file != "." && $file != ".." && ((time() - filectime($destination . $file)) > 86400)) {
+                    unlink($destination . $file);
+                }
+            }
+        }
+    }
+}
+
+function PosterCacheCount($destination = "../cache/posters/", $cacheField = "posterCount") {
+    //Count Items in Posters
+
+    GeneralCache_Create($destination);
 
     $posters = scandir("$destination");
     $GLOBALS[$cacheField] = count($posters) - 2;
@@ -40,9 +78,7 @@ function PosterCache($destination = "../cache/posters/", $cacheField = "posterCo
 function PosterCacheClear($destination = "../cache/posters/") {
     //Clear Poster Cache Directory
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $files = glob("$destination/*");
     foreach ($files as $file) {
@@ -52,12 +88,10 @@ function PosterCacheClear($destination = "../cache/posters/") {
     }
 }
 
-function CustomCache($destination = "../cache/custom/", $cacheField = "customCount") {
+function CustomCacheCount($destination = "../cache/custom/", $cacheField = "customCount") {
     //Count Items in Custom Images
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $custom = scandir("$destination");
     $GLOBALS[$cacheField] = count($custom) - 2;
@@ -69,9 +103,7 @@ function CustomCache($destination = "../cache/custom/", $cacheField = "customCou
 function CustomCacheClear($destination = "../cache/custom/") {
     //Clear Custom Cache Directory
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $files = glob("$destination/*");
     foreach ($files as $file) {
@@ -81,12 +113,10 @@ function CustomCacheClear($destination = "../cache/custom/") {
     }
 }
 
-function CustomFontCache($destination = "../cache/fonts/", $cacheField = "customFontCount") {
+function FontCacheCount($destination = "../cache/fonts/", $cacheField = "customFontCount") {
     //Count Items in Custom Font Cache Directory
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $fileCount = 0;
 
@@ -106,12 +136,10 @@ function CustomFontCache($destination = "../cache/fonts/", $cacheField = "custom
     }
 }
 
-function CustomFontCacheClear($destination = "../cache/fonts/") {
+function FontCacheClear($destination = "../cache/fonts/") {
     //Clear Custom Font Cache Directory
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Create($destination);
 
     $files = glob("$destination/*");
     foreach ($files as $file) {

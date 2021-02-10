@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     # dialog \
     dos2unix \
     # git \
-    # nano \
+    nano \
     nginx \
     php-curl \
     php-fpm \

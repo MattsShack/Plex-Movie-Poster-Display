@@ -2,6 +2,7 @@
 
 function pmp_Logging($LogType = "Generic", $LogMSG = "") {
     include 'sysConfig.php';
+    // include 'CacheLib.php';
     // Debug URL:
 
     if($LogPath == "") {
@@ -11,9 +12,7 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "") {
         $destination = "$LogPath";
     }
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralCache_Prep($destination, FALSE);
 
     if ($LogType != "Generic") {
         $LogSetting = "Log_$LogType";
@@ -38,6 +37,5 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "") {
     }
 
 }
-
 
 ?>
