@@ -57,7 +57,7 @@ body {
 }
 
 #bottom {
-  background-color: black;
+  /* background-color: black; */
   bottom: 0;
   position: fixed;
   max-height: 10%;

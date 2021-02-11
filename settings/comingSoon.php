@@ -1,12 +1,10 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
-include '../assets/plexmovieposter/FontLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
+include '../assets/plexmovieposter/FontLib.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
@@ -58,9 +56,18 @@ GenerateCSS_Font_ALL();
                             <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                                 <!-- SEGMENT BLOCK START -->
                                     <div class="form-group advanced-setting">
+                                        <input type="checkbox" name="comingSoonBackgroundArt" id="comingSoonBackgroundArt" value="1" <?php if ($comingSoonBackgroundArt) echo " checked"?>>
+                                        Background Art
+
+                                        <p class="help-block">
+                                            Set background art to match background of Plex media.
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group advanced-setting">
                                         Show Movies:&nbsp;
 
-                                        <select style="display: inline;" 
+                                        <select style="display: inline;"
                                             id="comingSoonShowSelection" name="comingSoonShowSelection">
                                             <option value="unwatched" <?php if ($comingSoonShowSelection == 'unwatched') {
                                                 echo "selected";
@@ -224,7 +231,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Top): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "comingSoonTopFontID");
                                                 // PHP 8.x
@@ -383,7 +390,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Bottom): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "comingSoonBottomFontID");
                                                 // PHP 8.x

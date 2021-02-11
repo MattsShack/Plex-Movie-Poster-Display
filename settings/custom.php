@@ -1,12 +1,10 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
-include '../assets/plexmovieposter/FontLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
+include '../assets/plexmovieposter/FontLib.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
@@ -210,7 +208,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Top): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "customTopFontID");
                                                 // PHP 8.x
@@ -319,7 +317,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Bottom): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "customBottomFontID");
                                                 // PHP 8.x

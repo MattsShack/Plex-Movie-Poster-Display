@@ -1,12 +1,10 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
-include '../assets/plexmovieposter/FontLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
+include '../assets/plexmovieposter/FontLib.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
@@ -57,6 +55,15 @@ GenerateCSS_Font_ALL();
                         </div>
                             <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                                 <!-- SEGMENT BLOCK START -->
+                                    <div class="form-group advanced-setting">
+                                        <input type="checkbox" name="nowShowingBackgroundArt" id="nowShowingBackgroundArt" value="1" <?php if ($nowShowingBackgroundArt) echo " checked"?>>
+                                        Background Art
+
+                                        <p class="help-block">
+                                            Set background art to match background of Plex media.
+                                        </p>
+                                    </div>
+
                                     <div class="form-group">
                                         <h3>Top Text Option:</h3>
                                         <div class="input-group">
@@ -196,7 +203,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Top): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "nowShowingTopFontID");
                                                 // PHP 8.x
@@ -355,7 +362,7 @@ GenerateCSS_Font_ALL();
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             Custom Font (Bottom): &nbsp;
-                                            <?php 
+                                            <?php
                                                 // PHP 7.x
                                                 findFontFamily_Full(FALSE, TRUE, "nowShowingBottomFontID");
                                                 // PHP 8.x

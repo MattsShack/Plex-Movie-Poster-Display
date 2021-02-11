@@ -1,10 +1,8 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
 
 //Save Configuration
@@ -58,7 +56,7 @@ if (!empty($_POST['saveConfig'])) {
                                         Username:&nbsp;
                                         <input type="text" style="display: inline;" class="fieldInfo-username form-control" id="pmpUsername" name="pmpUsername" placeholder="Username" value="<?php echo $pmpUsername; ?>" required>
                                         <div class="invalid-feedback" style="width: 100%;">Movie Poster Display Username.</div>
-                                        
+
                                         <!-- <p class="help-block">
                                         </p> -->
                                     </div>
@@ -68,7 +66,7 @@ if (!empty($_POST['saveConfig'])) {
                                         <input type="password" style="display: inline;" class="fieldInfo-password form-control" id="pmpPassword" name="pmpPassword" placeholder="Password" value="<?php echo $pmpPassword; ?>" required>
                                         &nbsp;
                                         <button class="btn btn-secondary" type="button" id="password_view_btn" onclick="passwordView()">Show</button>
-                                        
+
                                         <!-- <p class="help-block">
                                         </p> -->
                                     </div>

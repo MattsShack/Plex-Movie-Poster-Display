@@ -60,6 +60,7 @@ GeneralCache_Prep($customPath, FALSE);
 $title = "";
 $mediaThumb_Display = "";
 $mediaArt_Display = "";
+$mediaArt_Status = "";
 $isPlaying = false;
 
 $mediaTitle = "";
@@ -153,6 +154,8 @@ if ($customImageEnabled == "Enabled") {
 
                 $bottomFontEnabled = $nowShowingBottomFontEnabled;
                 $bottomFontID = $nowShowingBottomFontID;
+
+                $mediaArt_Status = $nowShowingBackgroundArt;
                 //Now Showing Sections
                 if (strstr($clients['type'], "movie")) {
                     $mediaThumb = $clients['thumb']; // Poster Art
@@ -201,6 +204,8 @@ if ($customImageEnabled == "Enabled") {
         $topFontID = $comingSoonTopFontID;
         $bottomFontEnabled = $comingSoonBottomFontEnabled;
         $bottomFontID = $comingSoonBottomFontID;
+
+        $mediaArt_Status = $comingSoonBackgroundArt;
 
         //Multi Movie Section Support
         $plexServerMovieSections = explode(",", $plexServerMovieSection);
@@ -326,6 +331,13 @@ $bottomLine = "$scrollPrepend<div><span class='userText' style=\"$bottomStyle\">
 $results = [];
 $results['top'] = $topLine . $progressBar;
 $results['middle'] = $mediaThumb_Display;
+
+if ($mediaArt_Status) {
+    $results['mediaArt'] = $mediaArt_Display;
+} else {
+    $results['mediaArt'] = "";
+}
+
 $results['bottom'] = $bottomLine;
 ob_end_clean();
 echo json_encode($results);
