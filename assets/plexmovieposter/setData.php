@@ -111,6 +111,9 @@ function ghostData($configPage) {
         $ghostField = "$formIndent<!-- Coming Soon PHP -->\n";
         echo $ghostField;
 
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonBackgroundArt\" name=\"comingSoonBackgroundArt\" value=\"$comingSoonBackgroundArt\">\n";
+        echo $ghostField;
+
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonShowSelection\" name=\"comingSoonShowSelection\" value=\"$comingSoonShowSelection\">\n";
         echo $ghostField;
 
@@ -175,6 +178,9 @@ function ghostData($configPage) {
         echo $ghostField;
 
         $ghostField = "$formIndent<!-- Now Showing PHP -->\n";
+        echo $ghostField;
+
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBackgroundArt\" name=\"nowShowingBackgroundArt\" value=\"$nowShowingBackgroundArt\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingTop\" name=\"nowShowingTop\" value=\"$nowShowingTop\">\n";
@@ -368,6 +374,7 @@ function setData($configPage) {
   \$customBottomFontOutlineColor = '$_POST[customBottomFontOutlineColor]'; //Default: #FFFFFF (White)
 
   //Coming Soon Configuration
+  \$comingSoonBackgroundArt = '$_POST[comingSoonBackgroundArt]'; //Default: false
   \$comingSoonTop = '$_POST[comingSoonTop]'; //Default: custom (title/summary/tagline/custom)
   \$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]'; //Default: false
   \$comingSoonTopText = '$_POST[comingSoonTopText]';
@@ -390,6 +397,7 @@ function setData($configPage) {
   \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default: unwatched
 
   //Now Showing Configuration
+  \$nowShowingBackgroundArt = '$_POST[nowShowingBackgroundArt]'; //Default: false
   \$nowShowingTop = '$_POST[nowShowingTop]'; //Default: custom (title/summary/tagline/custom)
   \$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; //Default: false
   \$nowShowingTopText = '$_POST[nowShowingTopText]';
@@ -422,7 +430,9 @@ function setData($configPage) {
     fwrite($myfile, $newConfig);
     sleep(2);
     fclose($myfile);
-    header("Location: $configPage");
+    // header("Location: $configPage");
+    echo "<script>window.location.href='$configPage';</script>";
+    exit;
 }
 
 ?>

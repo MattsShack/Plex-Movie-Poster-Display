@@ -1,10 +1,8 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
 
 //Save Configuration
@@ -73,7 +71,7 @@ if (!empty($_POST['saveConfig'])) {
 
                                         <input type="text" style="display: inline;" class="fieldInfo-xlarge form-control" id="plexClientName" name="plexClientName"
                                             placeholder="Plex Client Name" value="<?php echo $plexClientName; ?>">
-                                        
+
                                         <!-- <p class="help-block">
                                         </p> -->
                                     </div>

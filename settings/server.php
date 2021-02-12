@@ -1,10 +1,8 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
-include '../assets/plexmovieposter/setData.php';
-include 'PMPInfo.php';
-include 'PMPReleaseNotes.php';
 include '../assets/plexmovieposter/CommonLib.php';
+include '../assets/plexmovieposter/setData.php';
 include '../config.php';
 
 //Save Configuration
@@ -121,7 +119,7 @@ if (!empty($_POST['saveConfig'])) {
 
                                         <input type="text" class="fieldInfo-3xlarge form-control" id="plexServerDirect" name="plexServerDirect" maxlength="65"
                                             placeholder="Plex Server Direct" value="<?php echo $plexServerDirect; ?>" required>
-                                        
+
                                         <p class="help-block">
                                             <small>A Plex server direct URL is required (.plex.direct).</small>
                                         </p>

@@ -33,6 +33,11 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                 $.each(data, function (key, val) {
                     if (key == "middle") {
                         $('#' + key).css('background-image', val);
+                    } else if (key == "mediaArt") {
+                        $('body').css('background-image', val);
+                        $('body').css('background-repeat', 'no-repeat');
+                        $('body').css('background-attachment', 'fixed');
+                        $('body').css('background-size', 'cover');
                     } else {
                         $('#' + key).html(val);
                     }
@@ -58,6 +63,11 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                     $.each(data, function (key, val) {
                         if (key == "middle") {
                             $('#' + key).css('background-image', val);
+                        } else if (key == "mediaArt") {
+                            $('body').css('background-image', val);
+                            $('body').css('background-repeat', 'no-repeat');
+                            $('body').css('background-attachment', 'fixed');
+                            $('body').css('background-size', 'cover');
                         } else {
                             $('#' + key).html(val);
                         }
@@ -71,7 +81,6 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 
 <body>
 <div id="container">
-<!-- <div id="container" style="background-image: url('/cache/art/####'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"> -->
     <div id="alert" align="center" class="center"></div>
     <div id="top" style="overflow: hidden;" align="center" class="center"></div>
     <div id="middle" class="middle"></div>
