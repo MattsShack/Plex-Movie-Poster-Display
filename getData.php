@@ -4,6 +4,7 @@ include 'config.php';
 include 'status.php';
 include 'assets/plexmovieposter/tools.php';
 include 'assets/plexmovieposter/CacheLib.php';
+include 'assets/plexmovieposter/PlexLib.php';
 
 // Security Work Around (quick fix)
 include 'getPoster.php';
@@ -12,7 +13,7 @@ $results = Array();
 $movies = Array();
 $shows = Array();
 // $TVCoverArt_Play = "show";
-$TVCoverArt_Play = "season";
+// $TVCoverArt_Play = "season";
 
 ob_start();
 $data = [];
@@ -40,7 +41,7 @@ if ($pmpBottomScroll == 'Enabled') {
 
 // -------------------------
 // Poster Cache
-$cachePath = $pmpPosterDir; 
+$cachePath = $pmpPosterDir;
 GeneralCache_Prep($cachePath, TRUE);
 // -------------------------
 
@@ -123,16 +124,26 @@ if ($customImageEnabled == "Enabled") {
     // Plex Module Connect to Plex
     // $url = "http://$plexServer:32400/status/sessions?X-Plex-Token=$plexToken";
     $url = "$URLScheme://$plexServer:32400/status/sessions?X-Plex-Token=$plexToken";
+    pmp_Logging("getMediaURL", "Session URL: $url");
     // Store this for debugging
     $data['sessionUrl'] = $url;
     $data['plexClient'] = $plexClient;
     $data['plexClientName'] = $plexClientName;
     $getXml = file_get_contents($url);
+
     $xml = simplexml_load_string($getXml) or die("feed not loading");
     $isPlaying = false;
     if ($xml['size'] != '0') {
         $data['hasXml'] = true;
-        foreach ($xml->Video as $clients) {
+
+        if ($xml->Video) {
+            $mediaType = "Video";
+        }
+        if ($xml->Track) {
+            $mediaType = "Track";
+        }
+
+        foreach ($xml->$mediaType as $clients) {
             // If this matches our client IP or name, gather data
             if (strstr($clients->Player['address'], $plexClient) || strstr($clients->Player['title'], $plexClientName)) {
                 $isPlaying = true;
@@ -141,9 +152,7 @@ if ($customImageEnabled == "Enabled") {
                 $topSelection = $nowShowingTop;
                 $bottomSelection = $nowShowingBottom;
                 $data['hasClient1'] = true;
-                $mediaTitle = $clients['title'];
-                $mediaSummary = $clients['summary'];
-                $mediaTagline = $clients['tagline'];
+
                 $topSize = $nowShowingTopFontSize;
                 $topColor = $nowShowingTopFontColor;
                 $bottomSize = $nowShowingBottomFontSize;
@@ -156,21 +165,44 @@ if ($customImageEnabled == "Enabled") {
                 $bottomFontID = $nowShowingBottomFontID;
 
                 $mediaArt_Status = $nowShowingBackgroundArt;
-                //Now Showing Sections
-                if (strstr($clients['type'], "movie")) {
-                    $mediaThumb = $clients['thumb']; // Poster Art
-                    $mediaArt = $clients['art']; // Background Art
-                } elseif (strstr($clients['type'], "episode")) {
-                    if ($TVCoverArt_Play == "show") {
-                        $mediaThumb = $clients['grandparentThumb']; // Show Cover Art
-                    }
-                    elseif ($TVCoverArt_Play == "season") {
-                        $mediaThumb = $clients['parentThumb']; // Season Cover Art
-                    }
-                    else {
-                        $mediaThumb = $clients['grandparentThumb']; // Show Cover Art
-                    }
-                    $mediaArt = $clients['art']; // Background Art
+                $TVCoverArt_Play = $nowShowingShowTVThumb;
+
+                $mediaTitle = $clients['title']; // Default
+                $mediaTagline = $clients['tagline']; // Default
+                $mediaSummary = $clients['summary']; // Default
+                $mediaArt = $clients['art']; // Default
+                $mediaThumb = $clients['thumb']; // Default
+
+                // (strstr($clients['type'], "movie") // Notes for validation
+
+                switch ($clients['type']) {
+                    case "movie":
+                        plex_metadata_title("movie");
+                        plex_metadata_summary("movie");
+                        plex_metadata_tagline("movie");
+                        plex_metadata_art("movie");
+                        plex_metadata_thumb("movie");
+                        break;
+                    case "episode":
+                        plex_metadata_title($TVCoverArt_Play);
+                        plex_metadata_summary($TVCoverArt_Play);
+                        plex_metadata_tagline($TVCoverArt_Play);
+                        plex_metadata_art($TVCoverArt_Play);
+                        plex_metadata_thumb($TVCoverArt_Play);
+                        break;
+                    case "track":
+                        plex_metadata_title("track");
+                        plex_metadata_summary("track");
+                        plex_metadata_tagline("track");
+                        plex_metadata_art("track");
+                        plex_metadata_thumb("track");
+                        break;
+                    default:
+                        plex_metadata_title("movie");
+                        plex_metadata_summary("movie");
+                        plex_metadata_tagline("movie");
+                        plex_metadata_art("movie");
+                        plex_metadata_thumb("movie");
                 }
 
                 //Progress Bar
@@ -208,42 +240,49 @@ if ($customImageEnabled == "Enabled") {
         $mediaArt_Status = $comingSoonBackgroundArt;
 
         //Multi Movie Section Support
-        $plexServerMovieSections = explode(",", $plexServerMovieSection);
-        $useSection = rand(0, count($plexServerMovieSections) - 1);
-        // $MoviesURL = 'http://' . $plexServer . ':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token=' . $plexToken . '';
-        $MoviesURL = $URLScheme . '://' . $plexServer . ':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token=' . $plexToken . '';
-        $getMovies = file_get_contents($MoviesURL);
-        $xmlMedia = simplexml_load_string($getMovies) or die("feed not loading");
-        $countMovies = count($xmlMedia);
-        if ($countMovies > '0') {
+        plex_random_media(1); // Scan Libraries for Media
+
+        if ($viewGroup == "track") {
+            unset($plexServerMovieSections[$useSection]);
+            $plexServerMovieSection = implode(",", $plexServerMovieSections);
+            pmp_Logging("getMediaURL", "Library (Array - Updated): $plexServerMovieSection");
+
+            plex_random_media(2);
+        }
+
+        $countMedia = count($xmlMedia);
+        if ($countMedia > '0') {
             // Movies
             foreach ($xmlMedia->Video as $movie) {
                 $movies[] = strip_tags($movie['title']);
             }
             $random_keys = array_rand($movies, 1);
             $showMedia = $movies[$random_keys];
-            foreach ($xmlMedia->Video as $movie) {
-                if (strstr($movie['title'], $showMedia)) {
-                    $mediaThumb = $movie['thumb']; // Poster Art
-                    $mediaTitle = $movie['title'];
-                    $mediaSummary = $movie['summary'];
-                    $mediaTagline = $movie['tagline'];
-                    $mediaArt = $movie['art']; // Background Art
+
+            foreach ($xmlMedia->Video as $clients) {
+                if (strstr($clients['title'], $showMedia)) {
+                    plex_metadata_title("movie");
+                    plex_metadata_summary("movie");
+                    plex_metadata_tagline("movie");
+                    plex_metadata_art("movie");
+                    plex_metadata_thumb("movie");
                 }
             }
+
             // TV Shows
             foreach ($xmlMedia->Directory as $show) {
                 $shows[] = strip_tags($show['title']);
             }
             $random_keys = array_rand($shows, 1);
             $showMedia = $shows[$random_keys];
-            foreach ($xmlMedia->Directory as $show) {
-                if (strstr($show['title'], $showMedia)) {
-                    $mediaThumb = $show['thumb']; // Poster Art
-                    $mediaTitle = $show['title'];
-                    $mediaSummary = $show['summary'];
-                    $mediaTagline = $show['tagline']; // TV Shows do not contain tagline
-                    $mediaArt = $show['art']; // Background Art
+
+            foreach ($xmlMedia->Directory as $clients) {
+                if (strstr($clients['title'], $showMedia)) {
+                    plex_metadata_title($TVCoverArt_Play);
+                    plex_metadata_summary($TVCoverArt_Play);
+                    plex_metadata_tagline($TVCoverArt_Play);
+                    plex_metadata_art($TVCoverArt_Play);
+                    plex_metadata_thumb($TVCoverArt_Play);
                 }
             }
         }
@@ -255,40 +294,70 @@ if ($customImageEnabled == "Enabled") {
 if ($customImageEnabled != "Enabled") {
     // Check to see if we should cache our art
     if ($cacheEnabled) {
+        // Media Thumb (Poster) - Future: Move into function
         $mediaThumb_ID = explode("/", $mediaThumb);
         $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
-        $filename = $cachePath . $mediaThumb_ID;
-        $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
-        // There's nothing else to do here, just save it
-        if (!file_exists($filename)) {
-            file_put_contents("$cachePath/$mediaThumb_ID", fopen("$mediaThumb_URL", 'r'));  // Not using getPoster function and using older un-secure function
+
+        if (!isset($mediaThumb_MetadataID) || trim($mediaThumb_MetadataID) === '') {
+            $mediaThumb_CacheFileName = $mediaThumb_ID;
+        } else {
+            $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID;
         }
-        $mediaThumb_Display = "url('$cachePath/$mediaThumb_ID')";
+        // $mediaThumb_CacheFullName = $cachePath . $mediaThumb_CacheFileName;
+        $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
+        pmp_Logging("getCacheFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
+
+        $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
         pmp_Logging("getMediaThumb", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
 
+        // There's nothing else to do here, just save it
+        if (!file_exists($mediaThumb_CacheFullName)) {
+            file_put_contents("$mediaThumb_CacheFullName", fopen("$mediaThumb_URL", 'r'));
+        }
+
+        $mediaThumb_CacheURL = $mediaThumb_CacheFullName;
+
+        // $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
+        $mediaThumb_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaThumb_CacheURL)."')"; // Secure URL
+        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+
+        // Media Art (Background) - Future: Move into function
         $mediaArt_ID = explode("/", $mediaArt);
         $mediaArt_ID = trim($mediaArt_ID[count($mediaArt_ID) - 1], '/');
-        $filename = $cacheArtPath . $mediaArt_ID;
-        $mediaArt_URL = "$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken";
-        // There's nothing else to do here, just save it
-        if (!file_exists($filename)) {
-            file_put_contents("$cacheArtPath/$mediaArt_ID", fopen("$mediaArt_URL", 'r'));  // Not using getPoster function and using older un-secure function
-        }
-        $mediaArt_Display = "url('$cacheArtPath/$mediaArt_ID')";
-        pmp_Logging("getMediaArt", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
 
+        if (isset($mediaArt_ID) && trim($mediaArt_ID) != '') {
+            if (!isset($mediaArt_MetadataID) || trim($mediaArt_MetadataID) === '') {
+                $mediaArt_CacheFileName = $mediaArt_ID;
+            } else {
+                $mediaArt_CacheFileName = $mediaArt_ID . "_" . $mediaArt_MetadataID;
+            }
+            $mediaArt_CacheFullName = join('/', array(trim($cacheArtPath, '/'), trim($mediaArt_CacheFileName, '/')));
+            pmp_Logging("getCacheFile", "Cache File @ Output (mediaArt) - $mediaArt_CacheFullName");
+
+            $mediaArt_URL = "$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken";
+            pmp_Logging("getMediaArt", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
+
+            // There's nothing else to do here, just save it
+            if (!file_exists($mediaArt_CacheFullName)) {
+                file_put_contents("$mediaArt_CacheFullName", fopen("$mediaArt_URL", 'r'));
+            }
+
+            $mediaArt_CacheURL = $mediaArt_CacheFullName;
+
+            // $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
+            $mediaArt_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaArt_CacheURL)."')"; // Secure URL
+            // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+        }
     } else {
-        $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')";
-        // $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')";
-        if (empty($mediaThumb_Display)) {
-            $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')";
-        }
+        // $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
+        $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
+        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
-        $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')";
-        if (empty($mediaArt_Display)) {
-            $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')";
-        }
+        // $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
+        $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')"; // Secure URL
+        // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
     }
+
     // Figure out which text goes where
     switch($topSelection) {
         case 'title': $topText = $mediaTitle;break;

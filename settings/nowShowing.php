@@ -64,6 +64,30 @@ GenerateCSS_Font_ALL();
                                         </p>
                                     </div>
 
+                                    <div class="form-group advanced-setting">
+                                        Show TV Show:&nbsp;
+
+                                        <select style="display: inline;"
+                                            id="nowShowingShowTVThumb" name="nowShowingShowTVThumb">
+                                            <option value="episode" <?php if ($nowShowingShowTVThumb == 'episode') {
+                                                echo "selected";
+                                            } ?>>Episode
+                                            </option>                                            
+                                            <option value="season" <?php if ($nowShowingShowTVThumb == 'season') {
+                                                echo "selected";
+                                            } ?>>Season
+                                            </option>
+                                            <option value="series" <?php if ($nowShowingShowTVThumb == 'series') {
+                                                echo "selected";
+                                            } ?>>Series
+                                            </option>
+                                        </select>
+
+                                        <!-- <p class="help-block">
+                                        </p> -->
+                                        <hr>
+                                    </div>
+
                                     <div class="form-group">
                                         <h3>Top Text Option:</h3>
                                         <div class="input-group">

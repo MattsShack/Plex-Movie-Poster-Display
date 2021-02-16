@@ -1,6 +1,6 @@
-next-version: 2.8.1
-mode: ContinuousDelivery
 branches: {}
 ignore:
   sha: []
 merge-message-formats: {}
+mode: ContinuousDelivery
+next-version: 2.9.0

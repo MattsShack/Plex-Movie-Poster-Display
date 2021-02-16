@@ -68,5 +68,90 @@ GitVersion integration
 **v2.6 Community Updates**\
 New configuration and administration pages
 
-**v2.7 Community Updates**\
-Custom Font Integration
+**v2.7.0 Community Updates**\
+Add integration of Fonts into the Plex Movie Poster system.
+
+Updates - Custom Font Integration (Issue #16)
+- Importing of Fonts (ttf and zip)
+- Exporting of Fonts (zip)
+- Displaying sample of fonts
+- Add list of fonts and configuration for Top/Bottom of Coming Soon, Now Showing, Custom.
+- Option to set font and enable/disable font (per Top/Bottom)
+- Update documentation for Font update.
+- Update Dockerfile to install php-zip as required for import/export functions.
+
+Updates and Bug Fixes:
+- Bump version to v2.7
+- Prep for centralized cache count function
+- Move import/export of config function to importExportLib and minor updates and adjustments.
+- Minor adjustments to cache display format
+- Fix issue with customCache was pulling Poster cache value.
+- Fix issue in Now Showing page that Top/Bottom Auto Scale was pointing to comingSoon variables.
+- Add/Change the footer message. (Resolves #19)
+- Misc. documentation updates.
+- Add PHPInfo file to show PHP version. This is in preparation for upgrade to PHP 8
+- Add (commented out) lines in Dockerfile in preparation for PHP 8
+- Add backup.php (prototype) to backup all custom fonts and config, using date stamp.
+
+Bugs:
+- Color font picker not displaying correctly (known issue from previous release)
+- Sometimes configuration value is not reflected on Save Changes and require a refresh on the page to display the updated values.
+
+**v2.7.1 Community Updates**\
+Address issue when having a TV Show library as part of the library scan, the TV Show metadata is not being read correctly and art is not being displayed for Coming Soon.
+
+Updates (Issue #23):
+- Add read information for metadata of TV Shows for Coming Soon
+- Add support (not configured) to allow for displaying either cover art for Show or Season as part of Now Playing
+- Start documentation for how the media is defined (not linked)
+
+Updates and Bug Fixes:
+- Fix issue with SSL displaying blank page when loading.
+- Add showCacheImgs.php file to display all the images in the poster cache
+- Add logging system to capture log information for debugging
+ 
+**v2.8.0 Community Updates**\
+Updates - Background Theme ~ Backend (Issue #27):
+- getData.php: Update the '$art' var to mediaThumb to better reflect the naming from xml
+- add $pmpArtDir in config for cache path
+- change variable names to more align with XML naming
+
+Updates and Bug Fixes:
+- Extend more logging info
+- refactor cache folder creation and preparation
+
+ToDos:
+- Figure out how to pass mediaArt to index page as the mediaThumb is currently
+- Set background to mediaArt value
+
+**v2.8.1 Community Updates**\
+Updates - Background Theme ~ Frontend (Issue #27):
+- getData.php: Setup data to pass to index.php
+- Add options to turn on/off of Background art for Coming Soon and Now Showing
+- Update bottom css to disable the background color.
+
+Updates and Bug Fixes:
+- Misc. File formatting cleanup
+- Update how setData refreshes the file on save
+
+**v2.9.0 Community Updates**\
+Updates – TV Show Integration (Issue #23):
+- Add new variables: $nowShowingShowTVThumb (Default: series)
+- Add new dropdown in 'Now Showing' (Episode/Series/Season) to set Thumb (Poster)
+- Add new variables: $comingSoonShowTVThumb (Default: series)
+
+Updates - Music Integration (Issue #30):
+- Add check to see if playing video is 'video' or 'track'
+- Add metadata check for 'track'
+
+Updates and Bug Fixes:
+- Create UpdateVersion.py to update all the versions in a single update.
+- Update the url for cache images to use the 'encrypted’ url like the non-cached version (Issue #25)
+- Add Blur to mediaArt (Background) (Issue #27)
+
+ToDos:
+- Add switches to Enable/Disable TV Shows within the 'Coming Soon' and/or 'Now Playing'
+- Add switches to Enable/Disable Music within the 'Coming Soon' and/or 'Now Playing'
+- Add switches to Enable/Disable Thumb (Poster) within the 'Coming Soon' and/or 'Now Playing' - If you only want 'art'
+- Add Music metadata to 'Coming Soon' rotation - Currently shows as blank data
+- Update 'Coming Soon' metadata reader to use PlexLib functions so to share same business logic

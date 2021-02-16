@@ -29,7 +29,7 @@ If you would like to create a docker image locally the instructions can be found
 ## Font Support
 If you would like to use custom fonts for your posters, there is now options for that and extra instructions can be found [here](docs/FontConfig.md).
 
-## [Change Logs](documentation/ChangeLogs.md)
+## [Change Logs](docs/ChangeLogs.md)
 
 **v2.x To Do**\
 Font Outline Size and Color for the Bottom Text.\

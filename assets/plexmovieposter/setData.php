@@ -117,6 +117,9 @@ function ghostData($configPage) {
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonShowSelection\" name=\"comingSoonShowSelection\" value=\"$comingSoonShowSelection\">\n";
         echo $ghostField;
 
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonShowTVThumb\" name=\"comingSoonShowTVThumb\" value=\"$comingSoonShowTVThumb\">\n";
+        echo $ghostField;
+
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonTop\" name=\"comingSoonTop\" value=\"$comingSoonTop\">\n";
         echo $ghostField;
 
@@ -181,6 +184,9 @@ function ghostData($configPage) {
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBackgroundArt\" name=\"nowShowingBackgroundArt\" value=\"$nowShowingBackgroundArt\">\n";
+        echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingShowTVThumb\" name=\"nowShowingShowTVThumb\" value=\"$nowShowingShowTVThumb\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingTop\" name=\"nowShowingTop\" value=\"$nowShowingTop\">\n";
@@ -395,6 +401,7 @@ function setData($configPage) {
   \$comingSoonBottomFontOutlineSize = '$_POST[comingSoonBottomFontOutlineSize]'; //Default: 0 (px)
   \$comingSoonBottomFontOutlineColor = '$_POST[comingSoonBottomFontOutlineColor]'; //Default: #FFFFFF (White)
   \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default: unwatched
+  \$comingSoonShowTVThumb = '$_POST[comingSoonShowTVThumb]'; //Default: series
 
   //Now Showing Configuration
   \$nowShowingBackgroundArt = '$_POST[nowShowingBackgroundArt]'; //Default: false
@@ -416,6 +423,7 @@ function setData($configPage) {
   \$nowShowingBottomFontID = '$_POST[nowShowingBottomFontID]';
   \$nowShowingBottomFontOutlineSize = '$_POST[nowShowingBottomFontOutlineSize]'; //Default: 0 (px)
   \$nowShowingBottomFontOutlineColor = '$_POST[nowShowingBottomFontOutlineColor]'; //Default: #FFFFFF (White)
+  \$nowShowingShowTVThumb = '$_POST[nowShowingShowTVThumb]'; //Default: series
 
   //Misc Configuration
   \$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; //Default: Disabled
