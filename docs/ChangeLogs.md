@@ -109,7 +109,7 @@ Updates and Bug Fixes:
 - Fix issue with SSL displaying blank page when loading.
 - Add showCacheImgs.php file to display all the images in the poster cache
 - Add logging system to capture log information for debugging
- 
+
 **v2.8.0 Community Updates**\
 Updates - Background Theme ~ Backend (Issue #27):
 - getData.php: Update the '$art' var to mediaThumb to better reflect the naming from xml
@@ -148,10 +148,14 @@ Updates and Bug Fixes:
 - Create UpdateVersion.py to update all the versions in a single update.
 - Update the url for cache images to use the 'encrypted’ url like the non-cached version (Issue #25)
 - Add Blur to mediaArt (Background) (Issue #27)
+- Fix issue with background art and poster do not match (Issue #27)
+- Move some actions out of the getData.php to its own PlexLib.php file to split into functions for better organization and scale.
+- Update 'Coming Soon' metadata reader to use PlexLib functions so to share same business logic.
 
 ToDos:
-- Add switches to Enable/Disable TV Shows within the 'Coming Soon' and/or 'Now Playing'
-- Add switches to Enable/Disable Music within the 'Coming Soon' and/or 'Now Playing'
-- Add switches to Enable/Disable Thumb (Poster) within the 'Coming Soon' and/or 'Now Playing' - If you only want 'art'
+- Add switches to Enable/Disable TV Shows within the 'Coming Soon' and/or 'Now Playing' (Issue #23)
+- Add switches to Enable/Disable Music within the 'Coming Soon' and/or 'Now Playing' (Issue #30)
+    - 'Coming Soon' for music does not work when using 'unwatched'; currently music is skipped in this mode.
+- Add switches to Enable/Disable Thumb (Poster) within the 'Coming Soon' and/or 'Now Playing' - If you only want 'art' only
+    - This will also require a small rework to how the blur function works.
 - Add Music metadata to 'Coming Soon' rotation - Currently shows as blank data
-- Update 'Coming Soon' metadata reader to use PlexLib functions so to share same business logic

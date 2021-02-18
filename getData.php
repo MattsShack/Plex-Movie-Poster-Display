@@ -12,8 +12,8 @@ include 'getPoster.php';
 $results = Array();
 $movies = Array();
 $shows = Array();
-// $TVCoverArt_Play = "show";
-// $TVCoverArt_Play = "season";
+// $mediaArt_ShowTVThumb = "show";
+// $mediaArt_ShowTVThumb = "season";
 
 ob_start();
 $data = [];
@@ -165,7 +165,7 @@ if ($customImageEnabled == "Enabled") {
                 $bottomFontID = $nowShowingBottomFontID;
 
                 $mediaArt_Status = $nowShowingBackgroundArt;
-                $TVCoverArt_Play = $nowShowingShowTVThumb;
+                $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
 
                 $mediaTitle = $clients['title']; // Default
                 $mediaTagline = $clients['tagline']; // Default
@@ -184,11 +184,11 @@ if ($customImageEnabled == "Enabled") {
                         plex_metadata_thumb("movie");
                         break;
                     case "episode":
-                        plex_metadata_title($TVCoverArt_Play);
-                        plex_metadata_summary($TVCoverArt_Play);
-                        plex_metadata_tagline($TVCoverArt_Play);
-                        plex_metadata_art($TVCoverArt_Play);
-                        plex_metadata_thumb($TVCoverArt_Play);
+                        plex_metadata_title($mediaArt_ShowTVThumb);
+                        plex_metadata_summary($mediaArt_ShowTVThumb);
+                        plex_metadata_tagline($mediaArt_ShowTVThumb);
+                        plex_metadata_art($mediaArt_ShowTVThumb);
+                        plex_metadata_thumb($mediaArt_ShowTVThumb);
                         break;
                     case "track":
                         plex_metadata_title("track");
@@ -223,21 +223,26 @@ if ($customImageEnabled == "Enabled") {
     if (!$isPlaying) {
         //Clean Up Status
         updateStatus();
-        $autoScaleBottom = $comingSoonBottomAutoScale;
+
+        $topSelection = $comingSoonTop;
         $autoScaleTop = $comingSoonTopAutoScale;
         $topColor = $comingSoonTopFontColor;
         $topSize = $comingSoonTopFontSize;
-        $bottomColor = $comingSoonBottomFontColor;
-        $bottomSize = $comingSoonBottomFontSize;
-        $topSelection = $comingSoonTop;
-        $bottomSelection = $comingSoonBottom;
-
         $topFontEnabled = $comingSoonTopFontEnabled;
         $topFontID = $comingSoonTopFontID;
+
+        $bottomSelection = $comingSoonBottom;
+        $autoScaleBottom = $comingSoonBottomAutoScale;
+        $bottomColor = $comingSoonBottomFontColor;
+        $bottomSize = $comingSoonBottomFontSize;
         $bottomFontEnabled = $comingSoonBottomFontEnabled;
         $bottomFontID = $comingSoonBottomFontID;
 
         $mediaArt_Status = $comingSoonBackgroundArt;
+        // $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
+        $mediaArt_ShowTVThumb = "episode";
+
+        plex_variable_presets(); // FUTURE USE
 
         //Multi Movie Section Support
         plex_random_media(1); // Scan Libraries for Media
@@ -258,33 +263,47 @@ if ($customImageEnabled == "Enabled") {
             }
             $random_keys = array_rand($movies, 1);
             $showMedia = $movies[$random_keys];
+            $moviesCount = count($movies);
+            pmp_Logging("getMediaURL", "Coming Soon (Movies) COUNT: $moviesCount");
 
-            foreach ($xmlMedia->Video as $clients) {
-                if (strstr($clients['title'], $showMedia)) {
-                    plex_metadata_title("movie");
-                    plex_metadata_summary("movie");
-                    plex_metadata_tagline("movie");
-                    plex_metadata_art("movie");
-                    plex_metadata_thumb("movie");
+            if ($moviesCount > '0') {
+                foreach ($xmlMedia->Video as $clients) {
+                    if (strstr($clients['title'], $showMedia)) {
+                        $checkTitle = $clients['title'];
+                        pmp_Logging("getMediaURL", "Coming Soon (Movies): $checkTitle");
+                        plex_metadata_title("movie");
+                        plex_metadata_summary("movie");
+                        plex_metadata_tagline("movie");
+                        plex_metadata_art("movie");
+                        plex_metadata_thumb("movie");
+                    }
                 }
             }
 
             // TV Shows
             foreach ($xmlMedia->Directory as $show) {
                 $shows[] = strip_tags($show['title']);
+
             }
             $random_keys = array_rand($shows, 1);
             $showMedia = $shows[$random_keys];
+            $showsCount = count($shows);
+            pmp_Logging("getMediaURL", "Coming Soon (TV Show) COUNT: $showsCount");
 
-            foreach ($xmlMedia->Directory as $clients) {
-                if (strstr($clients['title'], $showMedia)) {
-                    plex_metadata_title($TVCoverArt_Play);
-                    plex_metadata_summary($TVCoverArt_Play);
-                    plex_metadata_tagline($TVCoverArt_Play);
-                    plex_metadata_art($TVCoverArt_Play);
-                    plex_metadata_thumb($TVCoverArt_Play);
+            if ($showsCount > '0') {
+                foreach ($xmlMedia->Directory as $clients) {
+                    if (strstr($clients['title'], $showMedia)) {
+                        $checkTitle = $clients['title'];
+                        pmp_Logging("getMediaURL", "Coming Soon (TV Show): $checkTitle");
+                        plex_metadata_title($mediaArt_ShowTVThumb);
+                        plex_metadata_summary($mediaArt_ShowTVThumb);
+                        plex_metadata_tagline($mediaArt_ShowTVThumb);
+                        plex_metadata_art($mediaArt_ShowTVThumb);
+                        plex_metadata_thumb($mediaArt_ShowTVThumb);
+                    }
                 }
             }
+
         }
     }
 }
@@ -293,70 +312,12 @@ if ($customImageEnabled == "Enabled") {
 // Otherwise, necessary values are set at the top
 if ($customImageEnabled != "Enabled") {
     // Check to see if we should cache our art
-    if ($cacheEnabled) {
-        // Media Thumb (Poster) - Future: Move into function
-        $mediaThumb_ID = explode("/", $mediaThumb);
-        $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
 
-        if (!isset($mediaThumb_MetadataID) || trim($mediaThumb_MetadataID) === '') {
-            $mediaThumb_CacheFileName = $mediaThumb_ID;
-        } else {
-            $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID;
-        }
-        // $mediaThumb_CacheFullName = $cachePath . $mediaThumb_CacheFileName;
-        $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
-        pmp_Logging("getCacheFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
+    // Media Thumb (Poster)
+    plex_getMedia_thumb();
 
-        $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
-        pmp_Logging("getMediaThumb", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
-
-        // There's nothing else to do here, just save it
-        if (!file_exists($mediaThumb_CacheFullName)) {
-            file_put_contents("$mediaThumb_CacheFullName", fopen("$mediaThumb_URL", 'r'));
-        }
-
-        $mediaThumb_CacheURL = $mediaThumb_CacheFullName;
-
-        // $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
-        $mediaThumb_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaThumb_CacheURL)."')"; // Secure URL
-        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
-
-        // Media Art (Background) - Future: Move into function
-        $mediaArt_ID = explode("/", $mediaArt);
-        $mediaArt_ID = trim($mediaArt_ID[count($mediaArt_ID) - 1], '/');
-
-        if (isset($mediaArt_ID) && trim($mediaArt_ID) != '') {
-            if (!isset($mediaArt_MetadataID) || trim($mediaArt_MetadataID) === '') {
-                $mediaArt_CacheFileName = $mediaArt_ID;
-            } else {
-                $mediaArt_CacheFileName = $mediaArt_ID . "_" . $mediaArt_MetadataID;
-            }
-            $mediaArt_CacheFullName = join('/', array(trim($cacheArtPath, '/'), trim($mediaArt_CacheFileName, '/')));
-            pmp_Logging("getCacheFile", "Cache File @ Output (mediaArt) - $mediaArt_CacheFullName");
-
-            $mediaArt_URL = "$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken";
-            pmp_Logging("getMediaArt", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
-
-            // There's nothing else to do here, just save it
-            if (!file_exists($mediaArt_CacheFullName)) {
-                file_put_contents("$mediaArt_CacheFullName", fopen("$mediaArt_URL", 'r'));
-            }
-
-            $mediaArt_CacheURL = $mediaArt_CacheFullName;
-
-            // $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
-            $mediaArt_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaArt_CacheURL)."')"; // Secure URL
-            // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
-        }
-    } else {
-        // $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
-        $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
-        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
-
-        // $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
-        $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')"; // Secure URL
-        // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
-    }
+    // Media Art (Background)
+    plex_getMedia_art();
 
     // Figure out which text goes where
     switch($topSelection) {

@@ -62,17 +62,18 @@ GenerateCSS_Font_ALL();
                                         <p class="help-block">
                                             Set background art to match background of Plex media.
                                         </p>
+                                        <hr>
                                     </div>
 
                                     <div class="form-group advanced-setting">
-                                        Show TV Show:&nbsp;
+                                        Display TV Show:&nbsp;
 
                                         <select style="display: inline;"
                                             id="nowShowingShowTVThumb" name="nowShowingShowTVThumb">
                                             <option value="episode" <?php if ($nowShowingShowTVThumb == 'episode') {
                                                 echo "selected";
                                             } ?>>Episode
-                                            </option>                                            
+                                            </option>
                                             <option value="season" <?php if ($nowShowingShowTVThumb == 'season') {
                                                 echo "selected";
                                             } ?>>Season
@@ -83,8 +84,9 @@ GenerateCSS_Font_ALL();
                                             </option>
                                         </select>
 
-                                        <!-- <p class="help-block">
-                                        </p> -->
+                                        <p class="help-block">
+                                            Display the poster, background art and information for TV Shows in your library.
+                                        </p>
                                         <hr>
                                     </div>
 
