@@ -19,6 +19,22 @@ body {
   left: 0;
 }
 
+.mediaArt {
+  /* The image used */
+  /*background-image: url(""); */
+
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);                                                                                                                                                                                                                      /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
 .alert {
   position: absolute;
   width: 100%;

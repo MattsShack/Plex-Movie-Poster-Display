@@ -11,7 +11,7 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 <html lang="en">
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
-    
+
     <style>
         .comingSoonTop {
             font-size: <?php echo $comingSoonTopFontSize?>px;
@@ -34,10 +34,7 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                     if (key == "middle") {
                         $('#' + key).css('background-image', val);
                     } else if (key == "mediaArt") {
-                        $('body').css('background-image', val);
-                        $('body').css('background-repeat', 'no-repeat');
-                        $('body').css('background-attachment', 'fixed');
-                        $('body').css('background-size', 'cover');
+                        $('.' + key).css('background-image', val);
                     } else {
                         $('#' + key).html(val);
                     }
@@ -64,10 +61,7 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
                         if (key == "middle") {
                             $('#' + key).css('background-image', val);
                         } else if (key == "mediaArt") {
-                            $('body').css('background-image', val);
-                            $('body').css('background-repeat', 'no-repeat');
-                            $('body').css('background-attachment', 'fixed');
-                            $('body').css('background-size', 'cover');
+                            $('.' + key).css('background-image', val);
                         } else {
                             $('#' + key).html(val);
                         }
@@ -80,28 +74,31 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 </head>
 
 <body>
-<div id="container">
-    <div id="alert" align="center" class="center"></div>
-    <div id="top" style="overflow: hidden;" align="center" class="center"></div>
-    <div id="middle" class="middle"></div>
-    <div id="bottom" style="overflow: hidden;" align="center" class="center"></div>
-</div>
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bmd-modalContent">
+    <div class="mediaArt"></div>
 
-            <div class="modal-body">
+    <div id="container">
+        <div id="alert" align="center" class="center"></div>
+        <div id="top" style="overflow: hidden;" align="center" class="center"></div>
+        <div id="middle" class="middle"></div>
+        <div id="bottom" style="overflow: hidden;" align="center" class="center"></div>
+    </div>
 
-                <div class="close-button">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bmd-modalContent">
+
+                <div class="modal-body">
+
+                    <div class="close-button">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <iframe class="embed-responsive-item" id='settingFrame' frameborder="0"></iframe>
+
                 </div>
-                <iframe class="embed-responsive-item" id='settingFrame' frameborder="0"></iframe>
 
-            </div>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </body>
 
 </html>

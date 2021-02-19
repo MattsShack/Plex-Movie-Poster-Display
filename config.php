@@ -61,6 +61,7 @@
   $comingSoonBottomFontOutlineSize = '0'; //Default: 0 (px)
   $comingSoonBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
   $comingSoonShowSelection = 'unwatched'; //Default: unwatched
+  $comingSoonShowTVThumb = 'series'; //Default: series
 
   //Now Showing Configuration
   $nowShowingTop = 'custom'; //Default: custom (title/summary/tagline/custom)
@@ -81,6 +82,7 @@
   $nowShowingBottomFontID = '';
   $nowShowingBottomFontOutlineSize = '0'; //Default: 0 (px)
   $nowShowingBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $nowShowingShowTVThumb = 'series'; //Default: series
 
   //Misc Configuration
   $pmpDisplayProgress = 'Disabled'; //Default: Disabled
