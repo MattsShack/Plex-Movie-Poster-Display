@@ -11,5 +11,6 @@
   $Log_getMovieData = TRUE;
   $Log_getMusicData = TRUE;
   $Log_getMediaURL = TRUE;
+  $Log_WebHookData = TRUE;
 
 ?>
