@@ -5,8 +5,10 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "") {
     // include 'CacheLib.php';
     // Debug URL:
 
+    // Add more checks if prereqs are defined
+
     if($LogPath == "") {
-        $destination = "cache/logs/";
+        $destination = "../../cache/logs/";
     }
     else {
         $destination = "$LogPath";
@@ -36,6 +38,7 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "") {
         file_put_contents($Log_FullName, $Log_MSG, FILE_APPEND | LOCK_EX);
     }
 
+    // echo "Log (FullName): $Log_FileName";
 }
 
 ?>

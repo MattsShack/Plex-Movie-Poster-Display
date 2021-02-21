@@ -159,3 +159,15 @@ ToDos:
 - Add switches to Enable/Disable Thumb (Poster) within the 'Coming Soon' and/or 'Now Playing' - If you only want 'art' only
     - This will also require a small rework to how the blur function works.
 - Add Music metadata to 'Coming Soon' rotation - Currently shows as blank data
+
+**v2.9.1 Community Updates**\
+Updates - Two Admins (Issue #33):
+- Remove Legacy Pages:
+    - admin.php
+    - login.php
+    - loginCheck.php
+    - logout.php
+
+R&D - Research Plex Webhooks (Issue #31):
+- Build Webhook backend decoding functionality
+- Add test scripts for Webhook validation

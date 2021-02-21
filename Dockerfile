@@ -98,6 +98,7 @@ COPY *.php ${htmldefault}
 COPY assets ${htmldefault}/assets/
 COPY settings ${htmldefault}/settings/
 # COPY cache ${htmldefault}/cache/
+COPY tests ${htmldefault}/tests/
 
 # Restore Pre Existing Config
 # RUN rm ${htmldefault}/config.php

@@ -390,4 +390,111 @@ function plex_getMedia_art() {
     }
 }
 
+function plex_webhook_decode() {
+    global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+    // global ; // Output Variables
+
+    $plex_webhook_data_json = json_decode($plex_webhook_data_raw,true);
+
+    plex_webhook_json_HEAD();
+
+    plex_webhook_json_ACCOUNT();
+
+    plex_webhook_json_SERVER();
+
+    plex_webhook_json_PLAYER();
+
+    plex_webhook_json_METADATA();
+
+    pmp_Logging("WebHookData", "$plex_webhook_data_raw");
+}
+
+function plex_webhook_json_HEAD() {
+    // Head
+    global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+
+    global $pwhd_event, $pwhd_user, $pwhd_owner; // Output Variables
+
+    $pwhd_event = $plex_webhook_data_json["event"];
+    $pwhd_user = $plex_webhook_data_json["user"];
+    $pwhd_owner = $plex_webhook_data_json["owner"];
+}
+
+function plex_webhook_json_ACCOUNT() {
+    // Account
+    global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+
+    global $pwhd_Account_id, $pwhd_Account_thumb, $pwhd_Account_title; // Output Variables
+
+    $pwhd_Account_id = $plex_webhook_data_json["Account"]["id"];
+    $pwhd_Account_thumb = $plex_webhook_data_json["Account"]["thumb"];
+    $pwhd_Account_title = $plex_webhook_data_json["Account"]["title"];
+}
+
+function plex_webhook_json_SERVER() {
+     // Server
+     global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+
+     global $pwhd_Server_title, $pwhd_Server_uuid; // Output Variables
+
+     $pwhd_Server_title = $plex_webhook_data_json["Server"]["title"];
+     $pwhd_Server_uuid = $plex_webhook_data_json["Server"]["uuid"];
+}
+
+function plex_webhook_json_PLAYER() {
+    // Player
+    global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+
+    global $pwhd_Player_local, $pwhd_Player_publicAddress, $pwhd_Player_title, $pwhd_Player_uuid; // Output Variables
+
+    $pwhd_Player_local = $plex_webhook_data_json["Player"]["local"];
+    $pwhd_Player_publicAddress = $plex_webhook_data_json["Player"]["publicAddress"];
+    $pwhd_Player_title = $plex_webhook_data_json["Player"]["title"];
+    $pwhd_Player_uuid = $plex_webhook_data_json["Player"]["uuid"];
+}
+
+function plex_webhook_json_METADATA() {
+   // Metadata
+   global $plex_webhook_data_raw, $plex_webhook_data_json; // Input Variables
+
+   global $pwhd_Metadata_librarySectionType, $pwhd_Metadata_ratingKey, $pwhd_Metadata_key, $pwhd_Metadata_parentRatingKey, $pwhd_Metadata_grandparentRatingKey; // Output Variables
+
+   $pwhd_Metadata_librarySectionType = $plex_webhook_data_json["Metadata"]["librarySectionType"];
+   $pwhd_Metadata_ratingKey = $plex_webhook_data_json["Metadata"]["ratingKey"];
+   $pwhd_Metadata_key = $plex_webhook_data_json["Metadata"]["key"];
+   $pwhd_Metadata_parentRatingKey = $plex_webhook_data_json["Metadata"]["parentRatingKey"];
+   $pwhd_Metadata_grandparentRatingKey = $plex_webhook_data_json["Metadata"]["grandparentRatingKey"];
+
+   global $pwhd_Metadata_guid, $pwhd_Metadata_librarySectionID, $pwhd_Metadata_type, $pwhd_Metadata_title, $pwhd_Metadata_grandparentKey; // Output Variables
+
+   $pwhd_Metadata_guid = $plex_webhook_data_json["Metadata"]["guid"];
+   $pwhd_Metadata_librarySectionID = $plex_webhook_data_json["Metadata"]["librarySectionID"];
+   $pwhd_Metadata_type = $plex_webhook_data_json["Metadata"]["type"];
+   $pwhd_Metadata_title = $plex_webhook_data_json["Metadata"]["title"];
+   $pwhd_Metadata_grandparentKey = $plex_webhook_data_json["Metadata"]["grandparentKey"];
+
+   global $pwhd_Metadata_parentKey, $pwhd_Metadata_grandparentTitle, $pwhd_Metadata_parentTitle, $pwhd_Metadata_summary, $pwhd_Metadata_index; // Output Variables
+
+   $pwhd_Metadata_parentKey = $plex_webhook_data_json["Metadata"]["parentKey"];
+   $pwhd_Metadata_grandparentTitle = $plex_webhook_data_json["Metadata"]["grandparentTitle"];
+   $pwhd_Metadata_parentTitle = $plex_webhook_data_json["Metadata"]["parentTitle"];
+   $pwhd_Metadata_summary = $plex_webhook_data_json["Metadata"]["summary"];
+   $pwhd_Metadata_index = $plex_webhook_data_json["Metadata"]["index"];
+
+   global $pwhd_Metadata_parentIndex, $pwhd_Metadata_ratingCount, $pwhd_Metadata_thumb, $pwhd_Metadata_art, $pwhd_Metadata_parentThumb; // Output Variables
+
+   $pwhd_Metadata_parentIndex = $plex_webhook_data_json["Metadata"]["parentIndex"];
+   $pwhd_Metadata_ratingCount = $plex_webhook_data_json["Metadata"]["ratingCount"];
+   $pwhd_Metadata_thumb = $plex_webhook_data_json["Metadata"]["thumb"];
+   $pwhd_Metadata_art = $plex_webhook_data_json["Metadata"]["art"];
+   $pwhd_Metadata_parentThumb = $plex_webhook_data_json["Metadata"]["parentThumb"];
+
+   global $pwhd_Metadata_grandparentThumb, $pwhd_Metadata_grandparentArt, $pwhd_Metadata_addedAt, $pwhd_Metadata_updatedAt; // Output Variables
+
+   $pwhd_Metadata_grandparentThumb = $plex_webhook_data_json["Metadata"]["grandparentThumb"];
+   $pwhd_Metadata_grandparentArt = $plex_webhook_data_json["Metadata"]["grandparentArt"];
+   $pwhd_Metadata_addedAt = $plex_webhook_data_json["Metadata"]["addedAt"];
+   $pwhd_Metadata_updatedAt = $plex_webhook_data_json["Metadata"]["updatedAt"];
+}
+
 ?>
