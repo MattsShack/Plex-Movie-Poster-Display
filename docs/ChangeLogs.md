@@ -171,3 +171,7 @@ Updates - Two Admins (Issue #33):
 R&D - Research Plex Webhooks (Issue #31):
 - Build Webhook backend decoding functionality
 - Add test scripts for Webhook validation
+
+**v2.9.2 Community Updates**\
+Updates - Color Picker Desktop (Issue #35)
+- Change color picker from 'bootstrap-colorpicker' to built in color picker system.  This changes how we select the color picker from just selecting the filed to pressing the 'browse color' button.

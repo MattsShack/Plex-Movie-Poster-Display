@@ -172,18 +172,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $comingSoonTopFontColor; ?>">
 
+                                            <label for="comingSoonTopFontColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="comingSoonTopFontColorPicker" id="comingSoonTopFontColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $comingSoonTopFontColor; ?>"
+                                                onchange="setColor('comingSoonTopFontColorPicker', 'comingSoonTopFontColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#comingSoonTopFontColor').colorpicker();
-                                                $('#comingSoonTopFontColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -207,18 +209,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $comingSoonTopFontOutlineColor; ?>">
 
+                                            <label for="comingSoonTopFontOutlineColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="comingSoonTopFontOutlineColorPicker" id="comingSoonTopFontOutlineColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $comingSoonTopFontOutlineColor; ?>"
+                                                onchange="setColor('comingSoonTopFontOutlineColorPicker', 'comingSoonTopFontOutlineColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#comingSoonTopFontOutlineColor').colorpicker();
-                                                $('#comingSoonTopFontOutlineColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -237,6 +241,7 @@ GenerateCSS_Font_ALL();
                                                 // PHP 8.x
                                                 //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "commingSoonTopFontID");
                                             ?>
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
@@ -331,18 +336,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $comingSoonBottomFontColor; ?>">
 
+                                            <label for="comingSoonBottomFontColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="comingSoonBottomFontColorPicker" id="comingSoonBottomFontColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $comingSoonBottomFontColor; ?>"
+                                                onchange="setColor('comingSoonBottomFontColorPicker', 'comingSoonBottomFontColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#comingSoonBottomFontColor').colorpicker();
-                                                $('#comingSoonBottomFontColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -366,18 +373,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $comingSoonBottomFontOutlineColor; ?>">
 
+                                            <label for="comingSoonBottomFontOutlineColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="comingSoonBottomFontOutlineColorPicker" id="comingSoonBottomFontOutlineColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $comingSoonBottomFontOutlineColor; ?>"
+                                                onchange="setColor('comingSoonBottomFontOutlineColorPicker', 'comingSoonBottomFontOutlineColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#comingSoonBottomFontOutlineColor').colorpicker();
-                                                $('#comingSoonBottomFontOutlineColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">

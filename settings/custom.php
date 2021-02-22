@@ -149,18 +149,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $customTopFontColor; ?>">
 
+                                            <label for="customTopFontColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="customTopFontColorPicker" id="customTopFontColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $customTopFontColor; ?>"
+                                                onchange="setColor('customTopFontColorPicker', 'customTopFontColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#customTopFontColor').colorpicker();
-                                                $('#customTopFontColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -184,18 +186,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $customTopFontOutlineColor; ?>">
 
+                                            <label for="customTopFontOutlineColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="customTopFontOutlineColorPicker" id="customTopFontOutlineColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $customTopFontOutlineColor; ?>"
+                                                onchange="setColor('customTopFontOutlineColorPicker', 'customTopFontOutlineColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#customTopFontOutlineColor').colorpicker();
-                                                $('#customTopFontOutlineColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -214,6 +218,7 @@ GenerateCSS_Font_ALL();
                                                 // PHP 8.x
                                                 //findFontFamily(CSSPath: "../assets/plexmovieposter/", CSSFile: "fonts_stock.css", HTMLdropdown: TRUE, fieldID: "customTopFontID");
                                             ?>
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
@@ -258,18 +263,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $customBottomFontColor; ?>">
 
+                                            <label for="customBottomFontColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="customBottomFontColorPicker" id="customBottomFontColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $customBottomFontColor; ?>"
+                                                onchange="setColor('customBottomFontColorPicker', 'customBottomFontColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#customBottomFontColor').colorpicker();
-                                                $('#customBottomFontColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
@@ -293,18 +300,20 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $customBottomFontOutlineColor; ?>">
 
+                                            <label for="customBottomFontOutlineColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="customBottomFontOutlineColorPicker" id="customBottomFontOutlineColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $customBottomFontOutlineColor; ?>"
+                                                onchange="setColor('customBottomFontOutlineColorPicker', 'customBottomFontOutlineColor')">
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#customBottomFontOutlineColor').colorpicker();
-                                                $('#customBottomFontOutlineColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
 
                                     <div class="form-group advanced-setting row">
