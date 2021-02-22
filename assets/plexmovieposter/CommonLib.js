@@ -98,3 +98,9 @@ function exportFiles_ZIP() {
     document.getElementById('ExportFileName_Zip').innerHTML = PostMSG;
 
 }
+
+function setColor(picker, field) {
+    let colorPicker = document.getElementById(picker).value;
+    
+    document.getElementById(field).value = colorPicker;
+}
