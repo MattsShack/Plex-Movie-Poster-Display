@@ -335,13 +335,24 @@ function plex_getMedia_thumb() {
 
         $mediaThumb_CacheURL = $mediaThumb_CacheFullName;
 
-        // $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaThumb_CacheURL)."')"; // Secure URL
         // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+
+        if (strpos($mediaThumb_Display, "InvalidImage") !== FALSE) {
+            $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
+            // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - Cache) - FailOver");
+        }
+
     } else {
-        // $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
         // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+        
+        if (strpos($mediaThumb_Display, "InvalidImage") !== FALSE) {
+            $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
+            // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - No Cache) - FailOver");
+        }
     }
 }
 
@@ -379,14 +390,24 @@ function plex_getMedia_art() {
 
             $mediaArt_CacheURL = $mediaArt_CacheFullName;
 
-            // $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
             $mediaArt_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaArt_CacheURL)."')"; // Secure URL
             // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+
+            if (strpos($mediaArt_Display, "InvalidImage") !== FALSE) {
+                $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
+                // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+                pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - Cache) - FailOver");
+            }
         }
     } else {
-         // $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
          $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')"; // Secure URL
          // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+
+         if (strpos($mediaArt_Display, "InvalidImage") !== FALSE) {
+            $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
+            // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - No Cache) - FailOver");
+        }
     }
 }
 

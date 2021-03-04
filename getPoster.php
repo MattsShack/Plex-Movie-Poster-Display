@@ -8,6 +8,8 @@ include '/assets/plexmovieposter/tools.php';
 function getPoster($artWorkLocation) {
 	global $plexServer, $plexToken, $plexServerSSL, $plexServerDirect;
 
+	$logName = "getPoster";
+
 	// Setting SSL Prefix
 	if ($plexServerSSL) {
 		$URLScheme = "https";
@@ -20,7 +22,7 @@ function getPoster($artWorkLocation) {
 	// $mediaUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 	$mediaUrl = "$URLScheme://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 
-	pmp_Logging("getPoster", "$mediaUrl");
+	pmp_Logging("$logName", "$mediaUrl");
 
 	// Grab Poster
 	$ch = curl_init($mediaUrl);
@@ -36,9 +38,15 @@ function getPoster($artWorkLocation) {
 	// Get information about the image.
 	$imgInfo=getImageSizeFromString($imgRaw);
 
+	$testMimeData = mime_content_type($imgInfo);
+	pmp_Logging("$logName", "Test Mime Data: $testMimeData");
+
 	// Ensure image, is indeed an image.
 	if (empty($imgInfo['mime']) || strpos($imgInfo['mime'], 'image/') !== 0) {
-		die('Invalid Image');
+		pmp_Logging("$logName", "Invalid Image: $mediaUrl \n\t Check mimetype.");
+		// die('Invalid Image');
+		echo "Invalid Image<br>";
+		return "InvalidImage";
 	}
 
 	// Create base64 version of image
@@ -52,6 +60,8 @@ function getCachePoster($cacheURL) {
 	global $plexServer, $plexToken, $plexServerSSL, $plexServerDirect;
 	$PMPServer = $_SERVER['HTTP_HOST'];
 
+	$logName = "getCachePoster";
+
 	// Setting SSL Prefix
 	// if ($plexServerSSL) {
 		// $URLScheme = "https";
@@ -64,7 +74,7 @@ function getCachePoster($cacheURL) {
 	// $mediaUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 	$mediaUrl = "$URLScheme://$PMPServer/$cacheURL";
 
-	pmp_Logging("getCachePoster", "$mediaUrl");
+	pmp_Logging("$logName", "$mediaUrl");
 
 	// Grab Poster
 	$ch = curl_init($mediaUrl);
@@ -80,9 +90,15 @@ function getCachePoster($cacheURL) {
 	// Get information about the image.
 	$imgInfo=getImageSizeFromString($imgRaw);
 
+	$testMimeData = mime_content_type("$imgInfo");
+	pmp_Logging("$logName", "Test Mime Data: $testMimeData");
+
 	// Ensure image, is indeed an image.
 	if (empty($imgInfo['mime']) || strpos($imgInfo['mime'], 'image/') !== 0) {
-		die('Invalid Image');
+		pmp_Logging("$logName", "Invalid Image: $mediaUrl \n\t Check mimetype.");
+		// die('Invalid Image');
+		echo "Invalid Image<br>";
+		return "InvalidImage";
 	}
 
 	// Create base64 version of image
