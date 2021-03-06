@@ -1,8 +1,8 @@
 <?php
   //Logging
   $LogPath = "";
-  $Log_getPoster = FALSE;
-  $Log_getCachePoster = FALSE;
+  $Log_getPoster = TRUE;
+  $Log_getCachePoster = TRUE;
   $Log_getCacheFile = TRUE;
   $Log_getMediaArt = TRUE;
   $Log_getMediaThumb = TRUE;

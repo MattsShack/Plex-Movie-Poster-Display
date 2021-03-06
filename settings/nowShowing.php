@@ -453,18 +453,22 @@ GenerateCSS_Font_ALL();
                                                 data-position="bottom left"
                                                 value="<?php echo $pmpDisplayProgressColor; ?>">
 
+
+                                                <label for="pmpDisplayProgressColorPicker" style="cursor: pointer;">
+                                                <div class= "label label-btn label-primary">
+                                                    <i class="label-icon glyphicon tint"></i>
+                                                    Browse Colors
+                                                </div>
+                                            </label>
+
+                                            <input type="color" name="pmpDisplayProgressColorPicker" id="pmpDisplayProgressColorPicker" style="opacity: 0; display: inline;"
+                                                value="<?php echo $pmpDisplayProgressColor; ?>"
+                                                onchange="setColor('pmpDisplayProgressColorPicker', 'pmpDisplayProgressColor')">
+
+
                                             <!-- <p class="help-block">
                                             </p> -->
                                         </div>
-
-                                        <script>
-                                            $(function () {
-                                                $('#pmpDisplayProgressColor').colorpicker();
-                                                $('#pmpDisplayProgressColor').on('colorpickerChange', function (event) {
-                                                    $('.jumbotron').css('background-color', event.color.toString());
-                                                });
-                                            });
-                                        </script>
                                     </div>
                                 <!-- SEGMENT BLOCK END -->
 

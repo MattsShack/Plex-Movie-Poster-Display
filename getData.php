@@ -42,20 +42,31 @@ if ($pmpBottomScroll == 'Enabled') {
 // -------------------------
 // Poster Cache
 $cachePath = $pmpPosterDir;
+echo "Creating: $cachePath <br>";
 GeneralCache_Prep($cachePath, TRUE);
 // -------------------------
 
 // -------------------------
 // Art Cache
 $cacheArtPath = $pmpArtDir;
+echo "Creating: $cacheArtPath <br>";
 GeneralCache_Prep($cacheArtPath, TRUE);
 // -------------------------
 
 // -------------------------
 // Custom Cache
 $customPath = $pmpCustomDir;
+echo "Creating: $customPath <br>";
 GeneralCache_Prep($customPath, FALSE);
 // -------------------------
+
+// -------------------------
+// Log Cache
+$LogPath = $pmpLogDir;
+echo "Creating: $LogPath <br>";
+GeneralCache_Prep($LogPath, FALSE);
+// -------------------------
+
 
 // Let's be lazy
 $title = "";

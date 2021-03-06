@@ -9,6 +9,7 @@
   $pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
   $pmpArtDir = 'cache/art/'; //Default cache/art/ (FUTURE)
   $pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
+  $pmpLogDir = 'cache/logs/'; //Default cache/logs/ (FUTURE)
 
   //Server Configuration
   $plexServer = '';
