@@ -64,12 +64,13 @@ function ghostData($configPage) {
         echo $ghostField;
     }
 
-    // Server PHP
-    if ($configPage != "server.php" && $configPage != "login.php") {
+
+    //PLEX PHP
+    if ($configPage != "plex.php" && $configPage != "login.php") {
         $ghostField = "\n";
         echo $ghostField;
 
-        $ghostField = "$formIndent<!-- Server PHP -->\n";
+        $ghostField = "$formIndent<!-- PLEX PHP -->\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServer\" name=\"plexServer\" value=\"$plexServer\">\n";
@@ -86,15 +87,6 @@ function ghostData($configPage) {
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServerSSL\" name=\"plexServerSSL\" value=\"$plexServerSSL\">\n";
         echo $ghostField;
-    }
-
-    // Client PHP
-    if ($configPage != "client.php" && $configPage != "login.php") {
-        $ghostField = "\n";
-        echo $ghostField;
-
-        $ghostField = "$formIndent<!-- Client PHP -->\n";
-        echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"plexClient\" name=\"plexClient\" value=\"$plexClient\">\n";
         echo $ghostField;
@@ -102,6 +94,45 @@ function ghostData($configPage) {
         $ghostField = "$formIndent<input type=\"hidden\" id=\"plexClientName\" name=\"plexClientName\" value=\"$plexClientName\">\n";
         echo $ghostField;
     }
+
+    // // Server PHP
+    // if ($configPage != "server.php" && $configPage != "login.php" && $configPage != "plex.php") {
+    //     $ghostField = "\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<!-- Server PHP -->\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServer\" name=\"plexServer\" value=\"$plexServer\">\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServerDirect\" name=\"plexServerDirect\" value=\"$plexServerDirect\">\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexToken\" name=\"plexToken\" value=\"$plexToken\">\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServerMovieSection\" name=\"plexServerMovieSection\" value=\"$plexServerMovieSection\">\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexServerSSL\" name=\"plexServerSSL\" value=\"$plexServerSSL\">\n";
+    //     echo $ghostField;
+    // }
+
+    // // Client PHP
+    // if ($configPage != "client.php" && $configPage != "login.php" && $configPage != "plex.php") {
+    //     $ghostField = "\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<!-- Client PHP -->\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexClient\" name=\"plexClient\" value=\"$plexClient\">\n";
+    //     echo $ghostField;
+
+    //     $ghostField = "$formIndent<input type=\"hidden\" id=\"plexClientName\" name=\"plexClientName\" value=\"$plexClientName\">\n";
+    //     echo $ghostField;
+    // }
 
     // Coming Soon PHP
     if ($configPage != "comingSoon.php" && $configPage != "login.php") {
@@ -261,8 +292,8 @@ function ghostData($configPage) {
         $ghostField = "$formIndent<!-- Custom PHP -->\n";
         echo $ghostField;
 
-        $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageUpload\" name=\"customImageUpload\" value=\"$customImageUpload\">\n";
-        echo $ghostField;
+        // // $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageUpload\" name=\"customImageUpload\" value=\"$customImageUpload\">\n";
+        // // echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageEnabled\" name=\"customImageEnabled\" value=\"$customImageEnabled\">\n";
         echo $ghostField;
@@ -319,16 +350,16 @@ function ghostData($configPage) {
 function setData($configPage) {
     //Save Configuration
 
-    //Custom Image Upload
-    if ($_FILES['customImageUpload'] != "") {
-        $uploaddir = 'cache/custom/';
-        $uploadfile = $uploaddir . basename($_FILES['customImageUpload']['name']);
+    // //Custom Image Upload
+    // if ($_FILES['customImageUpload'] != "") {
+    //     $uploaddir = 'cache/custom/';
+    //     $uploadfile = $uploaddir . basename($_FILES['customImageUpload']['name']);
 
-        if (move_uploaded_file($_FILES['customImageUpload']['tmp_name'], $uploadfile)) {
-        } else {
-            $uploadfile = $_POST['customImageUpload'];
-        }
-    }
+    //     if (move_uploaded_file($_FILES['customImageUpload']['tmp_name'], $uploadfile)) {
+    //     } else {
+    //         $uploadfile = $_POST['customImageUpload'];
+    //     }
+    // }
 
     //Define Config File
     $myfile = fopen("../config.php", "w") or die("Unable to open file!");

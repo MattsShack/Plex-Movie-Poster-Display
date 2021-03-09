@@ -32,11 +32,15 @@ if (!empty($_POST['saveConfig'])) {
                 <div class="Page-page-aq7i_X Scroller-scroller-3GqQcZ Scroller-vertical-VScFLT  ">
                     <div id="MainPage" class="SettingsPage-content-1vKVEr PageContent-pageContent-16mK6G">
                         <h2 class="SettingsPageHeader-header-1ugtIL">
-                            Server Configuration
+                            PLEX Configuration
                         </h2>
                         <?php AdvancedBar() ;?>
                         <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
+                                <div class="form-group">
+                                    <h3>Server Configuration</h3>
+                                </div>
+
                                 <div class="form-group">
                                     Plex Server IP:&nbsp;
 
@@ -100,6 +104,31 @@ if (!empty($_POST['saveConfig'])) {
                                         <small>A Plex server direct URL is required (.plex.direct).</small>
                                     </p>
                                 </div>
+
+                                <div class="form-group">
+                                    <hr>
+                                    <h3>Client Configuration</h3>
+                                </div>
+
+                                <div class="form-group">
+                                    Plex Client IP:&nbsp;
+                                    <input type="text" class="fieldInfo-ipaddress form-control form-inline" id="plexClient" name="plexClient" maxlength="15"
+                                        placeholder="Plex Client IP" value="<?php echo $plexClient; ?>" required>
+
+                                    <!-- <p class="help-block">
+                                        A Plex client IP address is required.
+                                    </p> -->
+                                </div>
+
+                                <div class="form-group">
+                                    Plex Client Name:&nbsp;
+
+                                    <input type="text" class="fieldInfo-xlarge form-control form-inline" id="plexClientName" name="plexClientName"
+                                        placeholder="Plex Client Name" value="<?php echo $plexClientName; ?>">
+
+                                    <!-- <p class="help-block">
+                                    </p> -->
+                                </div>
                             <!-- SEGMENT BLOCK END -->
 
                             <!-- GHOST BLOCK START -->
@@ -110,7 +139,7 @@ if (!empty($_POST['saveConfig'])) {
                                 <?php submitForm(FALSE); ?>
                             <!-- SUBMIT BLOCK END -->
                         </form>
-                        <?php FooterInfo() ; ?>
+                        <?php FooterInfo(4) ; ?>
                     </div>
                 </div>
             </div>

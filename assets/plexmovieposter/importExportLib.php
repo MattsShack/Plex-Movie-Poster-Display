@@ -1,14 +1,14 @@
 <?php
 
-function importFiles($fieldID = 'zip_file') {
+function importFiles($fieldID = 'zip_file', $configPage = "fonts.php") {
     // Future Development:
     // - Set destination values within a config file (per file type)
 
     $PostMSG = '';
 
-    $ShowMSG = FALSE;
+    $ShowMSG = TRUE;
     $SetRedirect = TRUE;
-    $SetRedirect_target = "fonts.php";
+    $SetRedirect_target = "$configPage";
 
     if ($_FILES[$fieldID]['name'] != '') {
         $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
@@ -21,14 +21,21 @@ function importFiles($fieldID = 'zip_file') {
         $FileInfo_Ext = $FileInfo_Array[1];
         $FileInfo_Size = $_FILES[$fieldID]['size'];
 
-        if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
-            $destination = "../cache/fonts/";
-            importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination);
-        }
+        switch ($configPage) {
+            case "custom.php":
+                $destination = "../cache/custom/";
+                importFiles_CUSTOM($ShowMSG, $SetRedirect, $fieldID, $destination);
+                break;
+            default: 
+                if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
+                    $destination = "../cache/fonts/";
+                    importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination);
+                }
 
-        if (preg_match("{[tT][tT][fF]}",$FileInfo_Ext)) {
-            $destination = "../cache/fonts/";
-            importFiles_TTF($ShowMSG, $SetRedirect, $fieldID, $destination);
+                if (preg_match("{[tT][tT][fF]}",$FileInfo_Ext)) {
+                    $destination = "../cache/fonts/";
+                    importFiles_TTF($ShowMSG, $SetRedirect, $fieldID, $destination);
+                }
         }
     }
 }
@@ -168,6 +175,94 @@ function importFiles_TTF($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
             }
         }
     }
+}
+
+function importFiles_CUSTOM($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip_file', $destination = '../cache/custom/') {
+    $PostMSG = '';
+
+    // $ShowMSG = FALSE;
+    // $ShowMSG = TRUE;
+    // $SetRedirect = TRUE;
+    $SetRedirect_target = "custom.php";
+
+    // Generate the directory if it does not exist.  (* Look at moving to separate function)
+    if (!file_exists($destination)) {
+        mkdir($destination, 0777, true);
+    }
+
+    $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
+    $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
+
+    $FileInfo_Name = basename($FileInfo_NameRAW);
+    $FileInfo_Array = explode(".", $FileInfo_Name);
+    $name = $FileInfo_Array[0];
+
+    $FileInfo_Ext = $FileInfo_Array[1];
+    $FileInfo_Size = $_FILES[$fieldID]['size'];
+
+    $UseFileName = true;
+
+    $Custom_fileName = "CustomFont.ttf";
+
+    // Check file size
+    $fileSizeMax = 5000000;  // 5000 KB
+
+    if ($UseFileName == TRUE) {
+        $destination_FullName = $destination . $FileInfo_Name;
+    }
+    else {
+        $destination_FullName = $destination . $Custom_fileName;
+    }
+
+    $uploadOk = 1;
+
+    // Check if file already exists
+    if (file_exists($destination_FullName)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    // Check file size
+    if ($FileInfo_Size > $fileSizeMax) {
+        if ($ShowMSG == TRUE) {
+            echo "Sorry, your file is too large.";
+        }
+        $uploadOk = 0;
+    }
+
+    // if(!preg_match("{[tT][tT][fF]}",$FileInfo_Ext)) {
+    //     if ($ShowMSG == TRUE) {
+    //         echo "Sorry, only ttf files are allowed.";
+    //     }
+    //     $uploadOk = 0;
+    // }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        if ($ShowMSG == TRUE) {
+            echo "Sorry, your file was not uploaded.<br>";
+        }
+        // if everything is ok, try to upload file
+    }
+    else {
+        if (move_uploaded_file($FileInfo_NameTMP, $destination_FullName)) {
+            if ($ShowMSG == TRUE) {
+                $PostMSG .= "The file ". htmlspecialchars($FileInfo_Name). " has been uploaded.<br>";
+                echo $PostMSG;
+            }
+
+            if ($SetRedirect == TRUE) {
+                header("Location: $SetRedirect_target");
+                exit();
+            }
+        }
+        else {
+            if ($ShowMSG == TRUE) {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
 }
 
 function importFiles_Config() {
