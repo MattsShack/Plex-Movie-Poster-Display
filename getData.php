@@ -12,6 +12,7 @@ include 'getPoster.php';
 $results = Array();
 $movies = Array();
 $shows = Array();
+$mediaArr = Array();
 // $mediaArt_ShowTVThumb = "show";
 // $mediaArt_ShowTVThumb = "season";
 
@@ -250,8 +251,7 @@ if ($customImageEnabled == "Enabled") {
         $bottomFontID = $comingSoonBottomFontID;
 
         $mediaArt_Status = $comingSoonBackgroundArt;
-        // $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
-        $mediaArt_ShowTVThumb = "episode";
+        $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
 
         plex_variable_presets(); // FUTURE USE
 
@@ -259,6 +259,7 @@ if ($customImageEnabled == "Enabled") {
         plex_random_media(1); // Scan Libraries for Media
 
         if ($viewGroup == "track") {
+            // Future: Possible add music to display if using "all" and maybe "Recently Added" or "Newest"
             unset($plexServerMovieSections[$useSection]);
             $plexServerMovieSection = implode(",", $plexServerMovieSections);
             pmp_Logging("getMediaURL", "Library (Array - Updated): $plexServerMovieSection");
@@ -268,49 +269,53 @@ if ($customImageEnabled == "Enabled") {
 
         $countMedia = count($xmlMedia);
         if ($countMedia > '0') {
-            // Movies
-            foreach ($xmlMedia->Video as $movie) {
-                $movies[] = strip_tags($movie['title']);
-            }
-            $random_keys = array_rand($movies, 1);
-            $showMedia = $movies[$random_keys];
-            $moviesCount = count($movies);
-            pmp_Logging("getMediaURL", "Coming Soon (Movies) COUNT: $moviesCount");
 
-            if ($moviesCount > '0') {
-                foreach ($xmlMedia->Video as $clients) {
+            switch ($viewGroup) {
+                case "movie":
+                    $mediaType_Display = "$viewGroup";
+                    $elementType = "Video";
+                    $mediaType = "movie";
+                    break;
+                case "episode":
+                    $mediaType_Display = "$viewGroup";
+                    $elementType = "Video";
+                    $mediaType = $mediaArt_ShowTVThumb;
+                    break;
+                case "show":
+                    $mediaType_Display = "$viewGroup";
+                    $elementType = "Directory";
+                    $mediaType = $mediaArt_ShowTVThumb;
+                    break;
+                case "track":
+                    $mediaType_Display = "$viewGroup";
+                    $elementType = "Directory";
+                    $mediaType = "track";
+                    break;
+                default:
+                    $mediaType_Display = "Unknown";
+                    $elementType = "Video";
+                    $mediaType = "movie";
+            }
+
+            // Media
+            foreach ($xmlMedia->$elementType as $mediaElement) {
+                $mediaArr[] = strip_tags($mediaElement['title']);
+            }
+            $random_keys = array_rand($mediaArr, 1);
+            $showMedia = $mediaArr[$random_keys];
+            $mediaArrCount = count($mediaArr);
+            pmp_Logging("getMediaURL", "Coming Soon ($mediaType_Display) COUNT: $mediaArrCount");
+
+            if ($mediaArrCount > '0') {
+                foreach ($xmlMedia->$elementType as $clients) {
                     if (strstr($clients['title'], $showMedia)) {
                         $checkTitle = $clients['title'];
-                        pmp_Logging("getMediaURL", "Coming Soon (Movies): $checkTitle");
-                        plex_metadata_title("movie");
-                        plex_metadata_summary("movie");
-                        plex_metadata_tagline("movie");
-                        plex_metadata_art("movie");
-                        plex_metadata_thumb("movie");
-                    }
-                }
-            }
-
-            // TV Shows
-            foreach ($xmlMedia->Directory as $show) {
-                $shows[] = strip_tags($show['title']);
-
-            }
-            $random_keys = array_rand($shows, 1);
-            $showMedia = $shows[$random_keys];
-            $showsCount = count($shows);
-            pmp_Logging("getMediaURL", "Coming Soon (TV Show) COUNT: $showsCount");
-
-            if ($showsCount > '0') {
-                foreach ($xmlMedia->Directory as $clients) {
-                    if (strstr($clients['title'], $showMedia)) {
-                        $checkTitle = $clients['title'];
-                        pmp_Logging("getMediaURL", "Coming Soon (TV Show): $checkTitle");
-                        plex_metadata_title($mediaArt_ShowTVThumb);
-                        plex_metadata_summary($mediaArt_ShowTVThumb);
-                        plex_metadata_tagline($mediaArt_ShowTVThumb);
-                        plex_metadata_art($mediaArt_ShowTVThumb);
-                        plex_metadata_thumb($mediaArt_ShowTVThumb);
+                        pmp_Logging("getMediaURL", "Coming Soon ($mediaType_Display): $checkTitle");
+                        plex_metadata_title("$mediaType");
+                        plex_metadata_summary("$mediaType");
+                        plex_metadata_tagline("$mediaType");
+                        plex_metadata_art("$mediaType");
+                        plex_metadata_thumb("$mediaType");
                     }
                 }
             }

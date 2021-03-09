@@ -46,53 +46,67 @@ function tokenView() {
 }
 
 function showName() {
-    var name = document.getElementById('fileToUpload'); 
+    var name = document.getElementById('fileToUpload');
     //   alert('Selected file: ' + name.files.item(0).name);
     //   alert('Selected file: ' + name.files.item(0).size);
     //   alert('Selected file: ' + name.files.item(0).type);
-    
+
     var ConfigFileName = name.files.item(0).name;
-    
+
     var PostMSG = "Restore Configuration File: " + ConfigFileName;
     document.getElementById('configFileName').innerHTML = PostMSG;
 
 }
 
 function showName_font() {
-    var name = document.getElementById('fileToUpload'); 
+    var name = document.getElementById('fileToUpload');
     //   alert('Selected file: ' + name.files.item(0).name);
     //   alert('Selected file: ' + name.files.item(0).size);
     //   alert('Selected file: ' + name.files.item(0).type);
-    
+
     var FontFileName = name.files.item(0).name;
-    
+
     var PostMSG = "Upload Font File: " + FontFileName;
     document.getElementById('UploadFileName').innerHTML = PostMSG;
 
 }
 
 function showName_zip() {
-    var name = document.getElementById('zip_file'); 
+    var name = document.getElementById('zip_file');
     //   alert('Selected file: ' + name.files.item(0).name);
     //   alert('Selected file: ' + name.files.item(0).size);
     //   alert('Selected file: ' + name.files.item(0).type);
-    
+
     var ZipFileName = name.files.item(0).name;
-    
+
     // var PostMSG = "Upload Zip File: " + ZipFileName;
     var PostMSG = "Upload File: " + ZipFileName;
     document.getElementById('UploadFileName_Zip').innerHTML = PostMSG;
 
 }
 
-function exportFiles_ZIP() {
-    //var name = document.getElementById('zip_file'); 
+function showName_customImg() {
+    var name = document.getElementById('customImageUpload');
     //   alert('Selected file: ' + name.files.item(0).name);
     //   alert('Selected file: ' + name.files.item(0).size);
     //   alert('Selected file: ' + name.files.item(0).type);
-    
+
+    var FileName = name.files.item(0).name;
+
+    // var PostMSG = "Upload Zip File: " + ZipFileName;
+    var PostMSG = "Upload File: " + FileName;
+    document.getElementById('UploadFileName_Custom').innerHTML = PostMSG;
+
+}
+
+function exportFiles_ZIP() {
+    //var name = document.getElementById('zip_file');
+    //   alert('Selected file: ' + name.files.item(0).name);
+    //   alert('Selected file: ' + name.files.item(0).size);
+    //   alert('Selected file: ' + name.files.item(0).type);
+
     //var ZipFileName = name.files.item(0).name;
-    
+
     // var PostMSG = "Upload Zip File: "; //+ ZipFileName;
     var PostMSG = "Upload File: "; //+ ZipFileName;
     document.getElementById('ExportFileName_Zip').innerHTML = PostMSG;
@@ -101,6 +115,38 @@ function exportFiles_ZIP() {
 
 function setColor(picker, field) {
     let colorPicker = document.getElementById(picker).value;
-    
+
     document.getElementById(field).value = colorPicker;
+}
+
+function comingSoonTopSelected() {
+    // Function not currently used
+
+    // readonly: input can't be modified
+    // disabled: input has no form function
+    var result = document.querySelector('input[name="comingSoonTop"]:checked').value;
+    if(result=="custom") {
+        // document.getElementById("comingSoonTopText").setAttribute('disabled', true);
+        document.getElementById("comingSoonTopText").removeAttribute('readonly');
+    }
+    else {
+        document.getElementById("comingSoonTopText").setAttribute('readonly', true);
+        // document.getElementById("comingSoonTopText").removeAttribute('disabled');
+    }
+}
+
+function comingSoonBottomSelected() {
+    // Function not currently used
+
+    // readonly: input can't be modified
+    // disabled: input has no form function
+    var result = document.querySelector('input[name="comingSoonBottom"]:checked').value;
+    if(result=="custom") {
+        // document.getElementById("comingSoonBottomText").setAttribute('disabled', true);
+        document.getElementById("comingSoonBottomText").removeAttribute('readonly');
+    }
+    else {
+        document.getElementById("comingSoonBottomText").setAttribute('readonly', true);
+        // document.getElementById("comingSoonBottomText").removeAttribute('disabled');
+    }
 }

@@ -175,7 +175,7 @@ R&D - Research Plex Webhooks (Issue #31):
 **v2.9.2 Community Updates**\
 Updates - Color Picker Desktop (Issue #35)
 - Change color picker from 'bootstrap-colorpicker' to built in color picker system.  This changes how we select the color picker from just selecting the filed to pressing the 'browse color' button.
- 
+
 **v2.9.3 Community Updates**\
 Updates - Color Picker Desktop (Issue #35)
 - Fix missing color picker for the Progress Bar
@@ -183,3 +183,36 @@ Updates - Color Picker Desktop (Issue #35)
 Update - Theme Idea (Enhancement) (Issue #27)
 - Fix issue with poster and background art not displaying.  Issue was around how the getPoster was reading the mimetype for the image.  It is still unclear why it's failing but a fallback to the unsecure URL is now in place.
 - Fix issue with log files not generating correctly based on path.
+
+**v2.10.0 Community Updates**\
+Refactor - Remove all Plex Assets (Issue #38)
+
+    Update to conform to PLEX trademarks and guidelines
+    - Remove all PLEX images and assets
+    - Change color scheme
+    - Rename project
+- Create new set of 'clean' css files for the settings and the display pages.
+- Change out hard coded naming of project to variables
+- Remove all PLEX assets from assets folder
+- Segregation of PLEX settings into a dedicated PLEX page
+- Replace color scheme with new design
+- Clean up none required 'extra' formatting that had no impact on end product
+- Restructure some 'duplicate' components to be more central and reusable (eg. 'Save Changes' button)
+- Retained a similar skeletal structure, but streamlined and made enhancements
+- Update/reformat preexisting stock images for use for icons.
+
+ToDo:
+- Continue to refactor and rename some CSS elements.
+- Clean out more unnecessary code in php and css files.
+- Update more of the color and font once updated design change becomes available
+- Continue to Move/Remove PLEX references and keep isolated to a limited locations within the code.
+
+
+Bug - Coming Soon Show Movies - Recently Added & Newest TV Show Poster/Backgrounds (Issue #45)
+- Add better logic to allow for the information of the media when using 'Recently Added' and 'Newest' for TV shows as the xml from the API changes between these options.
+- Add a dropdown option in 'Coming Soon' (same as Now Showing) for TV Shows to allow settings for Episode/Season/Series
+- Add fixes for how the poster is found for TV Shows if a poster is not found it will try to check its next level up
+
+Updates and Bug Fixes:
+- Fix issue with the 'Custom Image Upload' and 'Custom Image Select' not working correctly
+- Start to build out more 'tests' for better debugging of future issues.

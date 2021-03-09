@@ -30,39 +30,22 @@ if (isset($_POST['username']) && !empty($_POST['password'])) {
     <script> ShowHideAdvanced(); </script>
 </head>
 
-<body class="bg-light">
+<body>
     <div id="plex" class="application">
         <div class="background-container">
-            <div class="FullPage-container-17Y0cs">
-                <div>
-                    <div style="position: absolute; width: 100%; height: 100%;">
-                        <div class=" CrossFadeImage-crossFade-10Sndv" style="position: absolute; animation-duration: 600ms; background-image: url(&quot;/../assets/images/Plex/backgrounds/preset-dark.png&quot;); width: 100%; height: 100%; background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
-                    </div>
-                    <div style="position: absolute; width: 100%; height: 100%; background: url(&quot;/../assets/images/Plex/backgrounds/noise.png&quot;); z-index: 2;"></div>
-                </div>
-            </div>
+            <div class="settings-core"></div>
         </div>
         <?php NavBar() ;?>
         <div id="content" class="scroll-container dark-scrollbar">
             <div class="FullPage-container-17Y0cs">
-                <div class="Measure-container-3yONEe">
-                    <?php sidebarInfo(basename(__FILE__)) ;?>
-                </div>
+                <?php sidebarInfo(basename(__FILE__)) ;?>
                 <div class="Page-page-aq7i_X Scroller-scroller-3GqQcZ Scroller-vertical-VScFLT  ">
                     <div id="MainPage" class="SettingsPage-content-1vKVEr PageContent-pageContent-16mK6G">
                         <h2 class="SettingsPageHeader-header-1ugtIL" style="text-align:center;">
-                            Plex Movie Poster
-                        <span class="DashSeparator-separator-4CyEFW">—</span>
-                        Login
+                            Movie Poster Display
+                            <span class="hyphenSpace">—</span>
+                            Login
                         </h2>
-                        <div>
-                        <div class="server-settings-container show-advanced">
-                            <!-- <div class="filter-bar">
-                                <div class="filter-bar-right">
-                                    <input class="toggle-advanced-btn btn btn-sm btn-default advanced-settingButton" type="button" value="SHOW ADVANCED"></input>
-                                </div>
-                            </div> -->
-                        </div>
                         <form method="post" class="form-login needs-validation" novalidate action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" >
                             <!-- SEGMENT BLOCK START -->
                                 <div class="form-group">
@@ -70,49 +53,37 @@ if (isset($_POST['username']) && !empty($_POST['password'])) {
                                 </div>
 
                                 <div class="form-group">
-                                    <?php
-                                    if ($msg != NULL) {
-                                        echo "<h3 style=\"text-align:center;\">$msg</h3>";
-                                    }
-                                    ?>
-                                </div>
-
-                                <div class="form-group">
-                                        <!-- Username -->
-
-                                        <input type="username" class="fieldInfo-username-login form-control"
-                                            id="username" name="username"
-                                            placeholder="Username" required autofocus>
-
+                                    <?php if ($msg != NULL) { echo "<h3 style=\"text-align:center;\">$msg</h3>"; } ?>
                                 </div>
 
                                 <div class="form-group" style="text-align:center;">
-                                        <!-- Password -->
+                                    <input type="username" class="fieldInfo-username-login form-control"
+                                        id="username" name="username"
+                                        placeholder="Username" required autofocus>
 
-                                        <input type="password" class="fieldInfo-password-login form-control"
-                                            id="password" name="password"
-                                            placeholder="Password" required>
-                                    </div>
+                                    <!-- <p class="help-block">
+                                    </p> -->
+                                </div>
+
+                                <div class="form-group" style="text-align:center;">
+                                    <input type="password" class="fieldInfo-password-login form-control"
+                                        id="password" name="password"
+                                        placeholder="Password" required>
+
+                                    <!-- <p class="help-block">
+                                    </p> -->
                                 </div>
                             <!-- SEGMENT BLOCK END -->
 
                             <!-- GHOST BLOCK START -->
-                                <?php ghostData(basename(__FILE__)) ;?>
-                                <!-- Not resolving the correct value from the ghostData function -->
-                                <input type="hidden" id="returnPage" name="returnPage" value="<?php echo $returnPage; ?>">
                             <!-- GHOST BLOCK END -->
 
-                            <div class="form-footer">
-                                <div class="form-alignment input-group" style="text-align:center;">
-                                    <button name="login" class="submit-btn btn btn-lg btn-primary btn-loading " type="submit">
-                                        <div class="loading loading-sm"></div>
-                                        <span class="btn-label">SIGN IN</span>
-                                    </button>
-                                </div>
-                            </div>
+                            <!-- SUBMIT BLOCK START -->
+                                <?php signInForm(FALSE); ?>
+                            <!-- SUBMIT BLOCK END -->
                         </form>
+                        <?php FooterInfo() ; ?>
                     </div>
-                    <?php FooterInfo() ; ?>
                 </div>
             </div>
         </div>

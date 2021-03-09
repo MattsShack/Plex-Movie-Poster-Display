@@ -187,10 +187,29 @@ function plex_metadata_thumb($mediaType = "episode") {
         case "episode":
             $media_metadata_name = 'thumb';
             $media_logClass = "getTVShowData";
+
+            $mediaThumb = $clients[$media_metadata_name];
+
+            if ($mediaThumb == '') {
+                $media_metadata_name = 'parentThumb';
+                $mediaThumb = $clients[$media_metadata_name];
+            }
+
+            if ($mediaThumb == '') {
+                $media_metadata_name = 'grandparentThumb';
+                $mediaThumb = $clients[$media_metadata_name];
+            }
             break;
         case "season":
             $media_metadata_name = 'parentThumb';
             $media_logClass = "getTVShowData";
+
+            $mediaThumb = $clients[$media_metadata_name];
+
+            if ($mediaThumb == '') {
+                $media_metadata_name = 'grandparentThumb';
+                $mediaThumb = $clients[$media_metadata_name];
+            }
             break;
         case "series":
             $media_metadata_name = 'grandparentThumb';
@@ -347,7 +366,7 @@ function plex_getMedia_thumb() {
     } else {
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
         // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
-        
+
         if (strpos($mediaThumb_Display, "InvalidImage") !== FALSE) {
             $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
             // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED

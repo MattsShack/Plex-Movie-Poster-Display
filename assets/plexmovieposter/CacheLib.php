@@ -11,7 +11,7 @@ function fixupSize($bytes) {
 
 function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "posterCount") {
     //Count Items in Cache
-    
+
     GeneralCache_Create($destination);
 
     $posters = scandir("$destination");
@@ -23,7 +23,7 @@ function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "p
 
 function GeneralCache_Create($destination = "../cache/") {
     // Generate the Cache Directory if it does not exist.
-    
+
     if (!file_exists($destination)) {
         mkdir($destination, 0777, true);
     }
@@ -32,7 +32,7 @@ function GeneralCache_Create($destination = "../cache/") {
 function GeneralCache_Prep($destination = "../cache/", $Clear_24H = FALSE) {
     GeneralCache_Create($destination);
     GeneralCache_Clear_Placeholder($destination);
-    
+
     if($Clear_24H == TRUE) {
         GeneralCache_Clear_24H($destination);
     }
@@ -147,6 +147,92 @@ function FontCacheClear($destination = "../cache/fonts/") {
             unlink($file);
         }
     }
+}
+
+function CacheInfo_Display($MiniStatus = FALSE) {
+    global $posterCount, $customCount, $customFontCount;
+
+
+    GeneralCache_Count("../cache/posters/", "posterCount");
+
+    GeneralCache_Count("../cache/custom/", "customCount");
+    FontCacheCount();
+
+    $cacheFreeSpace = fixupSize(disk_free_space("/"));
+
+    if ($MiniStatus == TRUE) {
+        $tblClass = "StatsShort";
+    }
+    else {
+        $tblClass = "StatsLong";
+    }
+
+    echo "<table class=\"$tblClass\">";
+
+    CacheInfo_Display_ROW("Posters:","$posterCount","Items in cache/posters","clearPosterCache",TRUE, $MiniStatus);
+    CacheInfo_Display_ROW("Custom Images:","$customCount","Items in cache/custom","clearCustomCache",TRUE, $MiniStatus);
+    CacheInfo_Display_ROW("Custom Fonts:","$customFontCount","Items in cache/fonts","clearFontCache",FALSE, $MiniStatus);
+    CacheInfo_Display_ROW("Free Space:","$cacheFreeSpace","Free space on /","",FALSE, $MiniStatus);
+
+    echo "</table>\n";
+}
+
+function CacheInfo_Display_ROW($Title, $Value, $Help, $btnID, $btnStatus = TRUE, $MiniStatus = FALSE){
+
+    $Display_Title = $Title;
+    $Display_Value = $Value;
+
+    if ($MiniStatus == TRUE) {
+        $Display_Help = "";
+        $btnID = "";
+        $trClass = "StatsShort";
+        $tdClass = "StatsShort";
+        $tdBtnCol = FALSE;
+    }
+    else {
+        $Display_Help = $Help;
+        $btnID = $btnID;
+        $trClass = "";
+        $tdClass = "";
+        $tdBtnCol = TRUE;
+    }
+
+    if ($btnStatus == TRUE) {
+        $btnActionStatus = "";
+    }
+    else {
+        $btnActionStatus = "disabled";
+    }
+
+    echo "<tr class=\"$trClass\">\n";
+
+    echo "<td class=\"$tdClass\">\n";
+    echo "$Display_Title\n";
+
+        if ($Display_Help != "") {
+            echo "<p class=\"help-block\">\n";
+            echo "  <small class=\"text-muted\">$Display_Help</small>\n";
+            echo "</p>\n";
+        }
+    echo "</td>\n";
+
+    echo "<td class=\"$tdClass StatsVal\">\n";
+    echo "$Display_Value\n";
+    echo "</td>\n";
+
+    if ($tdBtnCol == TRUE) {
+        echo "<td class=\"$tdClass\">\n";
+            if ($btnID != "") {
+                echo "<form method=\"post\" class=\"needs-validation\" novalidate >\n";
+                echo "  <button name=\"$btnID\" id=\"$btnID\" type=\"submit\" class=\"btn btn-danger btn-sm\" value=\"$btnID\" $btnActionStatus>\n";
+                echo "      Clear Cache\n";
+                echo "  </button>\n";
+                echo "</form>\n";
+            }
+        echo "</td>\n";
+    }
+
+    echo "</tr>\n";
 }
 
 ?>
