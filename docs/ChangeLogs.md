@@ -216,3 +216,8 @@ Bug - Coming Soon Show Movies - Recently Added & Newest TV Show Poster/Backgroun
 Updates and Bug Fixes:
 - Fix issue with the 'Custom Image Upload' and 'Custom Image Select' not working correctly
 - Start to build out more 'tests' for better debugging of future issues.
+
+**v2.10.1 Community Updates**\
+Updates and Bug Fixes:
+- Address issue with custom fonts not displaying correctly.
+- Add link to the GITHub page as part of the footer.
