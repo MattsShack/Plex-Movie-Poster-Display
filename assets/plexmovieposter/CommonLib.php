@@ -72,7 +72,7 @@ function HeaderInfo($configPage) {
     // First Party
     echo "\n";
     echo "\t<!-- $AppTitle Javascript & CSS -->\n";
-    // echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/fonts_stock.css\">\n";
+    echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/fonts_stock.css\">\n";
     echo "\t<link rel=\"shortcut icon\" type=\"image/png\" href=\"$paths/assets/$AppName/images/favicon.ico\"/>\n";
     // echo "\t<link rel=\"mask-icon\" href=\"$paths/assets/$AppName/images/favicon-mask.svg\" color=\"#cc7b19\">\n";
     
@@ -82,7 +82,7 @@ function HeaderInfo($configPage) {
     }
     else {
         // echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/fonts_custom.css\">\n";
-        // echo "\t<link rel=\"stylesheet\" href=\"$paths/cache/fonts/fonts_custom.css\">\n";
+        echo "\t<link rel=\"stylesheet\" href=\"$paths/cache/fonts/fonts_custom.css\">\n";
     }
 
     if ($configPage != "index.php") {
@@ -281,7 +281,7 @@ function FooterInfo($MSGID = 0) {
     // http://brand.plex.tv/d/qxmJ3odkK0fj/style-guide
     // http://brand.plex.tv/d/qxmJ3odkK0fj/style-guide#/style-guide/typography
 
-    $CopyrightMsg[0] = "Movie Poster Display";
+    $CopyrightMsg[0] = '<a href="https://github.com/MattsShack/Plex-Movie-Poster-Display/">Movie Poster Display</a>';
     $CopyrightMsg[1] = "Plex is a copyright of the Plex Media Company";
     $CopyrightMsg[2] = "Works with Plex";
     $CopyrightMsg[3] = "Plex Move Poster Display for Plex";
