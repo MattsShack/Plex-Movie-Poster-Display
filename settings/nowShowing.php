@@ -2,6 +2,7 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
 include '../assets/plexmovieposter/CommonLib.php';
+require_once '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
 include '../config.php';
@@ -41,17 +42,18 @@ GenerateCSS_Font_ALL();
                         <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
                                 <div class="form-group advanced-setting">
+                                    <hr>
                                     Background Art:&nbsp;
                                     <input type="checkbox" name="nowShowingBackgroundArt" id="nowShowingBackgroundArt" value="1" <?php if ($nowShowingBackgroundArt) echo " checked"?>>
 
                                     <p class="help-block">
-                                        Set background art to match background of Plex media.
+                                        Set background art to match background of media in your library.
                                     </p>
                                 </div>
 
                                 <div class="form-group advanced-setting">
                                     <hr>
-                                    Display TV Show:&nbsp;
+                                    Display TV Show information from:&nbsp;
 
                                     <select class="form-inline"
                                         id="nowShowingShowTVThumb" name="nowShowingShowTVThumb">
@@ -409,6 +411,21 @@ GenerateCSS_Font_ALL();
 
                                     <input type="checkbox" name="nowShowingBottomAutoScale" id="nowShowingBottomAutoScale" value="1"
                                     <?php if ($nowShowingBottomAutoScale) echo " checked"?>>
+
+                                    <!-- <p class="help-block">
+                                    </p> -->
+                                </div>
+
+                                <div class="form-group advanced-setting">
+                                    Bottom Scrolling Text: &nbsp;
+                                    <select id="nowShowingBottomScroll" name="nowShowingBottomScroll">
+                                        <option value="Disabled" <?php if ($nowShowingBottomScroll == 'Disabled') { echo "selected"; } ?>>
+                                            Disabled
+                                        </option>
+                                        <option value="Enabled" <?php if ($nowShowingBottomScroll == 'Enabled') { echo "selected"; } ?>>
+                                            Enabled
+                                        </option>
+                                    </select>
 
                                     <!-- <p class="help-block">
                                     </p> -->

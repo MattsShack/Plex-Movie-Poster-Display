@@ -136,15 +136,33 @@ function FontCacheCount($destination = "../cache/fonts/", $cacheField = "customF
     }
 }
 
-function FontCacheClear($destination = "../cache/fonts/") {
+function FontCacheClear($destination = "../cache/fonts/", $ScanSubDir = TRUE) {
     //Clear Custom Font Cache Directory
+    // ToDo: Add support to clean up empty directories
 
     GeneralCache_Create($destination);
 
-    $files = glob("$destination/*");
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            unlink($file);
+    if ($ScanSubDir == TRUE) {
+        // Multi Level
+        $dir_iterator = new RecursiveDirectoryIterator("$destination");
+        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+        // could use CHILD_FIRST if you so wish
+
+        foreach ($iterator as $file) {
+            if (is_file($file)) {
+                pmp_Logging("getCacheFile", "Removing Font: $file");
+                unlink($file);
+            }
+        }
+    }
+    else {
+        // Single Level
+        $files = glob("$destination/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                pmp_Logging("getCacheFile", "Removing Font: $file");
+                unlink($file);
+            }
         }
     }
 }
@@ -171,7 +189,7 @@ function CacheInfo_Display($MiniStatus = FALSE) {
 
     CacheInfo_Display_ROW("Posters:","$posterCount","Items in cache/posters","clearPosterCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Custom Images:","$customCount","Items in cache/custom","clearCustomCache",TRUE, $MiniStatus);
-    CacheInfo_Display_ROW("Custom Fonts:","$customFontCount","Items in cache/fonts","clearFontCache",FALSE, $MiniStatus);
+    CacheInfo_Display_ROW("Custom Fonts:","$customFontCount","Items in cache/fonts","clearFontCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Free Space:","$cacheFreeSpace","Free space on /","",FALSE, $MiniStatus);
 
     echo "</table>\n";

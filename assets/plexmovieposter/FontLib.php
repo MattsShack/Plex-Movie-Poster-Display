@@ -9,6 +9,7 @@ function GenerateCSS_FontSingle($CSSFullName, $fontPath = "/cache/fonts", $fontN
     $publishString .= "    src: url('$fontPath/$fontFile.eot?#iefix') format('embedded-opentype'),\n";
     $publishString .= "         url('$fontPath/$fontFile.woff') format('woff'),\n";
     $publishString .= "         url('$fontPath/$fontFile.ttf') format('truetype'),\n";
+    $publishString .= "         url('$fontPath/$fontFile.otf') format('opentype'),\n";
     $publishString .= "         url('$fontPath/$fontFile.svg#webfont') format('svg');\n";
     $publishString .= "}\n\n";
 
@@ -55,15 +56,45 @@ function GenerateCSS_Font($CSSPath = "../cache/fonts/", $CSSFile = "fonts_custom
     $dir_iterator = new RecursiveDirectoryIterator("$FontPath");
     $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
-    foreach($files as $file) {
-        $file_parts = pathinfo($file);
-        if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
-            $fontPath = $file_parts['dirname'];
-            $fontPath = str_replace('..','',$fontPath);
-            $fontName = $file_parts['filename'];
-            $fontFile = $file_parts['filename'];
+    $fontExtList = array("ttf","otf","eot","woff","svg");
 
-            GenerateCSS_FontSingle($CSSFullName, $fontPath, $fontName, $fontFile);
+    foreach ($files as $file) {
+        $file_parts = pathinfo($file);
+        foreach ($fontExtList as $fontExt) {
+            $setMatch = '#(' . $fontExt . ')#i';
+            // if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
+            if (preg_match($setMatch,$file_parts['extension'])) {
+                $fontPath = $file_parts['dirname'];
+                $fontPath = str_replace('..','',$fontPath);
+                $fontName = $file_parts['filename'];
+                $fontFile = $file_parts['filename'];
+
+                // Font Validation
+                $fontValid = TRUE;
+                pmp_Logging("fontSystem", "Validating: $fontName ($fontPath - $fontFile)");
+
+                $checkFont = file_get_contents("$CSSFullName");
+                $checkFont = explode("\n", $checkFont);
+                $searchFont = "$fontPath/$fontName";
+                pmp_Logging("fontSystem", "Checking For: $searchFont");
+
+                foreach ($checkFont as $FontLine) {
+                    if (strpos($FontLine, $searchFont) !== FALSE) {
+                        pmp_Logging("fontSystem", "Found Existing Font: $fontName ($fontPath - $fontFile)");
+                        $fontValid = FALSE;
+                    }
+                }
+                // ----
+
+                if($fontValid == TRUE) {
+                    pmp_Logging("fontSystem", "Adding: $fontName ($fontPath - $fontFile)");
+                    GenerateCSS_FontSingle($CSSFullName, $fontPath, $fontName, $fontFile);
+                }
+                else {
+                    pmp_Logging("fontSystem", "Duplicate: $fontName ($fontPath - $fontFile)");
+                }
+
+            }
         }
     }
 }
@@ -157,7 +188,7 @@ function findFontFamily_Full($HTMLdisplay = FALSE, $HTMLdropdown = FALSE, $field
 
     // get the file contents, assuming the file to be readable (and exist)
     // $contents = file_get_contents($file);
-    
+
     $contents_Full = $contents_0;
     $contents_Full .= $contents_1;
     $contents_Full .= $contents_2;
@@ -228,7 +259,7 @@ function displayFontFamilySub($fontfamily) {
     else {
         $displayInline = "";
     }
-    
+
     $fontSample[0] = "Sample";
     $fontSample[1] = "The quick brown fox jumps over the lazy dog";
 
@@ -289,5 +320,8 @@ function dropdownFontFamilySub($fontfamily, $fieldID, $showFontSample = FALSE) {
     echo "$fontfamily";
     echo "</option>\n";
 }
+
+// LOOK AT MOVING FONT CACHE FUNCTIONS TO THIS FILE (2021-03-12)
+
 
 ?>

@@ -1,2 +1,68 @@
 /* -------------------------------------------------- */
+/* Standard Settings */
+
 /* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* Media Display Codes - FUTURE */
+
+@media screen and (max-height: 1080px) {
+    /* #top { */
+        /* padding-top: 15px; */
+        /* padding-bottom: 15px; */
+        /* font-size: calc((1080px / 10) - (15px + 15px)); */
+    /* } */
+}
+
+@media screen and (max-height: 1920px) {
+    /* #top { */
+        /* padding-top: 15px; */
+        /* padding-bottom: 15px; */
+        /* font-size: calc((1920px / 10) - (15px + 15px)); */
+    /* } */
+}
+/* -------------------------------------------------- */
+
+
+/* -------------------------------------------------- */
+/* Custom Settings */
+.mediaArt {
+    /* The image used */
+    /*background-image: url(""); */
+
+    /* Add the blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+#top, #bottom {
+    font-size: 6vh;
+}
+
+.userText {
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* white-space: nowrap; */
+    display: inline-block;
+}
+
+.marqueeDisplay {
+    position: relative;
+    float: center;
+    display: inline-block;
+}
+
+/* -------------------------------------------------- */
+

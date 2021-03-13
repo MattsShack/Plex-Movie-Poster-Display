@@ -55,6 +55,7 @@
   $comingSoonBottom = 'custom'; //Default: custom (title/summary/tagline/custom)
   $comingSoonBottomText = 'www.mattsshack.com';
   $comingSoonBottomAutoScale = ''; //Default: false
+  $comingSoonBottomScroll = 'Disabled'; //Default: Disabled
   $comingSoonBottomFontSize = '25'; //Default: 25 (px)
   $comingSoonBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
   $comingSoonBottomFontEnabled = ''; //Default: Unchecked
@@ -77,6 +78,7 @@
   $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
   $nowShowingBottomText = '';
   $nowShowingBottomAutoScale = ''; //Default: false
+  $nowShowingBottomScroll = 'Disabled'; //Default: Disabled
   $nowShowingBottomFontSize = '25'; //Default: 25 (px)
   $nowShowingBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
   $nowShowingBottomFontEnabled = ''; //Default: Unchecked

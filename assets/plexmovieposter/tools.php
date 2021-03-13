@@ -1,30 +1,40 @@
 <?php
 
-function pmp_Logging($LogType = "Generic", $LogMSG = "") {
+function pmp_Logging($LogType = "Generic", $LogMSG = "", $DebugMSG = FALSE) {
     include 'sysConfig.php';
     // include 'CacheLib.php';
     // Debug URL:
 
+    // Usage: pmp_Logging("importFiles", "$LogMSG_Header Destination FullName: $destination_FullName");
+
     // Add more checks if prereqs are defined
 
     $CurrDir = getcwd();
-    echo "Log (Current Directory): $CurrDir <br>";
+    if ($DebugMSG == TRUE) {
+        echo "Log (Current Directory): $CurrDir <br>"; 
+    }
 
     $basePath = dirname(__FILE__);
-    echo "Base Path: $basePath <br>";
-
-    echo "Log Type: $LogType <br>";
+    if ($DebugMSG == TRUE) {
+        echo "Base Path: $basePath <br>";
+        echo "Log Type: $LogType <br>";
+    }
 
     if($LogPath == "") {
         $destination_RAW = "$basePath/../../cache/logs/";
-        echo "Destination (RAW): $destination_RAW <br>";
 
         $destination = realpath($destination_RAW);
-        echo "Destination (realpath): $destination <br>";
+        
+        if ($DebugMSG == TRUE) {
+            echo "Destination (RAW): $destination_RAW <br>";
+            echo "Destination (realpath): $destination <br>";
+        }
     }
     else {
         $destination = "$LogPath";
-        echo "Destination (No Modification): $destination <br>";
+        if ($DebugMSG == TRUE) {
+            echo "Destination (No Modification): $destination <br>";
+        }
     }
 
     GeneralCache_Prep($destination, FALSE);
@@ -50,13 +60,48 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "") {
     $Log_MSG = "$LogMSG\n";
 
     if ($LogAction == TRUE) {
-        
         file_put_contents($Log_FullName, $Log_MSG, FILE_APPEND | LOCK_EX);
     }
 
-    echo "Log (Action): $LogAction <br>";
-    echo "Log (FileName): $Log_FileName <br>";
-    echo "Log (FullName): $Log_FullName <br>";
+    if ($DebugMSG == TRUE) {
+        echo "Log (Action): $LogAction <br>";
+        echo "Log (FileName): $Log_FileName <br>";
+        echo "Log (FullName): $Log_FullName <br>";
+    }
+}
+
+function GeneralPath_Create($destination = "../cache/") {
+    // Generate the Cache Directory if it does not exist.
+    // Usage: GeneralPath_Create($destination);
+
+    $functionName = "GeneralPath_Create";
+
+    pmp_Logging("fileSystem", "$functionName: $destination");
+
+    if (!file_exists($destination)) {
+        mkdir($destination, 0777, true);
+    }
+}
+
+function GeneralPath_Remove($destination_FullName, $destination = "", $name = "") {
+    // Remove the file if it exits.
+    // Usage: GeneralPath_Remove($destination_FullName, $destination, $name);
+
+    $functionName = "GeneralPath_Remove";
+
+    pmp_Logging("fileSystem", "$functionName (destination_FullName): $destination_FullName");
+    pmp_Logging("fileSystem", "$functionName (destination): $destination");
+    pmp_Logging("fileSystem", "$functionName (name): $name");
+
+    if (is_file($destination_FullName)) {
+        pmp_Logging("fileSystem", "$functionName: unlink");
+        unlink ($destination_FullName);
+    }
+
+    if ($name != "") {
+        pmp_Logging("fileSystem", "$functionName: rmdir");
+        rmdir ($destination . $name);
+    }
 }
 
 ?>

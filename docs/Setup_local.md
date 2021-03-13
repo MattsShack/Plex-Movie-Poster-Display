@@ -90,6 +90,7 @@ Get Code from GitHub:
     cd /your_preferred_directory
     sudo git clone https://github.com/MattsShack/Plex-Movie-Poster-Display.git
     cd Plex-Movie-Poster-Display
+    sudo git checkout dev
     sudo cp -R * /var/www/html
 
 - You can replace index.php used for in the testing above.
@@ -101,7 +102,7 @@ Permissions:
 
 First Time Use:
 
-Open Browser to http://<ip_of_raspberry_pi>/admin.php and login with username **_admin_** and password **_password1_**.
+Open Browser to http://<ip_of_raspberry_pi>/settings/general.php and login with username **_admin_** and password **_password1_**.
 
 Login Page:
 

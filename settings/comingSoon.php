@@ -2,6 +2,7 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
 include '../assets/plexmovieposter/CommonLib.php';
+require_once '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
 include '../config.php';
@@ -45,7 +46,7 @@ GenerateCSS_Font_ALL();
                                     Show Media:&nbsp;
 
                                     <select class="form-inline"
-                                        id="comingSoonShowSelection" name="comingSoonShowSelection">
+                                        id="comingSoonShowSelection" name="comingSoonShowSelection" onChange="comingSoonMediaType(this)">
                                         <option value="unwatched"
                                             <?php if ($comingSoonShowSelection == 'unwatched') { echo "selected"; } ?>>
                                             Unwatched
@@ -69,17 +70,18 @@ GenerateCSS_Font_ALL();
                                 </div>
 
                                 <div class="form-group advanced-setting">
+                                    <hr>
                                     Background Art:&nbsp;
                                     <input type="checkbox" name="comingSoonBackgroundArt" id="comingSoonBackgroundArt" value="1" <?php if ($comingSoonBackgroundArt) echo " checked"?>>
 
                                     <p class="help-block">
-                                        Set background art to match background of Plex media.
+                                        Set background art to match background of media in your library.
                                     </p>
                                 </div>
 
                                 <div class="form-group advanced-setting">
                                     <hr>
-                                    Display TV Show:&nbsp;
+                                    Display TV Show information from:&nbsp;
 
                                     <select class="form-inline"
                                         id="comingSoonShowTVThumb" name="comingSoonShowTVThumb">
@@ -100,6 +102,14 @@ GenerateCSS_Font_ALL();
                                     <p class="help-block">
                                         Display the poster, background art and information for TV Shows in your library.
                                     </p>
+
+                                    <script>
+                                        // Look at moving script to js file
+                                        function comingSoonMediaType(obj) {
+                                           var input = document.getElementById("comingSoonShowTVThumb");
+                                           input.disabled = obj.value == "all" || obj.value == "unwatched";
+                                        }
+                                    </script>
                                 </div>
 
                                 <div class="form-group">
@@ -436,6 +446,21 @@ GenerateCSS_Font_ALL();
 
                                     <input type="checkbox" name="comingSoonBottomAutoScale" id="comingSoonBottomAutoScale" value="1"
                                     <?php if ($comingSoonBottomAutoScale) echo " checked"?>>
+
+                                    <!-- <p class="help-block">
+                                    </p> -->
+                                </div>
+
+                                <div class="form-group advanced-setting">
+                                    Bottom Scrolling Text: &nbsp;
+                                    <select id="comingSoonBottomScroll" name="comingSoonBottomScroll">
+                                        <option value="Disabled" <?php if ($comingSoonBottomScroll == 'Disabled') { echo "selected"; } ?>>
+                                            Disabled
+                                        </option>
+                                        <option value="Enabled" <?php if ($comingSoonBottomScroll == 'Enabled') { echo "selected"; } ?>>
+                                            Enabled
+                                        </option>
+                                    </select>
 
                                     <!-- <p class="help-block">
                                     </p> -->

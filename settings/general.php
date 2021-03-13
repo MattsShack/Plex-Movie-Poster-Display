@@ -2,9 +2,10 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
 include '../assets/plexmovieposter/CommonLib.php';
+require_once '../assets/plexmovieposter/tools.php';
+include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
 include '../config.php';
-include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/importExportLib.php';
 include 'PMPInfo.php';
 include 'PMPReleaseNotes.php';

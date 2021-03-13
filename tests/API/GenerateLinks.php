@@ -1,29 +1,24 @@
 <?php
-include '../../config.php';
+    // https://{IP or URL}:32400/library/sections/$LibraryID/$MediaStatusType?X-Plex-Token={TOKEN HERE}
+    include '../../config.php';
 
-echo "Generate Links: <br>";
+    // Settings
+        $LibraryID = 1;
+        $MediaStatusArr = array("unwatched", "all","newest", "recentlyAdded");
 
-// https://{IP or URL}:32400/library/sections/{Library Code}/$LibScan?X-Plex-Token={TOKEN HERE}
+        $Token = $plexToken;
+        // $Server = $plexServer;
+        $Server = $plexServerDirect;
+    // Settings
 
+    echo "Generate Links: <br>";
+    foreach ($MediaStatusArr as $MediaStatusType) {
+        $LinkGen = "https://$Server:32400/library/sections/$LibraryID/$MediaStatusType?X-Plex-Token=$Token";
 
-echo "Unwatched: ";
-$LibScan = "unwatched";
-// https://{IP or URL}:32400/library/sections/{Library Code}/$LibScan?X-Plex-Token={TOKEN HERE}
-
-
-echo "All: ";
-$LibScan = "all";
-// https://{IP or URL}:32400/library/sections/{Library Code}/$LibScan?X-Plex-Token={TOKEN HERE}
-
-
-echo "Newest: ";
-$LibScan = "newest";
-// https://{IP or URL}:32400/library/sections/{Library Code}/$LibScan?X-Plex-Token={TOKEN HERE}
-
-
-echo "Recently Added: ";
-$LibScan = "recentlyAdded";
-// https://{IP or URL}:32400/library/sections/{Library Code}/$LibScan?X-Plex-Token={TOKEN HERE}
-
+        echo "<br>";
+        echo "Checking: $MediaStatusType <br>";
+        echo "<a href=\"$LinkGen\">$LinkGen</a>";
+        echo "<br>";
+    }
 
 ?>

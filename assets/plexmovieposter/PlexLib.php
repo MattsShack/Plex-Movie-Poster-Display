@@ -11,28 +11,28 @@ function plex_metadata_title($mediaType = "episode") {
     // Title
     switch ($mediaType) {
         case "episode":
-            $media_metadata_name = 'title';
             $media_logClass = "getTVShowData";
+            $media_metadata_name = 'title';
             break;
         case "season":
-            $media_metadata_name = 'parentTitle';
             $media_logClass = "getTVShowData";
+            $media_metadata_name = 'parentTitle';
             break;
         case "series":
-            $media_metadata_name = 'grandparentTitle';
             $media_logClass = "getTVShowData";
+            $media_metadata_name = 'grandparentTitle';
             break;
         case "movie":
-            $media_metadata_name = 'title';
             $media_logClass = "getMovieData";
+            $media_metadata_name = 'title';
             break;
         case "track":
-            $media_metadata_name = 'title'; // Track Title (future - title, parentTitle (Album), grandparentTitle (Artist))
             $media_logClass = "getMusicData";
+            $media_metadata_name = 'title'; // Track Title (future - title, parentTitle (Album), grandparentTitle (Artist))
             break;
         default:
+            $media_logClass = "getTVShowData";    
             $media_metadata_name = 'title';
-            $media_logClass = "getTVShowData";
     }
 
     $mediaTitle = $clients[$media_metadata_name];
@@ -42,6 +42,7 @@ function plex_metadata_title($mediaType = "episode") {
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     // $mediaTitle_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "--- Media START Point ---");
     pmp_Logging("$media_logClass", "mediaTitle @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaTitle");
 }
 
@@ -176,8 +177,8 @@ function plex_metadata_art($mediaType = "episode") {
     pmp_Logging("$media_logClass", "mediaArt @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaArt");
 }
 
-function plex_metadata_thumb($mediaType = "episode") {
-    global $clients;
+function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
+    global $clients, $comingSoonShowSelection;
     global $mediaThumb, $mediaThumb_MetadataID;
 
     $media_MetadataID_STR = "";
@@ -201,28 +202,72 @@ function plex_metadata_thumb($mediaType = "episode") {
             }
             break;
         case "season":
-            $media_metadata_name = 'parentThumb';
             $media_logClass = "getTVShowData";
 
-            $mediaThumb = $clients[$media_metadata_name];
+            if ($ComingSoonMode == TRUE) {
+                switch ($comingSoonShowSelection) {
+                    case "all":
+                        $media_metadata_name = 'thumb';
+                        break;
+                    case "unwatched":
+                        $media_metadata_name = 'thumb';
+                        break;
+                    // case "newest":
+                        // break;
+                    // case "recentlyAdded":
+                        // break;
+                    default:
+                        $media_metadata_name = 'parentThumb';
+                        $mediaThumb = $clients[$media_metadata_name];
 
-            if ($mediaThumb == '') {
-                $media_metadata_name = 'grandparentThumb';
+                        if ($mediaThumb == '') {
+                            $media_metadata_name = 'grandparentThumb';
+                            $mediaThumb = $clients[$media_metadata_name];
+                        }
+                }
+            }
+            else {
+                $media_metadata_name = 'parentThumb';
                 $mediaThumb = $clients[$media_metadata_name];
+
+                if ($mediaThumb == '') {
+                    $media_metadata_name = 'grandparentThumb';
+                    $mediaThumb = $clients[$media_metadata_name];
+                }
             }
             break;
         case "series":
-            $media_metadata_name = 'grandparentThumb';
             $media_logClass = "getTVShowData";
+
+            if ($ComingSoonMode == TRUE) {
+                switch ($comingSoonShowSelection) {
+                    case "all":
+                        $media_metadata_name = 'thumb';
+                        break;
+                    case "unwatched":
+                        $media_metadata_name = 'thumb';
+                        break;
+                    // case "newest":
+                        // break;
+                    // case "recentlyAdded":
+                        // break;
+                    default:
+                        $media_metadata_name = 'grandparentThumb';
+                }
+            }
+            else {
+                $media_metadata_name = 'grandparentThumb';
+            }
             break;
         case "movie":
-            $media_metadata_name = 'thumb';
             $media_logClass = "getMovieData";
+            $media_metadata_name = 'thumb';
+
             break;
         case "track":
-            $media_metadata_name = 'thumb'; // Track Thumb (Poster) (future - thumb, parentThumb (Album), grandparentThumb (Artist))
             $media_logClass = "getMusicData";
 
+            $media_metadata_name = 'thumb'; // Track Thumb (Poster) (future - thumb, parentThumb (Album), grandparentThumb (Artist))
             $mediaThumb = $clients[$media_metadata_name];
 
             if ($mediaThumb == '') {
@@ -248,6 +293,7 @@ function plex_metadata_thumb($mediaType = "episode") {
 
     $mediaThumb_MetadataID = $media_MetadataID;
     pmp_Logging("$media_logClass", "mediaTagline @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaThumb");
+    pmp_Logging("$media_logClass", "---  Media END Point  ---");
 }
 
 function plex_metadata_template($mediaType = "episode") {

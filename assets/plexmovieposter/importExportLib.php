@@ -26,7 +26,18 @@ function importFiles($fieldID = 'zip_file', $configPage = "fonts.php") {
                 $destination = "../cache/custom/";
                 importFiles_CUSTOM($ShowMSG, $SetRedirect, $fieldID, $destination);
                 break;
-            default: 
+            case "fonts.php":
+                $destination = "../cache/fonts/";
+                if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
+                    importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination, 'fonts');
+                }
+                
+                // Add filter list to allow all types of fonts to be uploaded
+                if (preg_match("{[tT][tT][fF]}",$FileInfo_Ext)) {
+                    importFiles_TTF($ShowMSG, $SetRedirect, $fieldID, $destination);
+                }
+                break;
+            default:
                 if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
                     $destination = "../cache/fonts/";
                     importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination);
@@ -36,31 +47,46 @@ function importFiles($fieldID = 'zip_file', $configPage = "fonts.php") {
                     $destination = "../cache/fonts/";
                     importFiles_TTF($ShowMSG, $SetRedirect, $fieldID, $destination);
                 }
+                break;
         }
     }
 }
 
-function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip_file', $destination = '../cache/TMP/') {
+function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip_file', $destination = '../cache/TMP/', $extractFiles = 'all') {
+    // require_once 'tools.php';
     $PostMSG = '';
+    $LogMSG_Header = "Import Files (ZIP)";
 
     // $ShowMSG = FALSE;
     // $SetRedirect = TRUE;
     $SetRedirect_target = "fonts.php";
-
-    // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    $SubDirectoryMode = TRUE;
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
     $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
+
+    $fontExtList = array("ttf","otf","eot","woff","svg");
+
+    pmp_Logging("importFiles", "$LogMSG_Header File Info (NameRAW): $FileInfo_NameRAW");
+    pmp_Logging("importFiles", "$LogMSG_Header File Info (NameTMP): $FileInfo_NameTMP");
 
     $FileInfo_Name = basename($FileInfo_NameRAW);
     $FileInfo_Array = explode(".", $FileInfo_Name);
     $name = $FileInfo_Array[0];
 
+    pmp_Logging("importFiles", "$LogMSG_Header File Info (FileInfo_Name): $FileInfo_Name");
+    pmp_Logging("importFiles", "$LogMSG_Header File Info (Name): $name");
+
     $FileInfo_Ext = $FileInfo_Array[1];
     $FileInfo_Size = $_FILES[$fieldID]['size'];
+
+    // Set destination to use zip file name as folder name.
+    if ($SubDirectoryMode == TRUE) {
+        $destination = $destination . $name;
+    }
+
+    // Generate the directory if it does not exist.
+    GeneralPath_Create($destination);
 
     // $location = $destination . $FileInfo_Name;
     $destination_FullName = $destination . $FileInfo_Name;
@@ -68,16 +94,48 @@ function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
     if (move_uploaded_file($FileInfo_NameTMP, $destination_FullName)) {
         $zip = new ZipArchive();
 
-        if ($zip->open($destination_FullName)) {
-            $zip->extractTo($destination);
-            $zip->close();
+        pmp_Logging("importFiles", "$LogMSG_Header Destination FullName: $destination_FullName");
+        pmp_Logging("importFiles", "$LogMSG_Header Destination: $destination");
+        
+        switch ($extractFiles) {
+            case 'all':
+                if ($zip->open($destination_FullName)) {
+                    $zip->extractTo($destination);
+                    $zip->close();
+                }
+                break;
+            case 'fonts':
+                if ($zip->open($destination_FullName) === TRUE) {
+                    for($i = 0; $i < $zip->numFiles; $i++) {
+                        $entry = $zip->getNameIndex($i);
+                        
+                        foreach ($fontExtList as $fontExt) {
+                            $setMatch = '#\.(' . $fontExt . ')$#i';
+                            // if(preg_match('#\.(ttf)$#i', $entry)) {
+                            if(preg_match($setMatch, $entry)) {
+                                pmp_Logging("importFiles", "DUMP: $entry");
+                                $zip->extractTo($destination, $entry);
+                            }
+                        }
+                    }
+                    $zip->close();
+                }
+                break;
+            default:
+                if ($zip->open($destination_FullName)) {
+                    $zip->extractTo($destination);
+                    $zip->close();
+                }
+                break;
         }
 
         // Remove the file if it exits.  (* Look at moving to separate function)
-        if (is_file($destination_FullName)) {
-            unlink ($destination_FullName);
-        }
-        rmdir ($destination . $name);
+        // if (is_file($destination_FullName)) {
+        //     unlink ($destination_FullName);
+        // }
+        // rmdir ($destination . $name);
+
+        GeneralPath_Remove($destination_FullName, $destination, $name);
 
         if ($ShowMSG == TRUE) {
             $PostMSG .= "The file ". htmlspecialchars($FileInfo_Name). " has been uploaded.<br>";
@@ -99,9 +157,7 @@ function importFiles_TTF($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
     $SetRedirect_target = "fonts.php";
 
     // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralPath_Create($destination);
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
     $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
@@ -186,9 +242,7 @@ function importFiles_CUSTOM($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = '
     $SetRedirect_target = "custom.php";
 
     // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralPath_Create($destination);
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
     $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
@@ -278,9 +332,7 @@ function importFiles_Config() {
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
     // Generate the Upload directory if it does not exist.
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralPath_Create($destination);
 
     // Check if image file is a actual image or fake image
     if (isset($_POST["restoreConfig"])) {
@@ -386,23 +438,29 @@ function exportFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
 
     $PostMSG = '';
 
+    pmp_Logging("exportFiles", "Function: exportFiles_ZIP");
+    pmp_Logging("exportFiles", "\t Source (Original): $source");
+    pmp_Logging("exportFiles", "\t destination: $destination");
+    pmp_Logging("exportFiles", "\t File Info (Name): $FileInfo_Name");
+
     // $ShowMSG = FALSE;
     // $SetRedirect = TRUE;
     $SetRedirect_target = "fonts.php";
 
-    // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    // Generate the directory if it does not exist.
+    GeneralPath_Create($destination);
 
     // $destination_FullName = $destination . $FileInfo_Name;
     // $destination_FullName = "$destination/$FileInfo_Name";
     $destination_FullName = join('/', array(trim($destination, '/'), trim($FileInfo_Name, '/')));
+    pmp_Logging("exportFiles", "\t Destination (FullName): $destination_FullName");
 
     // Remove the file if it exits.  (* Look at moving to separate function)
-    if (is_file($destination_FullName)) {
-        unlink ($destination_FullName);
-    }
+    // if (is_file($destination_FullName)) {
+    //     unlink ($destination_FullName);
+    // }
+
+    GeneralPath_Remove($destination_FullName);
 
     $zip = new ZipArchive();
 
@@ -411,6 +469,7 @@ function exportFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
     }
 
     $source = str_replace('\\', '/', realpath($source));
+    pmp_Logging("exportFiles", "\t Source (Modified): $source");
 
     if (is_dir($source) === true) {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
@@ -467,20 +526,20 @@ function exportFiles_PMP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
     // $SetRedirect = TRUE;
     $SetRedirect_target = "fonts.php";
 
-    // Generate the directory if it does not exist.  (* Look at moving to separate function)
+    // Generate the directory if it does not exist.
 
     $destination = str_replace("//", "/", $destination);
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
-    }
+    GeneralPath_Create($destination);
 
     $destination_FullName = join('/', array(trim($destination, '/'), trim($FileInfo_Name, '/')));
 
     // Remove the file if it exits.  (* Look at moving to separate function)
-    if (is_file($destination_FullName)) {
-        unlink ($destination_FullName);
-    }
+    // if (is_file($destination_FullName)) {
+    //     unlink ($destination_FullName);
+    // }
+
+    GeneralPath_Remove($destination_FullName);
 
     $zip = new ZipArchive();
 
@@ -498,7 +557,7 @@ function exportFiles_PMP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
 
     $configFile_Name = "config.php";
     $configFile_FullName = join('/', array(trim($configRootPath, '/'), trim($configFile_Name, '/')));
-    
+
     if ($ShowMSG == TRUE) {
         print "<br> Config File: $configFile_FullName <br>";
     }

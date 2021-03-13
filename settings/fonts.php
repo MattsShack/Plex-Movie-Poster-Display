@@ -2,6 +2,7 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
 include '../assets/plexmovieposter/CommonLib.php';
+require_once '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
 include '../config.php';
@@ -51,6 +52,7 @@ if (isset($_POST["btn_zip"])) {
                             Font Configuration
                         </h2>
                         <?php AdvancedBar() ;?>
+                        <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
                                 <div class="form-group">
                                     <form action="fonts.php" method="post" enctype="multipart/form-data">
@@ -77,7 +79,7 @@ if (isset($_POST["btn_zip"])) {
                                     </p> -->
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group">
                                     <hr>
                                     <form method="post" enctype="multipart/form-data">
                                         Download Bundle:
@@ -99,7 +101,7 @@ if (isset($_POST["btn_zip"])) {
                                     </p> -->
                                 </div>
 
-                                <div class="form-group ">
+                                <div class="form-group">
                                     <hr>
                                     <?php
                                         // PHP 7.x
@@ -115,13 +117,12 @@ if (isset($_POST["btn_zip"])) {
                             <!-- SEGMENT BLOCK END -->
 
                             <!-- GHOST BLOCK START -->
-
                             <!-- GHOST BLOCK END -->
 
                             <!-- SUBMIT BLOCK START -->
-
+                                <!-- <?php submitForm(FALSE); ?> -->
                             <!-- SUBMIT BLOCK END -->
-                        </div>
+                        </form>
                         <?php FooterInfo() ; ?>
                     </div>
                 </div>

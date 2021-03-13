@@ -20,6 +20,7 @@ ob_start();
 $data = [];
 //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
 if ($pmpBottomScroll == 'Enabled') {
+    $bottomScroll = TRUE;
     $scrollPrepend = "<div class='marquee' style='height: 100%'>";
     $scrollAppend = "</div>
       <script>
@@ -36,6 +37,7 @@ if ($pmpBottomScroll == 'Enabled') {
         });
       </script>";
 } else {
+    $bottomScroll = FALSE;
     $scrollPrepend = "";
     $scrollAppend = "";
 }
@@ -185,37 +187,61 @@ if ($customImageEnabled == "Enabled") {
                 $mediaArt = $clients['art']; // Default
                 $mediaThumb = $clients['thumb']; // Default
 
-                // (strstr($clients['type'], "movie") // Notes for validation
+                //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
+                if ($nowShowingBottomScroll == 'Enabled') {
+                    $bottomScroll = TRUE;
+                    $scrollPrepend = "<div class='marquee' style='height: 100%'>";
+                    $scrollAppend = "</div>
+                    <script>
+                        $(function(){
+                        $('.marquee').marquee({
+                            allowCss3Support: true,
+                            css3easing: 'linear',
+                            delayBeforeStart: 2000,
+                            duration: 8000,
+                            direction: 'up',
+                            gap: 20,
+                            startVisible: true
+                        });
+                        });
+                    </script>";
+                } else {
+                    $bottomScroll = FALSE;
+                    $scrollPrepend = "";
+                    $scrollAppend = "";
+                }
 
-                switch ($clients['type']) {
+                // (strstr($clients['type'], "movie") // Notes for validation
+                $viewGroup = $clients['type'];
+
+                switch ($viewGroup) {
                     case "movie":
-                        plex_metadata_title("movie");
-                        plex_metadata_summary("movie");
-                        plex_metadata_tagline("movie");
-                        plex_metadata_art("movie");
-                        plex_metadata_thumb("movie");
+                        $mediaType_Display = "$viewGroup";
+                        $elementType = "Video";
+                        $mediaType = "movie";
                         break;
                     case "episode":
-                        plex_metadata_title($mediaArt_ShowTVThumb);
-                        plex_metadata_summary($mediaArt_ShowTVThumb);
-                        plex_metadata_tagline($mediaArt_ShowTVThumb);
-                        plex_metadata_art($mediaArt_ShowTVThumb);
-                        plex_metadata_thumb($mediaArt_ShowTVThumb);
+                        $mediaType_Display = "$viewGroup";
+                        $elementType = "Video";
+                        $mediaType = $mediaArt_ShowTVThumb;
                         break;
                     case "track":
-                        plex_metadata_title("track");
-                        plex_metadata_summary("track");
-                        plex_metadata_tagline("track");
-                        plex_metadata_art("track");
-                        plex_metadata_thumb("track");
+                        $mediaType_Display = "$viewGroup";
+                        $elementType = "Directory";
+                        $mediaType = "track";
                         break;
                     default:
-                        plex_metadata_title("movie");
-                        plex_metadata_summary("movie");
-                        plex_metadata_tagline("movie");
-                        plex_metadata_art("movie");
-                        plex_metadata_thumb("movie");
+                        $mediaType_Display = "Unknown";
+                        $elementType = "Video";
+                        $mediaType = "movie";
+                        break;
                 }
+
+                plex_metadata_title("$mediaType");
+                plex_metadata_summary("$mediaType");
+                plex_metadata_tagline("$mediaType");
+                plex_metadata_art("$mediaType");
+                plex_metadata_thumb("$mediaType");
 
                 //Progress Bar
                 if ($pmpDisplayProgress == 'Enabled') {
@@ -252,6 +278,30 @@ if ($customImageEnabled == "Enabled") {
 
         $mediaArt_Status = $comingSoonBackgroundArt;
         $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
+
+        //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
+        if ($comingSoonBottomScroll == 'Enabled') {
+            $bottomScroll = TRUE;
+            $scrollPrepend = "<div class='marquee' style='height: 100%'>";
+            $scrollAppend = "</div>
+            <script>
+                $(function(){
+                $('.marquee').marquee({
+                    allowCss3Support: true,
+                    css3easing: 'linear',
+                    delayBeforeStart: 2000,
+                    duration: 8000,
+                    direction: 'up',
+                    gap: 20,
+                    startVisible: true
+                });
+                });
+            </script>";
+        } else {
+            $bottomScroll = FALSE;
+            $scrollPrepend = "";
+            $scrollAppend = "";
+        }
 
         plex_variable_presets(); // FUTURE USE
 
@@ -295,6 +345,7 @@ if ($customImageEnabled == "Enabled") {
                     $mediaType_Display = "Unknown";
                     $elementType = "Video";
                     $mediaType = "movie";
+                    break;
             }
 
             // Media
@@ -315,7 +366,7 @@ if ($customImageEnabled == "Enabled") {
                         plex_metadata_summary("$mediaType");
                         plex_metadata_tagline("$mediaType");
                         plex_metadata_art("$mediaType");
-                        plex_metadata_thumb("$mediaType");
+                        plex_metadata_thumb("$mediaType", TRUE);
                     }
                 }
             }
@@ -372,7 +423,13 @@ $topLine = "<div><span class='userText' style=\"$topStyle\">${topText}</span></d
 $bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
 if ($bottomFontEnabled) $bottomStyle .= " font-family: '$bottomFontID';";
 if (!$autoScaleBottom) $bottomStyle .= " font-size: ${bottomSize}px;";
-$bottomLine = "$scrollPrepend<div><span class='userText' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
+if ($bottomScroll == TRUE) {
+    $cssClass = "marqueeDisplay";
+}
+else {
+    $cssClass = "userText";
+}
+$bottomLine = "$scrollPrepend<div><span class='$cssClass' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
 
 $results = [];
 $results['top'] = $topLine . $progressBar;
