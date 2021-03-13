@@ -14,6 +14,13 @@ If you select a zip file, the system will extract the files and folders within a
 
 When fonts are imported they will be display a sample of each font loaded.  
 
+        Supported Font Formats (ext):
+        - .ttf
+        - .otf
+        - .eot
+        - .woff
+        - .svg
+
 ## Exporting Fonts
 To export the currently installed custom fonts.  Select the "Generate Bundle" and a link to a zip file that includes all installed custom fonts will be made available.
 

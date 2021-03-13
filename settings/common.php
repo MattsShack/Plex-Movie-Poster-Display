@@ -2,6 +2,7 @@
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
 include '../assets/plexmovieposter/CommonLib.php';
+// include '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
 include '../config.php';
@@ -63,8 +64,8 @@ if (!empty($_POST['saveConfig'])) {
                                 </div>
 
                                 <div class="form-group">
+                                    Cache Images: &nbsp;
                                     <input type="checkbox" name="cacheEnabled" id="cacheEnabled" value="1" <?php if ($cacheEnabled) echo " checked"?>>
-                                    Cache Images
 
                                     <!-- <p class="help-block">
                                     </p> -->

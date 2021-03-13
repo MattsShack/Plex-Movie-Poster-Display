@@ -221,3 +221,39 @@ Updates and Bug Fixes:
 Updates and Bug Fixes:
 - Address issue with custom fonts not displaying correctly.
 - Add link to the GITHub page as part of the footer.
+
+**v2.10.2 Community Updates**\
+Enhancement - Font Enhancements (Issue #44)
+- Update export to unzip into subdirectory for better organization.
+- Add font extraction for only font files
+- Expand font scanner for multiple font files and added to font_custom.css
+- Fix duplicate entries in font_custom.css
+
+    Design:
+    1. __Complete__: Add 'Clear Fonts' to clear out all custom uploaded fonts.
+    2. __Canceled__: Add a check to see if a font file is supported within a zip file
+    3. __Complete__: Add support for multiple font formats (eg. OTF)
+    4. __Complete__: Update the 'Unzip' to not unzip to the root of the fonts folder but to unzip to its 'Zip File Name' for better organization
+    5. __TODO__: Using the 'Zip File Name' folder method, append the name to the actual name of the font file when displaying in the lists. Currently it only uses the name of the font file itself and and can become a bit harder to identify the type we require.
+    6. __Complete__: When unzipping the fonts, only unzip the font files supported and ignore all other files and folders. This will allow for a cleaner storage and organization.
+    7. __Canceled__: Remove _MACOSX folder when unzipping.
+        
+Coming Soon - Show Media: ALL - Not Displaying TV Show Posters (Issue #51)
+- Add logic to address when in 'Coming Soon' and either 'All' or 'Unwatched' would not display poster when set to 'series' or 'season'.
+- When using 'All' or 'Unwatched' the cover poster for the series is used even though Episode/Season/Series may be selected.  This is based on the xml data provided by the PLEX API
+- Disable Episode/Season/Series option when using 'All' or 'Unwatched' is set for Coming Soon
+
+Scrolling Summary Bottom Text for Now Showing (Issue #39)
+- Fix issue with summary display on single line - Unreadable
+- Add bottomScroll for text to be individually controlled in 'Now Showing' and 'Coming Soon'
+- TODO: Remove the 'Common' version of 'bottomScroll'
+
+Updates and Bug Fixes:
+- Add logging to import Zip File
+- Updates to test suite
+- Fix issue with 'GeneralPath_Remove' not running correctly as no default values where provided.
+- Update documentation to reflect some changes that has been made to the system. (Issue #52)
+- Modify CSS for userText, disabling the 'white-space: nowrap' element as it was causing issues with how the text was displaying.
+
+Known Issues:
+- If summary text is too large and bottom scroll is disabled, summary becomes unreadable.

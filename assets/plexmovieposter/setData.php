@@ -204,6 +204,9 @@ function ghostData($configPage) {
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonBottomAutoScale\" name=\"comingSoonBottomAutoScale\" value=\"$comingSoonBottomAutoScale\">\n";
         echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonBottomScroll\" name=\"comingSoonBottomScroll\" value=\"$comingSoonBottomScroll\">\n";
+        echo $ghostField;
     }
 
     // Now Showing PHP
@@ -272,6 +275,9 @@ function ghostData($configPage) {
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBottomAutoScale\" name=\"nowShowingBottomAutoScale\" value=\"$nowShowingBottomAutoScale\">\n";
+        echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBottomScroll\" name=\"nowShowingBottomScroll\" value=\"$nowShowingBottomScroll\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"pmpDisplayProgress\" name=\"pmpDisplayProgress\" value=\"$pmpDisplayProgress\">\n";
@@ -426,6 +432,7 @@ function setData($configPage) {
   \$comingSoonBottom = '$_POST[comingSoonBottom]'; //Default: custom (title/summary/tagline/custom)
   \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
   \$comingSoonBottomAutoScale = '$_POST[comingSoonBottomAutoScale]'; //Default: false
+  \$comingSoonBottomScroll = '$_POST[comingSoonBottomScroll]'; //Default: Disabled
   \$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default: 25 (px)
   \$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default: #FFFFFF (White)
   \$comingSoonBottomFontEnabled = '$_POST[comingSoonBottomFontEnabled]'; //Default: Unchecked
@@ -449,6 +456,7 @@ function setData($configPage) {
   \$nowShowingBottom = '$_POST[nowShowingBottom]'; //Default: title (title/summary/tagline/custom)
   \$nowShowingBottomText = '$_POST[nowShowingBottomText]';
   \$nowShowingBottomAutoScale = '$_POST[nowShowingBottomAutoScale]'; //Default: false
+  \$nowShowingBottomScroll = '$_POST[nowShowingBottomScroll]'; //Default: Disabled
   \$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; //Default: 25 (px)
   \$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default: #FFFFFF (White)
   \$nowShowingBottomFontEnabled = '$_POST[nowShowingBottomFontEnabled]'; //Default: Unchecked

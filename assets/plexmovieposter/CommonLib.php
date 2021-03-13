@@ -94,7 +94,7 @@ function HeaderInfo($configPage) {
 
     if ($configPage == "index.php") {
         echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/styles/default/poster.css\">\n";
-        // echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/css/DisplayStyle.css\">\n";  // Clean css file
+        echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/css/DisplayStyle.css\">\n";  // Clean css file
     }
 
     // --------------------------------------------------

@@ -12,5 +12,9 @@
   $Log_getMusicData = TRUE;
   $Log_getMediaURL = TRUE;
   $Log_WebHookData = TRUE;
+  $Log_importFiles = TRUE;
+  $Log_exportFiles = TRUE;
+  $Log_fileSystem = TRUE;
+  $Log_fontSystem = TRUE;
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
 // Release Information
-$version = "2.10.1";
+$version = "2.10.2";
 
 ?>
