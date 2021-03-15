@@ -12,7 +12,7 @@ function fixupSize($bytes) {
 function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "posterCount") {
     //Count Items in Cache
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "GeneralCache_Count");
 
     $posters = scandir("$destination");
     $GLOBALS[$cacheField] = count($posters) - 2;
@@ -21,16 +21,23 @@ function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "p
     }
 }
 
-function GeneralCache_Create($destination = "../cache/") {
+function GeneralCache_Create($destination = "../cache/", $FeedFunction = "N/A") {
     // Generate the Cache Directory if it does not exist.
 
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
+    if ($destination != "") {
+        if (!file_exists($destination)) {
+            mkdir($destination, 0777, true);
+        }
+    }
+    else {
+        echo "Invalid path provided by: $FeedFunction <br>";
     }
 }
 
 function GeneralCache_Prep($destination = "../cache/", $Clear_24H = FALSE) {
-    GeneralCache_Create($destination);
+    echo "Debug (GeneralCache_Prep): $destination <br>";
+
+    GeneralCache_Create($destination, "GeneralCache_Prep");
     GeneralCache_Clear_Placeholder($destination);
 
     if($Clear_24H == TRUE) {
@@ -66,7 +73,7 @@ function GeneralCache_Clear_24H ($destination) {
 function PosterCacheCount($destination = "../cache/posters/", $cacheField = "posterCount") {
     //Count Items in Posters
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "PosterCacheCount");
 
     $posters = scandir("$destination");
     $GLOBALS[$cacheField] = count($posters) - 2;
@@ -78,7 +85,7 @@ function PosterCacheCount($destination = "../cache/posters/", $cacheField = "pos
 function PosterCacheClear($destination = "../cache/posters/") {
     //Clear Poster Cache Directory
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "PosterCacheClear");
 
     $files = glob("$destination/*");
     foreach ($files as $file) {
@@ -91,7 +98,7 @@ function PosterCacheClear($destination = "../cache/posters/") {
 function CustomCacheCount($destination = "../cache/custom/", $cacheField = "customCount") {
     //Count Items in Custom Images
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "CustomCacheCount");
 
     $custom = scandir("$destination");
     $GLOBALS[$cacheField] = count($custom) - 2;
@@ -103,7 +110,7 @@ function CustomCacheCount($destination = "../cache/custom/", $cacheField = "cust
 function CustomCacheClear($destination = "../cache/custom/") {
     //Clear Custom Cache Directory
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "CustomCacheClear");
 
     $files = glob("$destination/*");
     foreach ($files as $file) {
@@ -115,8 +122,9 @@ function CustomCacheClear($destination = "../cache/custom/") {
 
 function FontCacheCount($destination = "../cache/fonts/", $cacheField = "customFontCount") {
     //Count Items in Custom Font Cache Directory
+    // TODO: Fix Count to support all font ext. (2021-03-14)
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "FontCacheCount");
 
     $fileCount = 0;
 
@@ -124,9 +132,11 @@ function FontCacheCount($destination = "../cache/fonts/", $cacheField = "customF
     $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
     foreach($files as $file) {
-        $file_parts = pathinfo($file);
-        if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
-            $fileCount = $fileCount + 1;
+        if (is_file($file)) {
+            $file_parts = pathinfo($file);
+            if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
+                $fileCount = $fileCount + 1;
+            }
         }
     }
 
@@ -140,7 +150,7 @@ function FontCacheClear($destination = "../cache/fonts/", $ScanSubDir = TRUE) {
     //Clear Custom Font Cache Directory
     // ToDo: Add support to clean up empty directories
 
-    GeneralCache_Create($destination);
+    GeneralCache_Create($destination, "FontCacheClear");
 
     if ($ScanSubDir == TRUE) {
         // Multi Level
@@ -174,6 +184,7 @@ function CacheInfo_Display($MiniStatus = FALSE) {
     GeneralCache_Count("../cache/posters/", "posterCount");
 
     GeneralCache_Count("../cache/custom/", "customCount");
+    GeneralCache_Count("../cache/logs/", "logCount");
     FontCacheCount();
 
     $cacheFreeSpace = fixupSize(disk_free_space("/"));

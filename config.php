@@ -42,6 +42,7 @@
   $customBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
 
   //Coming Soon Configuration
+  $comingSoonBackgroundArt = ''; //Default: false
   $comingSoonTop = 'custom'; //Default: custom (title/summary/tagline/custom)
   $comingSoonTopAutoScale = ''; //Default: false
   $comingSoonTopText = 'COMING SOON';
@@ -66,6 +67,7 @@
   $comingSoonShowTVThumb = 'series'; //Default: series
 
   //Now Showing Configuration
+  $nowShowingBackgroundArt = ''; //Default: false
   $nowShowingTop = 'custom'; //Default: custom (title/summary/tagline/custom)
   $nowShowingTopAutoScale = ''; //Default: false
   $nowShowingTopText = 'NOW SHOWING';

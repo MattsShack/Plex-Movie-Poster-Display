@@ -65,8 +65,9 @@ GenerateCSS_Font_ALL();
                                         </option>
                                     </select>
 
-                                    <!-- <p class="help-block">
-                                    </p> -->
+                                    <p class="help-block">
+                                        If "Show Media" is set to Unwatched or All, Series posters are displayed by default for TV series.
+                                    </p>
                                 </div>
 
                                 <div class="form-group advanced-setting">

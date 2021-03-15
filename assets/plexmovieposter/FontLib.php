@@ -14,7 +14,12 @@ function GenerateCSS_FontSingle($CSSFullName, $fontPath = "/cache/fonts", $fontN
     $publishString .= "}\n\n";
 
     // Open the file to get existing content
-    $current = file_get_contents($CSSFullName);
+    if (realpath($CSSFullName) != "") {
+        $current = file_get_contents($CSSFullName);
+    }
+    else {
+        $current = "";
+    }
 
     // Append a new entry to the file
     $current .= "$publishString";
@@ -30,6 +35,8 @@ function GenerateCSS_FontSingle($CSSFullName, $fontPath = "/cache/fonts", $fontN
 }
 
 function GenerateCSS_Font($CSSPath = "../cache/fonts/", $CSSFile = "fonts_custom.css", $FontPath = "../cache/fonts") {
+    $invalidDirs = array('__MACOSX');
+
     // CSS File Settings
     $CSSFullName = $CSSPath . $CSSFile;
 
@@ -50,50 +57,66 @@ function GenerateCSS_Font($CSSPath = "../cache/fonts/", $CSSFile = "fonts_custom
 
     // Process Logic
 
-    // $files = glob('folder/*.{jpg,png,gif}', GLOB_BRACE);
-    // $files = glob("$FontPath/*.{[tT][tT][fF]}", GLOB_BRACE);
-
     $dir_iterator = new RecursiveDirectoryIterator("$FontPath");
     $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
     $fontExtList = array("ttf","otf","eot","woff","svg");
 
     foreach ($files as $file) {
-        $file_parts = pathinfo($file);
-        foreach ($fontExtList as $fontExt) {
-            $setMatch = '#(' . $fontExt . ')#i';
-            // if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
-            if (preg_match($setMatch,$file_parts['extension'])) {
-                $fontPath = $file_parts['dirname'];
-                $fontPath = str_replace('..','',$fontPath);
-                $fontName = $file_parts['filename'];
-                $fontFile = $file_parts['filename'];
+        if (is_file($file)) {
+            $file_parts = pathinfo($file);
 
-                // Font Validation
-                $fontValid = TRUE;
-                pmp_Logging("fontSystem", "Validating: $fontName ($fontPath - $fontFile)");
+            foreach ($fontExtList as $fontExt) {
+                $setMatch = '#(' . $fontExt . ')#i';
 
-                $checkFont = file_get_contents("$CSSFullName");
-                $checkFont = explode("\n", $checkFont);
-                $searchFont = "$fontPath/$fontName";
-                pmp_Logging("fontSystem", "Checking For: $searchFont");
+                if (preg_match($setMatch,$file_parts['extension'])) {
+                    $fontPath = $file_parts['dirname'];
+                    $fontPath = str_replace('..','',$fontPath);
+                    $fontName = $file_parts['filename'];
+                    $fontFile = $file_parts['filename'];
 
-                foreach ($checkFont as $FontLine) {
-                    if (strpos($FontLine, $searchFont) !== FALSE) {
-                        pmp_Logging("fontSystem", "Found Existing Font: $fontName ($fontPath - $fontFile)");
-                        $fontValid = FALSE;
+                    // Folder Validate
+                    // foreach ($invalidDirs as $validateDir) {
+                    //     if (strpos($fontPath, $validateDir)) {
+                    //         pmp_Logging("fontSystem", "FolderCheck (IF): $fontName ($fontPath)");
+                    //     }
+                    //     else {
+                    //         pmp_Logging("fontSystem", "FolderCheck (ELSE): $fontName ($fontPath)");
+                    //     }
+                    // }
+
+                    // Font Validation
+                    $fontValid = TRUE;
+                    pmp_Logging("fontSystem", "Validating: $fontName ($fontPath - $fontFile)");
+
+                    $Validate_CSSFullName = realpath($CSSFullName);
+
+                    if ($Validate_CSSFullName != "") {
+                        $checkFont = file_get_contents("$CSSFullName");
+                        $checkFont = explode("\n", $checkFont);
+                        $searchFont = "$fontPath/$fontName";
+                        pmp_Logging("fontSystem", "Checking For: $searchFont");
+
+                        foreach ($checkFont as $FontLine) {
+                            if (strpos($FontLine, $searchFont) !== FALSE) {
+                                pmp_Logging("fontSystem", "Found Existing Font: $fontName ($fontPath - $fontFile)");
+                                $fontValid = FALSE;
+                            }
+                        }
+                    }
+                    else {
+                        pmp_Logging("fontSystem", "No pre-existing CSS file to validate against.");
+                    }
+                    // ----
+
+                    if($fontValid == TRUE) {
+                        pmp_Logging("fontSystem", "Adding: $fontName ($fontPath - $fontFile)");
+                        GenerateCSS_FontSingle($CSSFullName, $fontPath, $fontName, $fontFile);
+                    }
+                    else {
+                        pmp_Logging("fontSystem", "Duplicate: $fontName ($fontPath - $fontFile)");
                     }
                 }
-                // ----
-
-                if($fontValid == TRUE) {
-                    pmp_Logging("fontSystem", "Adding: $fontName ($fontPath - $fontFile)");
-                    GenerateCSS_FontSingle($CSSFullName, $fontPath, $fontName, $fontFile);
-                }
-                else {
-                    pmp_Logging("fontSystem", "Duplicate: $fontName ($fontPath - $fontFile)");
-                }
-
             }
         }
     }
@@ -172,14 +195,26 @@ function findFontFamily_Full($HTMLdisplay = FALSE, $HTMLdropdown = FALSE, $field
     $CSSFontPath_Stock = "../assets/plexmovieposter/";
     $CSSFontFileName_Stock = "fonts_stock.css";
     $CSSFontFullName_Stock = $CSSFontPath_Stock . $CSSFontFileName_Stock;
-    $contents_1 = file_get_contents($CSSFontFullName_Stock);
-    // echo "<br> Debug (contents_A): <br> $contents_A <br>"; // Debug MSG
+
+    if (realpath($CSSFontFullName_Stock) != "") {
+        $contents_1 = file_get_contents($CSSFontFullName_Stock); // TODO: Add file check to see if it exists (to fix nginx errors tail -30 /var/log/nginx/error.log)
+        // echo "<br> Debug (contents_A): <br> $contents_A <br>"; // Debug MSG
+    }
+    else {
+        $contents_1 = "";
+    }
 
     $CSSFontPath_Custom = "../cache/fonts/";
     $CSSFontFileName_Custom = "fonts_custom.css";
     $CSSFontFullName_Custom = $CSSFontPath_Custom . $CSSFontFileName_Custom;
-    $contents_2 = file_get_contents($CSSFontFullName_Custom);
+
+    if (realpath($CSSFontFullName_Custom) != "") {
+        $contents_2 = file_get_contents($CSSFontFullName_Custom);
         // echo "<br> Debug (contents_B): <br> $contents_B <br>"; // Debug MSG
+    }
+    else {
+        $contents_2 = "";
+    }
 
     $searchfor = 'font-family:';
 
@@ -323,5 +358,130 @@ function dropdownFontFamilySub($fontfamily, $fieldID, $showFontSample = FALSE) {
 
 // LOOK AT MOVING FONT CACHE FUNCTIONS TO THIS FILE (2021-03-12)
 
+function FontDirCleanup($source = "../cache/fonts/", $ScanSubDir = TRUE) {
+    $invalidDirs = array('__MACOSX');
+    $invalidFiles = array('._');
+
+    if ($ScanSubDir == TRUE) {
+        // Multi Level
+        //Remove: Directories
+        $dir_iterator = new RecursiveDirectoryIterator($source);
+        $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($files as $file) {
+            $file_parts = pathinfo($file);
+            foreach ($invalidDirs as $invalidDir) {
+                $setMatch = '#(' . $invalidDir . ')#i';
+
+                if (preg_match($setMatch,$file_parts['dirname'])) {
+                    $fontPath = $file_parts['dirname'];
+                    $fontPath = realpath($fontPath);
+
+                    pmp_Logging("fontSystem", "Remove invalid font folder: $fontPath");
+
+                    if (is_dir($fontPath)) {
+                        $objects = scandir($fontPath);
+                        foreach ($objects as $object) {
+                          if ($object != "." && $object != "..") {
+                            if (is_dir($fontPath. DIRECTORY_SEPARATOR .$object) && !is_link($fontPath."/".$object)) {
+                                pmp_Logging("fontSystem", "\tPurge empty directory");
+                                rmdir($fontPath. DIRECTORY_SEPARATOR .$object);
+                            }
+                            else {
+                                pmp_Logging("fontSystem", "\tPurge files from directory.");
+                                unlink($fontPath. DIRECTORY_SEPARATOR .$object);
+                            }
+                          }
+                        }
+                        rmdir($fontPath);
+                      }
+                }
+            }
+        }
+
+        //Remove: Files // FUTURE
+        $dir_iterator = new RecursiveDirectoryIterator($source);
+        $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($files as $file) {
+            $file_parts = pathinfo($file);
+            foreach ($invalidFiles as $invalidFile) {
+                $setMatch = '#(' . $invalidFile . ')#i';
+
+                if (strpos($setMatch,$file_parts['filename'])) {
+                    $fontPath = $file_parts['filename'];
+                    $fontPath = realpath($fontPath);
+
+                    pmp_Logging("fontSystem", "Remove invalid font file: $fontPath");
+                    // ADD UNLINK
+                }
+            }
+        }
+
+    }
+    else {
+        // Single Level
+        $files = glob("$source/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                pmp_Logging("fontSystem", "Removing Font  - TEST: $file");
+                // // // unlink($file);
+            }
+        }
+    }
+}
+
+function FontExtRename($source = "../cache/fonts/", $ScanSubDir = TRUE) {
+    $fontExtList = array("ttf","otf","eot","woff","svg");
+
+    if ($ScanSubDir == TRUE) {
+        // Multi Level
+        $dir_iterator = new RecursiveDirectoryIterator($source);
+        $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                $file_parts = pathinfo($file);
+                foreach ($fontExtList as $fontExt) {
+                    $setMatch = '#(' . $fontExt . ')#i';
+
+                    if (preg_match($setMatch,$file_parts['extension'])) {
+                        $fontPath = $file_parts['dirname'];
+                        $fontPath = str_replace('..','',$fontPath);
+                        $fontName = $file_parts['filename'];
+                        $fontFile = $file_parts['filename'];
+                        $fontExtension = $file_parts['extension'];
+
+                        if (ctype_upper($fontExtension)) {
+                            pmp_Logging("fontSystem", "Invalid Font Ext: $fontFile ($fontExtension)");
+
+                            $UpdateFont_PRE = realpath($file);
+                            pmp_Logging("fontSystem", "\tUpdate Font (PRE): $UpdateFont_PRE");
+
+                            $UpdateFont_POST = str_replace($fontExtension, strtolower($fontExtension), $UpdateFont_PRE);
+                            pmp_Logging("fontSystem", "\tUpdate Font (POST): $UpdateFont_POST");
+
+                            rename($UpdateFont_PRE, $UpdateFont_POST);
+                        }
+                        else {
+                            pmp_Logging("fontSystem", "Valid Font Ext: $fontFile ($fontExtension)");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else {
+        // Single Level
+        $files = glob("$source/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                pmp_Logging("fontSystem", "Rename Font: $file");
+                // // // unlink($file);
+            }
+        }
+    }
+
+}
 
 ?>

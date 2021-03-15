@@ -3,7 +3,7 @@
 $AppName = "plexmovieposter";
 $AppTitle = "Movie Poster Display";
 
-function HeaderInfo($configPage) {
+function HeaderInfo($configPage, $debugMode = FALSE) {
     global $AppName, $AppTitle;
 
     if ($configPage == "index.php") {
