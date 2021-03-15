@@ -86,10 +86,11 @@ function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
     }
 
     // Generate the directory if it does not exist.
-    GeneralPath_Create($destination);
+    GeneralPath_Create($destination, "importFiles_ZIP");
 
     // $location = $destination . $FileInfo_Name;
-    $destination_FullName = $destination . $FileInfo_Name;
+    // $destination_FullName = $destination . $FileInfo_Name;
+    $destination_FullName = $destination . "/" . $FileInfo_Name;
 
     if (move_uploaded_file($FileInfo_NameTMP, $destination_FullName)) {
         $zip = new ZipArchive();
@@ -119,6 +120,9 @@ function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
                         }
                     }
                     $zip->close();
+                    
+                    FontDirCleanup();
+                    FontExtRename();
                 }
                 break;
             default:
@@ -157,7 +161,7 @@ function importFiles_TTF($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip
     $SetRedirect_target = "fonts.php";
 
     // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    GeneralPath_Create($destination);
+    GeneralPath_Create($destination, "importFiles_TTF");
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
     $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
@@ -242,7 +246,7 @@ function importFiles_CUSTOM($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = '
     $SetRedirect_target = "custom.php";
 
     // Generate the directory if it does not exist.  (* Look at moving to separate function)
-    GeneralPath_Create($destination);
+    GeneralPath_Create($destination, "importFiles_CUSTOM");
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];
     $FileInfo_NameTMP = $_FILES[$fieldID]['tmp_name'];
@@ -332,7 +336,7 @@ function importFiles_Config() {
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
     // Generate the Upload directory if it does not exist.
-    GeneralPath_Create($destination);
+    // GeneralPath_Create($destination, "importFiles_Config"); // Not Required as config file is in root.
 
     // Check if image file is a actual image or fake image
     if (isset($_POST["restoreConfig"])) {
@@ -357,15 +361,26 @@ function importFiles_Config() {
     //     $uploadOk = 0;
     // }
 
+    // if ($_FILES["fileToUpload"] == "") {
+    //     echo "NO FILE";
+    // }
+    // else {
+    //     echo "FILE HERE";
+    // }
+
+    // Trying to track down nginx error when there is no file to upload for config.php.  No issue to client.
+
     // Check file size
     // $fileSizeMax = 500000; // 500 KB
     $fileSizeMax = 10000;  // 10 KB
-    if ($_FILES["fileToUpload"]["size"] > $fileSizeMax) {
-        if ($ShowMSG == true) {
-            echo "Sorry, your file is too large.";
+    // if ($_FILES["fileToUpload"] != "") {
+        if ($_FILES["fileToUpload"]["size"] > $fileSizeMax) {
+            if ($ShowMSG == true) {
+                echo "Sorry, your file is too large.";
+            }
+            $uploadOk = 0;
         }
-        $uploadOk = 0;
-    }
+    // }
 
     // Allow certain file formats
     // if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
@@ -448,7 +463,7 @@ function exportFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
     $SetRedirect_target = "fonts.php";
 
     // Generate the directory if it does not exist.
-    GeneralPath_Create($destination);
+    GeneralPath_Create($destination, "exportFiles_ZIP");
 
     // $destination_FullName = $destination . $FileInfo_Name;
     // $destination_FullName = "$destination/$FileInfo_Name";
@@ -530,7 +545,7 @@ function exportFiles_PMP($ShowMSG = FALSE, $SetRedirect = FALSE, $source, $desti
 
     $destination = str_replace("//", "/", $destination);
 
-    GeneralPath_Create($destination);
+    GeneralPath_Create($destination, "exportFiles_PMP");
 
     $destination_FullName = join('/', array(trim($destination, '/'), trim($FileInfo_Name, '/')));
 

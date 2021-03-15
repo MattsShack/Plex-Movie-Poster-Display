@@ -257,3 +257,13 @@ Updates and Bug Fixes:
 
 Known Issues:
 - If summary text is too large and bottom scroll is disabled, summary becomes unreadable.
+
+**v2.10.3 Community Updates**\
+Coming Soon - Show Media: ALL - Not Displaying TV Show Posters (Issue #51)
+- Add a more documentation around when using Unwatched and All for show media that the poster will default to the Series poster.
+
+Updates and Bug Fixes:
+- Address nginx errors in error log (tail /var/log/nginx/error.log)
+- Address issues with 'Bad Gateway' (Issue #44)
+- Add more misc. logging information
+- Add missing fields in config.php
