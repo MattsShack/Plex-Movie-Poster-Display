@@ -278,3 +278,8 @@ Enhancement - Font Enhancements (Issue #44)
 
 Updates and Bug Fixes:
 - Update to ChangeLog for v2.10.3 as missing additional information.
+- Move getPoster from to plexMoviePoster assets.  This is to help isolate potential issues with relative paths.
+- Update how to handle issues with the getPoster functions when receiving invalid image.
+
+Trouble Shooting:
+- If poster is not returning correctly, attempt to reinstall dependencies.  Sometimes issue could be because of an issue with the pmp-curl dependency.
