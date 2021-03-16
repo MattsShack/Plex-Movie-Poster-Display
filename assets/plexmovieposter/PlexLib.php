@@ -31,7 +31,7 @@ function plex_metadata_title($mediaType = "episode") {
             $media_metadata_name = 'title'; // Track Title (future - title, parentTitle (Album), grandparentTitle (Artist))
             break;
         default:
-            $media_logClass = "getTVShowData";    
+            $media_logClass = "getTVShowData";
             $media_metadata_name = 'title';
     }
 
@@ -374,6 +374,8 @@ function plex_getMedia_thumb() {
     global $mediaThumb, $mediaThumb_MetadataID; // Input Variables
     global $mediaThumb_Display; // Output Variables
 
+    $mediaThumb_Display = "";
+
     // $mediaThumb_ID, $mediaThumb_CacheFileName, $mediaThumb_CacheFullName, $mediaThumb_URL, $mediaThumb_CacheURL; // Internal Variables
 
     // Check if the cache option is enabled, and if so set the name of the saved file and store in the designated cache path.
@@ -382,9 +384,9 @@ function plex_getMedia_thumb() {
         $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
 
         if (!isset($mediaThumb_MetadataID) || trim($mediaThumb_MetadataID) === '') {
-            $mediaThumb_CacheFileName = $mediaThumb_ID;
+            $mediaThumb_CacheFileName = $mediaThumb_ID . ".jpeg";
         } else {
-            $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID;
+            $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID . ".jpeg";
         }
 
         $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
@@ -403,20 +405,28 @@ function plex_getMedia_thumb() {
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaThumb_CacheURL)."')"; // Secure URL
         // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
-        if (strpos($mediaThumb_Display, "InvalidImage") !== FALSE) {
+        if ((strpos($mediaThumb_Display, "InvalidImage") !== FALSE) || ($mediaThumb_Display == "")) {
             $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
             // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
             pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - Cache) - FailOver");
+
+            if ($mediaThumb_Display == "") {
+                pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - Cache) - BLANK");
+            }
         }
 
     } else {
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
         // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
-        if (strpos($mediaThumb_Display, "InvalidImage") !== FALSE) {
+        if ((strpos($mediaThumb_Display, "InvalidImage") !== FALSE) || ($mediaThumb_Display == "")) {
             $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
             // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
             pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - No Cache) - FailOver");
+
+            if ($mediaThumb_Display == "") {
+                pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - No Cache) - BLANK");
+            }
         }
     }
 }
@@ -426,6 +436,8 @@ function plex_getMedia_art() {
     global $URLScheme, $plexServer, $plexToken, $cacheArtPath, $cacheEnabled; // Input Variables
     global $mediaArt, $mediaArt_MetadataID; // Input Variables
     global $mediaArt_Display; // Output Variables
+
+    $mediaArt_Display = "";
 
     // $mediaArt_ID, $mediaArt_CacheFileName, $mediaArt_CacheFullName, $mediaArt_URL, $mediaArt_CacheURL; // Internal Variables
 
@@ -437,9 +449,9 @@ function plex_getMedia_art() {
         // If there is no mediaArt then the media art will be skipped, and background will revert to default.
         if (isset($mediaArt_ID) && trim($mediaArt_ID) != '') {
             if (!isset($mediaArt_MetadataID) || trim($mediaArt_MetadataID) === '') {
-                $mediaArt_CacheFileName = $mediaArt_ID;
+                $mediaArt_CacheFileName = $mediaArt_ID . ".jpeg";
             } else {
-                $mediaArt_CacheFileName = $mediaArt_ID . "_" . $mediaArt_MetadataID;
+                $mediaArt_CacheFileName = $mediaArt_ID . "_" . $mediaArt_MetadataID . ".jpeg";
             }
 
             $mediaArt_CacheFullName = join('/', array(trim($cacheArtPath, '/'), trim($mediaArt_CacheFileName, '/')));
@@ -458,20 +470,28 @@ function plex_getMedia_art() {
             $mediaArt_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaArt_CacheURL)."')"; // Secure URL
             // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
-            if (strpos($mediaArt_Display, "InvalidImage") !== FALSE) {
+            if ((strpos($mediaArt_Display, "InvalidImage") !== FALSE) || ($mediaArt_Display == "")) {
                 $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
                 // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
                 pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - Cache) - FailOver");
+
+                if ($mediaArt_Display == "") {
+                    pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - Cache) - BLANK");
+                }
             }
         }
     } else {
          $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')"; // Secure URL
          // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
-         if (strpos($mediaArt_Display, "InvalidImage") !== FALSE) {
+         if ((strpos($mediaArt_Display, "InvalidImage") !== FALSE) || ($mediaArt_Display == "")) {
             $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
             // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
             pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - No Cache) - FailOver");
+
+            if ($mediaArt_Display == "") {
+                pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - No Cache) - BLANK");
+            }
         }
     }
 }

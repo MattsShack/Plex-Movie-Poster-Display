@@ -5,9 +5,10 @@ include 'status.php';
 include 'assets/plexmovieposter/tools.php';
 include 'assets/plexmovieposter/CacheLib.php';
 include 'assets/plexmovieposter/PlexLib.php';
+include 'assets/plexmovieposter/getPoster.php';
 
 // Security Work Around (quick fix)
-include 'getPoster.php';
+// include 'getPoster.php';
 
 $results = Array();
 $movies = Array();
