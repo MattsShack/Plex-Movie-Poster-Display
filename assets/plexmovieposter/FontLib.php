@@ -3,15 +3,53 @@
 function GenerateCSS_FontSingle($CSSFullName, $fontPath = "/cache/fonts", $fontName = "CustomFont", $fontFile = "CustomFont") {
     // Font CSS Logic
 
-    $publishString = "@font-face {\n";
-    $publishString .= "    font-family: \"$fontName\";\n";
-    $publishString .= "    src: url('$fontPath/$fontFile.eot');\n";
-    $publishString .= "    src: url('$fontPath/$fontFile.eot?#iefix') format('embedded-opentype'),\n";
-    $publishString .= "         url('$fontPath/$fontFile.woff') format('woff'),\n";
-    $publishString .= "         url('$fontPath/$fontFile.ttf') format('truetype'),\n";
-    $publishString .= "         url('$fontPath/$fontFile.otf') format('opentype'),\n";
-    $publishString .= "         url('$fontPath/$fontFile.svg#webfont') format('svg');\n";
-    $publishString .= "}\n\n";
+    $fontSystemRoot = "/var/www/html";
+    $fontExtList = array("ttf","otf","eot","woff","svg");
+
+    // Simple Logic
+        // $publishString = "@font-face {\n";
+        // $publishString .= "    font-family: \"$fontName\";\n";
+        // $publishString .= "    src: url('$fontPath/$fontFile.eot');\n";
+        // $publishString .= "    src: url('$fontPath/$fontFile.eot?#iefix') format('embedded-opentype'),\n";
+        // $publishString .= "         url('$fontPath/$fontFile.woff') format('woff'),\n";
+        // $publishString .= "         url('$fontPath/$fontFile.ttf') format('truetype'),\n";
+        // $publishString .= "         url('$fontPath/$fontFile.otf') format('opentype'),\n";
+        // $publishString .= "         url('$fontPath/$fontFile.svg#webfont') format('svg');\n";
+        // $publishString .= "}\n\n";
+
+    // Advanced Logic
+        $publishString = "@font-face {\n";
+        $publishString .= "    font-family: \"$fontName\";\n";
+
+        foreach ($fontExtList as $fontExt) {
+            $fontSystemPath = "$fontSystemRoot$fontPath/$fontFile.$fontExt";
+            pmp_Logging("fontSystem", "Validating (Font System Path): $fontSystemPath");
+
+            $ValidateFontSystemPath = realpath("$fontSystemPath");
+            pmp_Logging("fontSystem", "Validating (realpath): $ValidateFontSystemPath");
+
+            if (($fontExt == "eot") && ($ValidateFontSystemPath != "")) {
+                $publishString .= "    src: url('$fontPath/$fontFile.eot');\n";
+                $publishString .= "    src: url('$fontPath/$fontFile.eot?#iefix') format('embedded-opentype'),\n";
+            }
+
+            if (($fontExt == "woff") && ($ValidateFontSystemPath != "")) {
+                $publishString .= "    src: url('$fontPath/$fontFile.woff') format('woff');\n";
+            }
+
+            if (($fontExt == "ttf") && ($ValidateFontSystemPath != "")) {
+                $publishString .= "    src: url('$fontPath/$fontFile.ttf') format('truetype');\n";
+            }
+
+            if (($fontExt == "otf") && ($ValidateFontSystemPath != "")) {
+                $publishString .= "    src: url('$fontPath/$fontFile.otf') format('opentype');\n";
+            }
+
+            if (($fontExt == "svg") && ($ValidateFontSystemPath != "")) {
+                $publishString .= "    src: url('$fontPath/$fontFile.svg#webfont') format('svg');\n";
+            }
+        }
+        $publishString .= "}\n\n";
 
     // Open the file to get existing content
     if (realpath($CSSFullName) != "") {
@@ -36,6 +74,7 @@ function GenerateCSS_FontSingle($CSSFullName, $fontPath = "/cache/fonts", $fontN
 
 function GenerateCSS_Font($CSSPath = "../cache/fonts/", $CSSFile = "fonts_custom.css", $FontPath = "../cache/fonts") {
     $invalidDirs = array('__MACOSX');
+    $invalidFiles = array('._');
 
     // CSS File Settings
     $CSSFullName = $CSSPath . $CSSFile;
@@ -107,14 +146,22 @@ function GenerateCSS_Font($CSSPath = "../cache/fonts/", $CSSFile = "fonts_custom
                     else {
                         pmp_Logging("fontSystem", "No pre-existing CSS file to validate against.");
                     }
+
+                    if ($fontValid == TRUE) {
+                        // Future: Use invalidFiles array
+                        if (strpos($fontFile, '._') !== FALSE) {
+                            pmp_Logging("fontSystem", "[WARNING] Validating Font (._): $fontFile");
+                            $fontValid = FALSE;
+                        }
+                    }
                     // ----
 
-                    if($fontValid == TRUE) {
+                    if ($fontValid == TRUE) {
                         pmp_Logging("fontSystem", "Adding: $fontName ($fontPath - $fontFile)");
                         GenerateCSS_FontSingle($CSSFullName, $fontPath, $fontName, $fontFile);
                     }
                     else {
-                        pmp_Logging("fontSystem", "Duplicate: $fontName ($fontPath - $fontFile)");
+                        pmp_Logging("fontSystem", "Duplicate or Invalid Font: $fontName ($fontPath - $fontFile)");
                     }
                 }
             }
@@ -408,7 +455,7 @@ function FontDirCleanup($source = "../cache/fonts/", $ScanSubDir = TRUE) {
             foreach ($invalidFiles as $invalidFile) {
                 $setMatch = '#(' . $invalidFile . ')#i';
 
-                if (strpos($setMatch,$file_parts['filename'])) {
+                if (strpos($file_parts['filename'],$setMatch) !== FALSE) {
                     $fontPath = $file_parts['filename'];
                     $fontPath = realpath($fontPath);
 

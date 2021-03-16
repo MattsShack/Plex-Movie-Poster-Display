@@ -22,7 +22,7 @@ function getPoster($artWorkLocation) {
 	// $mediaUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 	$mediaUrl = "$URLScheme://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 
-	pmp_Logging("$logName", "$mediaUrl");
+	pmp_Logging("$logName", "Media URL ($logName): $mediaUrl");
 
 	// Grab Poster
 	$ch = curl_init($mediaUrl);
@@ -39,7 +39,7 @@ function getPoster($artWorkLocation) {
 	$imgInfo=getImageSizeFromString($imgRaw);
 
 	$testMimeData = mime_content_type($imgInfo);
-	pmp_Logging("$logName", "Test Mime Data: $testMimeData");
+	pmp_Logging("$logName", "\t Test Mime Data: $testMimeData");
 
 	// Ensure image, is indeed an image.
 	if (empty($imgInfo['mime']) || strpos($imgInfo['mime'], 'image/') !== 0) {
@@ -74,7 +74,7 @@ function getCachePoster($cacheURL) {
 	// $mediaUrl = "http://$plexServer:32400$artWorkLocation?X-Plex-Token=$plexToken";
 	$mediaUrl = "$URLScheme://$PMPServer/$cacheURL";
 
-	pmp_Logging("$logName", "$mediaUrl");
+	pmp_Logging("$logName", "Media URL ($logName): $mediaUrl");
 
 	// Grab Poster
 	$ch = curl_init($mediaUrl);
@@ -91,7 +91,7 @@ function getCachePoster($cacheURL) {
 	$imgInfo=getImageSizeFromString($imgRaw);
 
 	$testMimeData = mime_content_type("$imgInfo");
-	pmp_Logging("$logName", "Test Mime Data: $testMimeData");
+	pmp_Logging("$logName", "\t Test Mime Data: $testMimeData");
 
 	// Ensure image, is indeed an image.
 	if (empty($imgInfo['mime']) || strpos($imgInfo['mime'], 'image/') !== 0) {

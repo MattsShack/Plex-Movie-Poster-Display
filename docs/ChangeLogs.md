@@ -262,8 +262,24 @@ Known Issues:
 Coming Soon - Show Media: ALL - Not Displaying TV Show Posters (Issue #51)
 - Add a more documentation around when using Unwatched and All for show media that the poster will default to the Series poster.
 
+Enhancement - Font Enhancements (Issue #44)
+- Address issues with 'Bad Gateway'
+- Add filter to remove bad directories when uploading font (_MACOSX)
+
 Updates and Bug Fixes:
 - Address nginx errors in error log (tail /var/log/nginx/error.log)
-- Address issues with 'Bad Gateway' (Issue #44)
 - Add more misc. logging information
 - Add missing fields in config.php
+
+**v2.10.4 Community Updates**\
+Enhancement - Font Enhancements (Issue #44)
+- Add flag for files with '._' as there name.  Future update should remove these files directly.
+- Add a more dynamic font css generation to only add the 'fonts' that truly exist.  Any fonts that have the same font with multiple ext. will need to be validated.
+
+Updates and Bug Fixes:
+- Update to ChangeLog for v2.10.3 as missing additional information.
+- Move getPoster from to plexMoviePoster assets.  This is to help isolate potential issues with relative paths.
+- Update how to handle issues with the getPoster functions when receiving invalid image.
+
+Trouble Shooting:
+- If poster is not returning correctly, attempt to reinstall dependencies.  Sometimes issue could be because of an issue with the pmp-curl dependency.
