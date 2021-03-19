@@ -41,6 +41,16 @@ GenerateCSS_Font_ALL();
                         <?php AdvancedBar() ;?>
                         <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
+                                <div class="form-group">
+                                    <hr>
+                                    Transition/Refresh Speed: &nbsp;
+                                    <input type="text" id="comingSoonRefreshSpeed" name="comingSoonRefreshSpeed" class="form-control fieldInfo-xsmall form-inline" value="<?php echo $comingSoonRefreshSpeed; ?>" required>
+
+                                    <p class="help-block">
+                                        How fast the page will refresh in seconds.
+                                    </p>
+                                </div>
+
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Show Media:&nbsp;

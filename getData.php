@@ -79,6 +79,8 @@ $mediaArt_Display = "";
 $mediaArt_Status = "";
 $isPlaying = false;
 
+$RefreshSpeed = 30; //Default: 30
+
 $mediaTitle = "";
 $mediaSummary = "";
 $mediaTagline = "";
@@ -117,6 +119,7 @@ else {
 //Display Custom Image if Enabled
 if ($customImageEnabled == "Enabled") {
     $data['type'] = 'custom';
+    $RefreshSpeed = $customRefreshSpeed;
     $topSize = $customTopFontSize;
     $topColor = $customTopFontColor;
     $bottomSize = $customBottomFontSize;
@@ -182,6 +185,8 @@ if ($customImageEnabled == "Enabled") {
                 $mediaArt_Status = $nowShowingBackgroundArt;
                 $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
 
+                $RefreshSpeed = $nowShowingRefreshSpeed;
+
                 $mediaTitle = $clients['title']; // Default
                 $mediaTagline = $clients['tagline']; // Default
                 $mediaSummary = $clients['summary']; // Default
@@ -238,11 +243,19 @@ if ($customImageEnabled == "Enabled") {
                         break;
                 }
 
+                plex_metadata_base("$mediaType", "START");
                 plex_metadata_title("$mediaType");
                 plex_metadata_summary("$mediaType");
                 plex_metadata_tagline("$mediaType");
                 plex_metadata_art("$mediaType");
+                plex_metadata_contentRating("$mediaType");
+                plex_metadata_decision("$mediaType", TRUE);
+                plex_metadata_audioCodec("$mediaType", TRUE);
+                plex_metadata_videoCodec("$mediaType", TRUE);
+                plex_metadata_audioDisplay("$mediaType", TRUE);
+                plex_metadata_videoDisplay("$mediaType", TRUE);
                 plex_metadata_thumb("$mediaType");
+                plex_metadata_base("$mediaType", "END");
 
                 //Progress Bar
                 if ($pmpDisplayProgress == 'Enabled') {
@@ -276,6 +289,8 @@ if ($customImageEnabled == "Enabled") {
         $bottomSize = $comingSoonBottomFontSize;
         $bottomFontEnabled = $comingSoonBottomFontEnabled;
         $bottomFontID = $comingSoonBottomFontID;
+
+        $RefreshSpeed = $comingSoonRefreshSpeed;
 
         $mediaArt_Status = $comingSoonBackgroundArt;
         $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
@@ -363,11 +378,16 @@ if ($customImageEnabled == "Enabled") {
                     if (strstr($clients['title'], $showMedia)) {
                         $checkTitle = $clients['title'];
                         pmp_Logging("getMediaURL", "Coming Soon ($mediaType_Display): $checkTitle");
+                        
+                        plex_metadata_base("$mediaType", "START");
                         plex_metadata_title("$mediaType");
                         plex_metadata_summary("$mediaType");
                         plex_metadata_tagline("$mediaType");
                         plex_metadata_art("$mediaType");
+                        plex_metadata_contentRating("$mediaType");
+                        plex_metadata_decision("$mediaType");
                         plex_metadata_thumb("$mediaType", TRUE);
+                        plex_metadata_base("$mediaType", "END");
                     }
                 }
             }
@@ -417,12 +437,12 @@ if ($customImageEnabled != "Enabled") {
 }
 
 $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
-if ($topFontEnabled) $topStyle .= " font-family: '$topFontID';";
+if ($topFontEnabled == TRUE && $topFontID != "None") $topStyle .= " font-family: '$topFontID';";
 if (!$autoScaleTop) $topStyle .= " font-size: ${topSize}px;";
 $topLine = "<div><span class='userText' style=\"$topStyle\">${topText}</span></div>"; // Missing: Scroll Append?
 
 $bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
-if ($bottomFontEnabled) $bottomStyle .= " font-family: '$bottomFontID';";
+if ($bottomFontEnabled == TRUE && $bottomFontID != "None") $bottomStyle .= " font-family: '$bottomFontID';";
 if (!$autoScaleBottom) $bottomStyle .= " font-size: ${bottomSize}px;";
 if ($bottomScroll == TRUE) {
     $cssClass = "marqueeDisplay";
@@ -432,7 +452,12 @@ else {
 }
 $bottomLine = "$scrollPrepend<div><span class='$cssClass' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
 
+updateStatusRefresh();
+
 $results = [];
+$results['refreshSpeed'] = ($RefreshSpeed);
+// $results['photoMode'] = TRUE; // Future Use (Issue #48)
+
 $results['top'] = $topLine . $progressBar;
 $results['middle'] = $mediaThumb_Display;
 
@@ -451,5 +476,13 @@ die();
 function updateStatus($lastNowShowing = "") {
     $myFile = fopen("status.php", "w") or die("Unable to open file!");
     fwrite($myFile, ' <?php $lastNowShowing = "' . $lastNowShowing. '";');
+    fclose($myFile);
+}
+
+function updateStatusRefresh($lastNowShowing = "") {
+    global $RefreshSpeed;
+
+    $myFile = fopen("statusRefresh.php", "w") or die("Unable to open file!");
+    fwrite($myFile, ' <?php $currentRefreshSpeed = "' . $RefreshSpeed. '";?>');
     fclose($myFile);
 }

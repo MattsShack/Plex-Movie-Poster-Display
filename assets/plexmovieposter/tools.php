@@ -61,7 +61,8 @@ function pmp_Logging($LogType = "Generic", $LogMSG = "", $DebugMSG = FALSE, $Fee
         $LogAction = TRUE;
     }
 
-    $Log_FileName = "PMPD_Log_$LogType.txt";
+    // $Log_FileName = "PMPD_Log_$LogType.txt";
+    $Log_FileName = "$LogType.log";
 
     $Log_FullName = join('/', array(trim($destination, '/'), trim($Log_FileName, '/')));
     $Log_FullName = "/$Log_FullName"; //Pre-append '/' to build out the path correctly

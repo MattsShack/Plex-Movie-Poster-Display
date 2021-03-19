@@ -39,9 +39,9 @@ if (!empty($_POST['saveConfig'])) {
                         <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
                                 <div class="form-group">
-                                    Poster Transition/Refresh Speed: &nbsp;
+                                    <!-- Poster Transition/Refresh Speed: &nbsp;
                                     <input type="text" id="pmpImageSpeed" name="pmpImageSpeed" class="form-control fieldInfo-xsmall form-inline" value="<?php echo $pmpImageSpeed; ?>" required>
-                                     &nbsp; Seconds
+                                     &nbsp; Seconds -->
 
                                     <!-- <p class="help-block">
                                             Seconds
@@ -49,7 +49,7 @@ if (!empty($_POST['saveConfig'])) {
                                 </div>
 
                                 <div class="form-group">
-                                    Bottom Scrolling Text: &nbsp;
+                                    <!-- Bottom Scrolling Text: &nbsp;
                                     <select id="pmpBottomScroll" name="pmpBottomScroll">
                                         <option value="Disabled" <?php if ($pmpBottomScroll == 'Disabled') { echo "selected"; } ?>>
                                             Disabled
@@ -57,7 +57,7 @@ if (!empty($_POST['saveConfig'])) {
                                         <option value="Enabled" <?php if ($pmpBottomScroll == 'Enabled') { echo "selected"; } ?>>
                                             Enabled
                                         </option>
-                                    </select>
+                                    </select> -->
 
                                     <!-- <p class="help-block">
                                     </p> -->
