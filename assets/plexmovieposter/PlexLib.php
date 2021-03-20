@@ -2,6 +2,43 @@
 
 //  NEED TO SUPPORT "movie" and "show" as well as "clients"
 
+function plex_metadata_base($mediaType = "episode", $mediaLogMode = "") {
+
+    switch ($mediaType) {
+        case "episode":
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_logClass = "PLEX_getMediaMetadata";
+            break;
+    }
+
+    switch ($mediaLogMode) {
+        case "START":
+            pmp_Logging("$media_logClass", "\n--- Media START Point ---");
+            break;
+        case "END":
+            pmp_Logging("$media_logClass", "---  Media END Point  ---");
+            break;
+        default:
+            pmp_Logging("$media_logClass", "---  Media TBD Point  ---");
+            break;
+    }
+
+}
+
 function plex_metadata_title($mediaType = "episode") {
     global $clients;
     global $mediaTitle, $mediaTitle_MetadataID;
@@ -11,27 +48,27 @@ function plex_metadata_title($mediaType = "episode") {
     // Title
     switch ($mediaType) {
         case "episode":
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             $media_metadata_name = 'title';
             break;
         case "season":
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             $media_metadata_name = 'parentTitle';
             break;
         case "series":
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             $media_metadata_name = 'grandparentTitle';
             break;
         case "movie":
-            $media_logClass = "getMovieData";
+            $media_logClass = "PLEX_getMovieMetadata";
             $media_metadata_name = 'title';
             break;
         case "track":
-            $media_logClass = "getMusicData";
+            $media_logClass = "PLEX_getMusicMetadata";
             $media_metadata_name = 'title'; // Track Title (future - title, parentTitle (Album), grandparentTitle (Artist))
             break;
         default:
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             $media_metadata_name = 'title';
     }
 
@@ -42,8 +79,7 @@ function plex_metadata_title($mediaType = "episode") {
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     // $mediaTitle_MetadataID = $media_MetadataID;
-    pmp_Logging("$media_logClass", "--- Media START Point ---");
-    pmp_Logging("$media_logClass", "mediaTitle @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaTitle");
+    pmp_Logging("$media_logClass", "\tmediaTitle @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaTitle");
 }
 
 function plex_metadata_summary($mediaType = "episode") {
@@ -56,27 +92,27 @@ function plex_metadata_summary($mediaType = "episode") {
     switch ($mediaType) {
         case "episode":
             $media_metadata_name = 'summary';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "season":
             $media_metadata_name = 'summary';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "series":
             $media_metadata_name = 'summary';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "movie":
             $media_metadata_name = 'summary';
-            $media_logClass = "getMovieData";
+            $media_logClass = "PLEX_getMovieMetadata";
             break;
         case "track":
             $media_metadata_name = 'summary';
-            $media_logClass = "getMusicData";
+            $media_logClass = "PLEX_getMusicMetadata";
             break;
         default:
             $media_metadata_name = 'summary';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
     }
 
     $mediaSummary = $clients[$media_metadata_name];
@@ -86,7 +122,7 @@ function plex_metadata_summary($mediaType = "episode") {
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     // $mediaSummary_MetadataID = $media_MetadataID;
-    pmp_Logging("$media_logClass", "mediaSummary @ $mediaType ($media_metadata_name) $media_MetadataID_STR - \n $mediaSummary");
+    pmp_Logging("$media_logClass", "\tmediaSummary @ $mediaType ($media_metadata_name) $media_MetadataID_STR - \n $mediaSummary");
 }
 
 function plex_metadata_tagline($mediaType = "episode") {
@@ -101,27 +137,27 @@ function plex_metadata_tagline($mediaType = "episode") {
     switch ($mediaType) {
         case "episode":
             $media_metadata_name = 'tagline';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "season":
             $media_metadata_name = 'tagline';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "series":
             $media_metadata_name = 'tagline';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "movie":
             $media_metadata_name = 'tagline';
-            $media_logClass = "getMovieData";
+            $media_logClass = "PLEX_getMovieMetadata";
             break;
         case "track":
             $media_metadata_name = 'tagline';
-            $media_logClass = "getMusicData";
+            $media_logClass = "PLEX_getMusicMetadata";
             break;
         default:
             $media_metadata_name = 'tagline';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
     }
 
     $mediaTagline = $clients[$media_metadata_name];
@@ -131,7 +167,7 @@ function plex_metadata_tagline($mediaType = "episode") {
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     // $mediaTagline_MetadataID = $media_MetadataID;
-    pmp_Logging("$media_logClass", "mediaTagline @ $mediaType ($media_metadata_name) $media_MetadataID_STR - \n $mediaTagline");
+    pmp_Logging("$media_logClass", "\tmediaTagline @ $mediaType ($media_metadata_name) $media_MetadataID_STR - \n $mediaTagline");
 }
 
 function plex_metadata_art($mediaType = "episode") {
@@ -144,27 +180,27 @@ function plex_metadata_art($mediaType = "episode") {
     switch ($mediaType) {
         case "episode":
             $media_metadata_name = 'art';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "season":
             $media_metadata_name = 'art';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "series":
             $media_metadata_name = 'art';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
             break;
         case "movie":
             $media_metadata_name = 'art';
-            $media_logClass = "getMovieData";
+            $media_logClass = "PLEX_getMovieMetadata";
             break;
         case "track":
             $media_metadata_name = 'art';
-            $media_logClass = "getMusicData";
+            $media_logClass = "PLEX_getMusicMetadata";
             break;
         default:
             $media_metadata_name = 'art';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
     }
 
     $mediaArt = $clients[$media_metadata_name];
@@ -174,7 +210,309 @@ function plex_metadata_art($mediaType = "episode") {
     $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     $mediaArt_MetadataID = $media_MetadataID;
-    pmp_Logging("$media_logClass", "mediaArt @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaArt");
+    pmp_Logging("$media_logClass", "\tmediaArt @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaArt");
+}
+
+function plex_metadata_contentRating($mediaType = "episode") {
+    global $clients;
+    global $mediaContentRating, $mediaContentRating_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes:
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'contentRating';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    $mediaContentRating = $clients[$media_metadata_name];
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaContentRating);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaContentRating_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaContentRating @ $mediaType ($media_metadata_name) - \"$mediaContentRating\"");
+}
+
+function plex_metadata_decision($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaDecision, $mediaDecision_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes: decision -> directplay/transcode
+    // DirectPlay/Transcode (Only for Playing)
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'decision';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    if ($isPlayingMode == TRUE) {
+        $mediaDecision = $clients->Media->Part[$media_metadata_name];
+    }
+    else {
+        $mediaDecision = "N/A";
+    }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaDecision);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaDecision_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaDecision @ $mediaType ($media_metadata_name) - \"$mediaDecision\"");
+}
+
+function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaAudioCodec, $mediaAudioCodec_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes: audioCodec
+    //
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'audioCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    if ($isPlayingMode == TRUE) {
+        $mediaAudioCodec = $clients->Media[$media_metadata_name];
+    }
+    else {
+        $mediaAudioCodec = "N/A";
+    }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioCodec);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaAudioCodec_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaAudioCodec @ $mediaType ($media_metadata_name) - \"$mediaAudioCodec\"");
+}
+
+function plex_metadata_videoCodec($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaVideoCodec, $mediaVideoCodec_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes: videoCodec
+    //
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'videoCodec';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    if ($isPlayingMode == TRUE) {
+        $mediaVideoCodec = $clients->Media[$media_metadata_name];
+    }
+    else {
+        $mediaVideoCodec = "N/A";
+    }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoCodec);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaVideoCodec_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaVideoCodec @ $mediaType ($media_metadata_name) - \"$mediaVideoCodec\"");
+}
+
+function plex_metadata_audioDisplay($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaAudioDisplay, $mediaAudioDisplay_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes:
+    //
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    if ($isPlayingMode == TRUE) {
+        $rootElement = $clients->Media->Part->Stream[1];
+        $mediaAudioDisplay = $rootElement[$media_metadata_name];
+    }
+    else {
+        $mediaAudioDisplay = "N/A";
+    }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioDisplay);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaAudioDisplay_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaAudioDisplay @ $mediaType ($media_metadata_name) - \"$mediaAudioDisplay\"");
+}
+
+function plex_metadata_videoDisplay($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaVideoDisplay, $mediaVideoDisplay_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes:
+    //
+
+    // contentRating
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'displayTitle';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    if ($isPlayingMode == TRUE) {
+        $rootElement = $clients->Media->Part->Stream[0];
+        $mediaVideoDisplay = $rootElement[$media_metadata_name];
+    }
+    else {
+        $mediaVideoDisplay = "N/A";
+    }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoDisplay);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaVideoDisplay_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaVideoDisplay @ $mediaType ($media_metadata_name) - \"$mediaVideoDisplay\"");
 }
 
 function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
@@ -187,7 +525,7 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
     switch ($mediaType) {
         case "episode":
             $media_metadata_name = 'thumb';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
 
             $mediaThumb = $clients[$media_metadata_name];
 
@@ -202,7 +540,7 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
             }
             break;
         case "season":
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
 
             if ($ComingSoonMode == TRUE) {
                 switch ($comingSoonShowSelection) {
@@ -237,7 +575,7 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
             }
             break;
         case "series":
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
 
             if ($ComingSoonMode == TRUE) {
                 switch ($comingSoonShowSelection) {
@@ -260,12 +598,12 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
             }
             break;
         case "movie":
-            $media_logClass = "getMovieData";
+            $media_logClass = "PLEX_getMovieMetadata";
             $media_metadata_name = 'thumb';
 
             break;
         case "track":
-            $media_logClass = "getMusicData";
+            $media_logClass = "PLEX_getMusicMetadata";
 
             $media_metadata_name = 'thumb'; // Track Thumb (Poster) (future - thumb, parentThumb (Album), grandparentThumb (Artist))
             $mediaThumb = $clients[$media_metadata_name];
@@ -282,7 +620,7 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
             break;
         default:
             $media_metadata_name = 'thumb';
-            $media_logClass = "getTVShowData";
+            $media_logClass = "PLEX_getTVMetadata";
     }
 
     $mediaThumb = $clients[$media_metadata_name];
@@ -292,8 +630,7 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
     $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
 
     $mediaThumb_MetadataID = $media_MetadataID;
-    pmp_Logging("$media_logClass", "mediaTagline @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaThumb");
-    pmp_Logging("$media_logClass", "---  Media END Point  ---");
+    pmp_Logging("$media_logClass", "\tmediaTagline @ $mediaType ($media_metadata_name) $media_MetadataID_STR - $mediaThumb");
 }
 
 function plex_metadata_template($mediaType = "episode") {
@@ -323,32 +660,32 @@ function plex_random_media($mediaAttempt = 0) {
     global $plexServerMovieSection, $plexServerMovieSections, $plexServerMovieSection_ID ;
     global $useSection, $xmlMedia, $viewGroup;
 
-    pmp_Logging("getMediaURL", "\n"); // New Line
-    pmp_Logging("getMediaURL", "plex_random_media (attempt): $mediaAttempt");
+    pmp_Logging("PLEX_getMediaMetadata", "\n"); // New Line
+    pmp_Logging("PLEX_getMediaMetadata", "plex_random_media (attempt): $mediaAttempt");
 
     $plexServerMovieSections = explode(",", $plexServerMovieSection);
 
     $ValidateSections = implode(",", $plexServerMovieSections);
-    pmp_Logging("getMediaURL", "Library (Array Scan/ReScan): $ValidateSections");
+    pmp_Logging("PLEX_getMediaMetadata", "Library (Array Scan/ReScan): $ValidateSections");
 
     $useSection = rand(0, count($plexServerMovieSections) - 1);
     $plexServerMovieSection_ID = $plexServerMovieSections[$useSection];
-    pmp_Logging("getMediaURL", "Library (ID): $plexServerMovieSection_ID");
+    pmp_Logging("PLEX_getMediaMetadata", "Library (ID): $plexServerMovieSection_ID");
 
     $MoviesURL = $URLScheme . '://' . $plexServer . ':32400/library/sections/' . $plexServerMovieSections[$useSection] . '/' . $comingSoonShowSelection . '?X-Plex-Token=' . $plexToken . '';
-    pmp_Logging("getMediaURL", "$comingSoonShowSelection URL: $MoviesURL");
+    pmp_Logging("PLEX_getMediaMetadata", "$comingSoonShowSelection URL: $MoviesURL");
 
     $getMovies = file_get_contents($MoviesURL);
     $xmlMedia = simplexml_load_string($getMovies) or die("feed not loading");
 
     $viewGroup = $xmlMedia['viewGroup'];
-    pmp_Logging("getMediaURL", "xml viewGroup: $viewGroup");
+    pmp_Logging("PLEX_getMediaMetadata", "xml viewGroup: $viewGroup");
 
 }
 
 function plex_variable_presets($mode = "comingSoon") {
     $topSelection_test = ${$mode . "Top"};
-    pmp_Logging("getMediaURL", "GenVar: $topSelection_test");
+    pmp_Logging("PLEX_getMediaMetadata", "GenVar: $topSelection_test");
     // $autoScaleTop = $comingSoonTopAutoScale;
     // $topColor = $comingSoonTopFontColor;
     // $topSize = $comingSoonTopFontSize;
@@ -390,10 +727,10 @@ function plex_getMedia_thumb() {
         }
 
         $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
-        pmp_Logging("getCacheFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
+        pmp_Logging("PLEX_getMediaFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
 
         $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
-        pmp_Logging("getMediaThumb", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
+        pmp_Logging("PLEX_getMediaFile", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
 
         // There's nothing else to do here, just save it
         if (!file_exists($mediaThumb_CacheFullName)) {
@@ -403,29 +740,29 @@ function plex_getMedia_thumb() {
         $mediaThumb_CacheURL = $mediaThumb_CacheFullName;
 
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaThumb_CacheURL)."')"; // Secure URL
-        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+        // pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
         if ((strpos($mediaThumb_Display, "InvalidImage") !== FALSE) || ($mediaThumb_Display == "")) {
             $mediaThumb_Display = "url('$mediaThumb_CacheURL')"; // Unsecure URL
-            // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
-            pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - Cache) - FailOver");
+            // pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure - Cache) - FailOver");
 
             if ($mediaThumb_Display == "") {
-                pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - Cache) - BLANK");
+                pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure - Cache) - BLANK");
             }
         }
 
     } else {
         $mediaThumb_Display = "url('data:image/jpeg;base64,".getPoster($mediaThumb)."')"; // Secure URL
-        // pmp_Logging("getMediaThumb", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+        // pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Secure) - $mediaThumb_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
         if ((strpos($mediaThumb_Display, "InvalidImage") !== FALSE) || ($mediaThumb_Display == "")) {
             $mediaThumb_Display = "url('$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken')"; // Unsecure URL
-            // pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
-            pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - No Cache) - FailOver");
+            // pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure) - $mediaThumb_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure - No Cache) - FailOver");
 
             if ($mediaThumb_Display == "") {
-                pmp_Logging("getMediaThumb", "mediaThumb (Display - Unsecure - No Cache) - BLANK");
+                pmp_Logging("PLEX_getMediaFile", "mediaThumb (Display - Unsecure - No Cache) - BLANK");
             }
         }
     }
@@ -455,10 +792,10 @@ function plex_getMedia_art() {
             }
 
             $mediaArt_CacheFullName = join('/', array(trim($cacheArtPath, '/'), trim($mediaArt_CacheFileName, '/')));
-            pmp_Logging("getCacheFile", "Cache File @ Output (mediaArt) - $mediaArt_CacheFullName");
+            pmp_Logging("PLEX_getMediaFile", "Cache File @ Output (mediaArt) - $mediaArt_CacheFullName");
 
             $mediaArt_URL = "$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken";
-            pmp_Logging("getMediaArt", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
+            pmp_Logging("PLEX_getMediaFile", "$mediaArt_ID ($cacheArtPath) - $mediaArt_URL");
 
             // There's nothing else to do here, just save it
             if (!file_exists($mediaArt_CacheFullName)) {
@@ -468,29 +805,29 @@ function plex_getMedia_art() {
             $mediaArt_CacheURL = $mediaArt_CacheFullName;
 
             $mediaArt_Display = "url('data:image/jpeg;base64,".getCachePoster($mediaArt_CacheURL)."')"; // Secure URL
-            // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+            // pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
             if ((strpos($mediaArt_Display, "InvalidImage") !== FALSE) || ($mediaArt_Display == "")) {
                 $mediaArt_Display = "url('$mediaArt_CacheURL')"; // Unsecure URL
-                // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
-                pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - Cache) - FailOver");
+                // pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+                pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure - Cache) - FailOver");
 
                 if ($mediaArt_Display == "") {
-                    pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - Cache) - BLANK");
+                    pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure - Cache) - BLANK");
                 }
             }
         }
     } else {
          $mediaArt_Display = "url('data:image/jpeg;base64,".getPoster($mediaArt)."')"; // Secure URL
-         // pmp_Logging("getMediaArt", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
+         // pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Secure) - $mediaArt_Display"); // DO NOT LOG SECURE URL - DATA UNUSABLE AND LOGS BECOME UNREADABLE
 
          if ((strpos($mediaArt_Display, "InvalidImage") !== FALSE) || ($mediaArt_Display == "")) {
             $mediaArt_Display = "url('$URLScheme://$plexServer:32400$mediaArt?X-Plex-Token=$plexToken')"; // Unsecure URL
-            // pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
-            pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - No Cache) - FailOver");
+            // pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure) - $mediaArt_Display"); // DO NOT LOG UNSECURE URL - DATA IS NOT ENCRYPTED
+            pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure - No Cache) - FailOver");
 
             if ($mediaArt_Display == "") {
-                pmp_Logging("getMediaArt", "mediaArt (Display - Unsecure - No Cache) - BLANK");
+                pmp_Logging("PLEX_getMediaFile", "mediaArt (Display - Unsecure - No Cache) - BLANK");
             }
         }
     }
@@ -512,7 +849,7 @@ function plex_webhook_decode() {
 
     plex_webhook_json_METADATA();
 
-    pmp_Logging("WebHookData", "$plex_webhook_data_raw");
+    pmp_Logging("PLEX_WebHookData", "$plex_webhook_data_raw");
 }
 
 function plex_webhook_json_HEAD() {

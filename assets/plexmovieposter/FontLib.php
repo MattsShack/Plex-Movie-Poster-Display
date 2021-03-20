@@ -362,8 +362,19 @@ function dropdownFontFamily($searchfor, $fontfamilyRAW, $fieldID = "customTopFon
         $HTMLStyle = "";
     }
 
-    echo "<select id=\"\" name=\"$fieldID\" $HTMLStyle >\n";
-    echo "<option value=\"\">None</option>\n";
+    if ($$fieldID == none) {
+        $HTMLSelect = "selected";
+    }
+    else {
+        $HTMLSelect = "";
+    }
+
+    echo "<select id=\"\" name=\"$fieldID\" $HTMLStyle>\n";
+
+    $fontfamily = "None";
+    echo "<option value=\"$fontfamily\" $HTMLStyle $HTMLSelect>";
+    echo "$fontfamily";
+    echo "</option>\n";
 
     foreach($fontfamilyRAW as $fontfamily) {
         // Clean Up String

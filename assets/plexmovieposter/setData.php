@@ -145,6 +145,9 @@ function ghostData($configPage) {
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonBackgroundArt\" name=\"comingSoonBackgroundArt\" value=\"$comingSoonBackgroundArt\">\n";
         echo $ghostField;
 
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonRefreshSpeed\" name=\"comingSoonRefreshSpeed\" value=\"$comingSoonRefreshSpeed\">\n";
+        echo $ghostField;
+
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonShowSelection\" name=\"comingSoonShowSelection\" value=\"$comingSoonShowSelection\">\n";
         echo $ghostField;
 
@@ -218,6 +221,9 @@ function ghostData($configPage) {
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBackgroundArt\" name=\"nowShowingBackgroundArt\" value=\"$nowShowingBackgroundArt\">\n";
+        echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingRefreshSpeed\" name=\"nowShowingRefreshSpeed\" value=\"$nowShowingRefreshSpeed\">\n";
         echo $ghostField;
         
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingShowTVThumb\" name=\"nowShowingShowTVThumb\" value=\"$nowShowingShowTVThumb\">\n";
@@ -302,6 +308,9 @@ function ghostData($configPage) {
         // // echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageEnabled\" name=\"customImageEnabled\" value=\"$customImageEnabled\">\n";
+        echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"customRefreshSpeed\" name=\"customRefreshSpeed\" value=\"$customRefreshSpeed\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customImage\" name=\"customImage\" value=\"$customImage\">\n";
@@ -401,31 +410,33 @@ function setData($configPage) {
 
   //Custom Image Configuration
   \$customImageEnabled = '$_POST[customImageEnabled]'; //Default: Disabled
+  \$customRefreshSpeed = '$_POST[customRefreshSpeed]'; //Default 30 Seconds
   \$customImage = '$_POST[customImage]';
   \$customTopText = '$_POST[customTopText]';
   \$customTopFontSize = '$_POST[customTopFontSize]'; //Default: 55 (px)
   \$customTopFontColor = '$_POST[customTopFontColor]'; //Default: #FFFF00 (Yellow)
   \$customTopFontEnabled = '$_POST[customTopFontEnabled]'; //Default: Unchecked
-  \$customTopFontID = '$_POST[customTopFontID]';
+  \$customTopFontID = '$_POST[customTopFontID]'; //Default: None
   \$customTopFontOutlineSize = '$_POST[customTopFontOutlineSize]'; //Default: 0 (px)
   \$customTopFontOutlineColor = '$_POST[customTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
   \$customBottomText = '$_POST[customBottomText]';
   \$customBottomFontSize = '$_POST[customBottomFontSize]'; //Default: 25 (px)
   \$customBottomFontColor = '$_POST[customBottomFontColor]'; //Default: #FFFFFF (White)
   \$customBottomFontEnabled = '$_POST[customBottomFontEnabled]'; //Default: Unchecked
-  \$customBottomFontID = '$_POST[customBottomFontID]';
+  \$customBottomFontID = '$_POST[customBottomFontID]'; //Default: None
   \$customBottomFontOutlineSize = '$_POST[customBottomFontOutlineSize]'; //Default: 0 (px)
   \$customBottomFontOutlineColor = '$_POST[customBottomFontOutlineColor]'; //Default: #FFFFFF (White)
 
   //Coming Soon Configuration
   \$comingSoonBackgroundArt = '$_POST[comingSoonBackgroundArt]'; //Default: false
+  \$comingSoonRefreshSpeed = '$_POST[comingSoonRefreshSpeed]'; //Default 30 Seconds
   \$comingSoonTop = '$_POST[comingSoonTop]'; //Default: custom (title/summary/tagline/custom)
   \$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]'; //Default: false
   \$comingSoonTopText = '$_POST[comingSoonTopText]';
   \$comingSoonTopFontSize = '$_POST[comingSoonTopFontSize]'; //Default: 55 (px)
   \$comingSoonTopFontColor = '$_POST[comingSoonTopFontColor]'; //Default: #FFFF00 (Yellow)
   \$comingSoonTopFontEnabled = '$_POST[comingSoonTopFontEnabled]'; //Default: Unchecked
-  \$comingSoonTopFontID = '$_POST[comingSoonTopFontID]';
+  \$comingSoonTopFontID = '$_POST[comingSoonTopFontID]'; //Default: None
   \$comingSoonTopFontOutlineSize = '$_POST[comingSoonTopFontOutlineSize]'; //Default: 0 (px)
   \$comingSoonTopFontOutlineColor = '$_POST[comingSoonTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
   \$showComingSoonInfo = '$_POST[showComingSoonInfo]'; //Default: false
@@ -436,7 +447,7 @@ function setData($configPage) {
   \$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; //Default: 25 (px)
   \$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; //Default: #FFFFFF (White)
   \$comingSoonBottomFontEnabled = '$_POST[comingSoonBottomFontEnabled]'; //Default: Unchecked
-  \$comingSoonBottomFontID = '$_POST[comingSoonBottomFontID]';
+  \$comingSoonBottomFontID = '$_POST[comingSoonBottomFontID]'; //Default: None
   \$comingSoonBottomFontOutlineSize = '$_POST[comingSoonBottomFontOutlineSize]'; //Default: 0 (px)
   \$comingSoonBottomFontOutlineColor = '$_POST[comingSoonBottomFontOutlineColor]'; //Default: #FFFFFF (White)
   \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; //Default: unwatched
@@ -444,13 +455,14 @@ function setData($configPage) {
 
   //Now Showing Configuration
   \$nowShowingBackgroundArt = '$_POST[nowShowingBackgroundArt]'; //Default: false
+  \$nowShowingRefreshSpeed = '$_POST[nowShowingRefreshSpeed]'; //Default 30 Seconds
   \$nowShowingTop = '$_POST[nowShowingTop]'; //Default: custom (title/summary/tagline/custom)
   \$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; //Default: false
   \$nowShowingTopText = '$_POST[nowShowingTopText]';
   \$nowShowingTopFontSize = '$_POST[nowShowingTopFontSize]'; //Default: 55 (px)
   \$nowShowingTopFontColor = '$_POST[nowShowingTopFontColor]'; //Default: #FFFF00 (Yellow)
   \$nowShowingTopFontEnabled = '$_POST[nowShowingTopFontEnabled]'; //Default: Unchecked
-  \$nowShowingTopFontID = '$_POST[nowShowingTopFontID]';
+  \$nowShowingTopFontID = '$_POST[nowShowingTopFontID]'; //Default: None
   \$nowShowingTopFontOutlineSize = '$_POST[nowShowingTopFontOutlineSize]'; //Default: 0 (px)
   \$nowShowingTopFontOutlineColor = '$_POST[nowShowingTopFontOutlineColor]'; //Default: #FFFF00 (Yellow)
   \$nowShowingBottom = '$_POST[nowShowingBottom]'; //Default: title (title/summary/tagline/custom)
@@ -460,7 +472,7 @@ function setData($configPage) {
   \$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; //Default: 25 (px)
   \$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; //Default: #FFFFFF (White)
   \$nowShowingBottomFontEnabled = '$_POST[nowShowingBottomFontEnabled]'; //Default: Unchecked
-  \$nowShowingBottomFontID = '$_POST[nowShowingBottomFontID]';
+  \$nowShowingBottomFontID = '$_POST[nowShowingBottomFontID]'; //Default: None
   \$nowShowingBottomFontOutlineSize = '$_POST[nowShowingBottomFontOutlineSize]'; //Default: 0 (px)
   \$nowShowingBottomFontOutlineColor = '$_POST[nowShowingBottomFontOutlineColor]'; //Default: #FFFFFF (White)
   \$nowShowingShowTVThumb = '$_POST[nowShowingShowTVThumb]'; //Default: series

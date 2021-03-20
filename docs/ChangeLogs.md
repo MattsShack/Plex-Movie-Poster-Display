@@ -283,3 +283,24 @@ Updates and Bug Fixes:
 
 Trouble Shooting:
 - If poster is not returning correctly, attempt to reinstall dependencies.  Sometimes issue could be because of an issue with the pmp-curl dependency.
+
+**v2.10.5 Community Updates**\
+Enhancement - Font Enhancements (Issue #44)
+- Add Fix for when font = None that it defaults back to system font not generic font.
+ 
+Enhancement - Digital Picture Frame Mode (Issue #48)
+- Separate timer to give timer to each one of the types of display options.
+- Cleanup javascript to use switch case vs. if statement to better organize load options, and to allow for future data promotion to the front end.
+- Update to how the index page takes in changes to refresh time.  Previously if a refresh time was set and you load index page that refresh was locked in until you did a full page reload.  Now, if refresh is adjusted the page will validate and if the current and new refresh times are out of sync the page will do a full reload
+- Add some hooks for Digital picture frame to disable CSS blur
+
+ToDo:
+- Look into moving index JavaScripts to dedicated js file for better reuse of functions as a good portion are duplicated.
+
+Known Bugs:
+- For page refresh if out of sync there may be a poster flash/skip as its loading the new 'session'
+
+Updates and Bug Fixes:
+- Disable frontend for 'Poster Transition/Refresh Speed' and 'Bottom Scrolling Text' options in the 'Common Configuration' page as these options are now available as individuals for the 'Coming Soon' and 'Now Showing' pages.
+- Add more Plex API metadata read.  Collecting content rating and if nowPlaying is directplay or transcode, also getting information on video and audio codecs.
+- Update log system to better organize logs.  First isolate PLEXLib logs to PLEX isolated log files.

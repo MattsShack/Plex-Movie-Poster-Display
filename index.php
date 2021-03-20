@@ -4,7 +4,15 @@ include_once('config.php');
 include_once('assets/plexmovieposter/tokenCheck.php');
 include 'assets/plexmovieposter/CommonLib.php';
 include 'assets/plexmovieposter/tools.php';
-$pmpImageSpeed = ($pmpImageSpeed * 1000);
+include 'status.php';
+include 'statusRefresh.php';
+
+// $pmpImageSpeed = ($pmpImageSpeed * 1000);
+if (empty($currentRefreshSpeed)) {
+    $currentRefreshSpeed = 30;
+}
+
+$pmpImageSpeed = ($currentRefreshSpeed * 1000);
 ?>
 
 <!doctype html>
@@ -31,12 +39,32 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
         $(function () {
             $.getJSON('getData.php', function (data) {
                 $.each(data, function (key, val) {
-                    if (key == "middle") {
-                        $('#' + key).css('background-image', val);
-                    } else if (key == "mediaArt") {
-                        $('.' + key).css('background-image', val);
-                    } else {
-                        $('#' + key).html(val);
+                    switch(key) {
+                        // case "refreshSpeed":
+                        //     var tmpRefreshSpeed = parseInt(val);
+                        //     var currRefreshSpeed = parseInt(<?php echo $currentRefreshSpeed ?>);
+                        //     if (tmpRefreshSpeed != currRefreshSpeed) {
+                        //         // document.write("Refresh out of sync");
+                        //         location.reload(true);
+                        //     }
+                        //     break;
+                        case "middle":
+                            $('#' + key).css('background-image', val);
+                            break;
+                        case "mediaArt":
+                            $('.' + key).css('background-image', val);
+                            break;
+                        case 'photoMode':
+                            var SetMode = val;
+                            if (SetMode == true) {
+                                //  document.write("PhotoMode");
+                                $('.' + "mediaArt").css('filter', "none");
+                                $('.' + "mediaArt").css('-webkit-filter', "none");
+                            }
+                            break;
+                        default:
+                            $('#' + key).html(val);
+                            break;
                     }
                 });
             });
@@ -51,19 +79,39 @@ $pmpImageSpeed = ($pmpImageSpeed * 1000);
 
             });
 
-                $('#myModal').on('hidden.bs.modal', function(){
-                    $('#settingFrame').html("").attr("src", "");
-                });
+            $('#myModal').on('hidden.bs.modal', function(){
+                $('#settingFrame').html("").attr("src", "");
+            });
 
             setInterval(function () {
                 $.getJSON('getData.php', function (data) {
                     $.each(data, function (key, val) {
-                        if (key == "middle") {
-                            $('#' + key).css('background-image', val);
-                        } else if (key == "mediaArt") {
-                            $('.' + key).css('background-image', val);
-                        } else {
-                            $('#' + key).html(val);
+                        switch(key) {
+                            case "refreshSpeed":
+                                var tmpRefreshSpeed = parseInt(val);
+                                var currRefreshSpeed = parseInt(<?php echo $currentRefreshSpeed ?>);
+                                if (tmpRefreshSpeed != currRefreshSpeed) {
+                                    // document.write("Refresh out of sync");
+                                    location.reload(true);
+                                }
+                                break;
+                            case "middle":
+                                $('#' + key).css('background-image', val);
+                                break;
+                            case "mediaArt":
+                                $('.' + key).css('background-image', val);
+                                break;
+                            case 'photoMode':
+                                var SetMode = val;
+                                if (SetMode == true) {
+                                    //  document.write("PhotoMode");
+                                    $('.' + "mediaArt").css('filter', "none");
+                                    $('.' + "mediaArt").css('-webkit-filter', "none");
+                                }
+                            break;
+                            default:
+                                $('#' + key).html(val);
+                                break;
                         }
                     });
                 });

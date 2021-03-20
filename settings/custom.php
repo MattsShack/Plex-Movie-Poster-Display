@@ -72,6 +72,16 @@ if (isset($_POST["btn_customImg"])) {
                             <!-- CUSTOM IMAGE UPLOAD BLOCK END -->
                         <form id="server-settings-form" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <!-- SEGMENT BLOCK START -->
+                            <div class="form-group">
+                                    <hr>
+                                    Transition/Refresh Speed: &nbsp;
+                                    <input type="text" id="customRefreshSpeed" name="customRefreshSpeed" class="form-control fieldInfo-xsmall form-inline" value="<?php echo $customRefreshSpeed; ?>" required>
+
+                                    <p class="help-block">
+                                        How fast the page will refresh in seconds.
+                                    </p>
+                                </div>
+
                                 <div class="form-group">
                                     Custom Image State: &nbsp;
 
