@@ -1,7 +1,20 @@
 <?php
 
     $source = "../../cache/custom";
-    $mediaArr = array_diff(scandir($source), array('.', '..'));
+
+    //Multi Level
+        $mediaArr = array();
+
+        $dir_iterator = new RecursiveDirectoryIterator("$source");
+        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($iterator as $file) {
+            if (is_file($file)) {
+                array_push($mediaArr, $file);
+            }
+        }
+    //Single Level
+        //$mediaArr = array_diff(scandir($source), array('.', '..'));
+    
     $mediaCount = count($mediaArr);
     $random_keys = array_rand($mediaArr, 1);
 

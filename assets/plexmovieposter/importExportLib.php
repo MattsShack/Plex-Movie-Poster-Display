@@ -24,12 +24,17 @@ function importFiles($fieldID = 'zip_file', $configPage = "fonts.php") {
         switch ($configPage) {
             case "custom.php":
                 $destination = "../cache/custom/";
-                importFiles_CUSTOM($ShowMSG, $SetRedirect, $fieldID, $destination);
+                if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
+                    importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination, 'all', $configPage);
+                }
+                else {
+                    importFiles_CUSTOM($ShowMSG, $SetRedirect, $fieldID, $destination);
+                }
                 break;
             case "fonts.php":
                 $destination = "../cache/fonts/";
                 if (preg_match("{[zZ][iI][pP]}",$FileInfo_Ext)) {
-                    importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination, 'fonts');
+                    importFiles_ZIP($ShowMSG, $SetRedirect, $fieldID, $destination, 'fonts', $configPage);
                 }
                 
                 // Add filter list to allow all types of fonts to be uploaded
@@ -52,14 +57,14 @@ function importFiles($fieldID = 'zip_file', $configPage = "fonts.php") {
     }
 }
 
-function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip_file', $destination = '../cache/TMP/', $extractFiles = 'all') {
+function importFiles_ZIP($ShowMSG = FALSE, $SetRedirect = FALSE, $fieldID = 'zip_file', $destination = '../cache/TMP/', $extractFiles = 'all', $redirectTarget = "fonts.php") {
     // require_once 'tools.php';
     $PostMSG = '';
     $LogMSG_Header = "Import Files (ZIP)";
 
     // $ShowMSG = FALSE;
     // $SetRedirect = TRUE;
-    $SetRedirect_target = "fonts.php";
+    $SetRedirect_target = $redirectTarget;
     $SubDirectoryMode = TRUE;
 
     $FileInfo_NameRAW = $_FILES[$fieldID]['name'];

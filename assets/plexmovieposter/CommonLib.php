@@ -343,4 +343,32 @@ function signInForm($warning) {
     echo "</div>\n";
 
 }
+
+function customImagesList() {
+
+    $source = "../cache/custom";
+
+    //Multi Level
+        $mediaArr = array();
+
+        $dir_iterator = new RecursiveDirectoryIterator("$source");
+        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($iterator as $file) {
+            if (is_file($file)) {
+                array_push($mediaArr, $file);
+            }
+        }
+    //Single Level
+        //$mediaArr = array_diff(scandir($source), array('.', '..'));
+
+        foreach ($mediaArr as $file) {
+            echo "<option value='$file'";
+            if ($customImage == $file) {
+                echo "selected";
+            }
+            echo ">$file</option>";
+        }
+        
+}
+
 ?>

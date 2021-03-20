@@ -24,6 +24,7 @@
   $plexClientName = '';
 
   //Custom Image Configuration
+  $customBackgroundArt = ''; //Default: false
   $customImageEnabled = 'Disabled'; //Default: Disabled
   $customRefreshSpeed = '30'; //Default 30 Seconds
   $customImage = '';

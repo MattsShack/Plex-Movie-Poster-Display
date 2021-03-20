@@ -80,7 +80,7 @@ def UpdatePHP(DisplayMSG=False,ConfigSegment="DEFAULT",ConfigKey="version",Confi
     # there for there might be trailing data we need to truncate away.    
 
 DisplayMSG = False
-SetVersion = "2.10.5"
+SetVersion = "2.10.6"
 
 PYScriptRoot = os.path.abspath(os.path.dirname(__file__))
 

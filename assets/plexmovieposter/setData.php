@@ -306,6 +306,9 @@ function ghostData($configPage) {
 
         // // $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageUpload\" name=\"customImageUpload\" value=\"$customImageUpload\">\n";
         // // echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"customBackgroundArt\" name=\"customBackgroundArt\" value=\"$customBackgroundArt\">\n";
+        echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageEnabled\" name=\"customImageEnabled\" value=\"$customImageEnabled\">\n";
         echo $ghostField;
@@ -409,6 +412,7 @@ function setData($configPage) {
   \$plexClientName = '$_POST[plexClientName]';
 
   //Custom Image Configuration
+  \$customBackgroundArt = '$_POST[customBackgroundArt]'; //Default: false
   \$customImageEnabled = '$_POST[customImageEnabled]'; //Default: Disabled
   \$customRefreshSpeed = '$_POST[customRefreshSpeed]'; //Default 30 Seconds
   \$customImage = '$_POST[customImage]';
