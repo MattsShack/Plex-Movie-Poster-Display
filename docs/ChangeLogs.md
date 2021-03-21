@@ -237,7 +237,7 @@ Enhancement - Font Enhancements (Issue #44)
     5. __TODO__: Using the 'Zip File Name' folder method, append the name to the actual name of the font file when displaying in the lists. Currently it only uses the name of the font file itself and and can become a bit harder to identify the type we require.
     6. __Complete__: When unzipping the fonts, only unzip the font files supported and ignore all other files and folders. This will allow for a cleaner storage and organization.
     7. __Canceled__: Remove _MACOSX folder when unzipping.
-        
+
 Coming Soon - Show Media: ALL - Not Displaying TV Show Posters (Issue #51)
 - Add logic to address when in 'Coming Soon' and either 'All' or 'Unwatched' would not display poster when set to 'series' or 'season'.
 - When using 'All' or 'Unwatched' the cover poster for the series is used even though Episode/Season/Series may be selected.  This is based on the xml data provided by the PLEX API
@@ -287,7 +287,7 @@ Trouble Shooting:
 **v2.10.5 Community Updates**\
 Enhancement - Font Enhancements (Issue #44)
 - Add Fix for when font = None that it defaults back to system font not generic font.
- 
+
 Enhancement - Digital Picture Frame Mode (Issue #48)
 - Separate timer to give timer to each one of the types of display options.
 - Cleanup javascript to use switch case vs. if statement to better organize load options, and to allow for future data promotion to the front end.
@@ -304,3 +304,14 @@ Updates and Bug Fixes:
 - Disable frontend for 'Poster Transition/Refresh Speed' and 'Bottom Scrolling Text' options in the 'Common Configuration' page as these options are now available as individuals for the 'Coming Soon' and 'Now Showing' pages.
 - Add more Plex API metadata read.  Collecting content rating and if nowPlaying is directplay or transcode, also getting information on video and audio codecs.
 - Update log system to better organize logs.  First isolate PLEXLib logs to PLEX isolated log files.
+
+**v2.10.6 Community Updates**\
+Enhancement - Digital Picture Frame Mode (Issue #48)
+- Update image upload to support Zip files and sub-folders
+- Adjust 'Background Art' logic checkbox to set the image as a 'Full Screen' image.
+- Disable 'blur' for background image when 'Background Art' is selected for custom configuration.
+- Update custom image select to support sub-folders
+
+Updates and Bug Fixes:
+- Attempt to address an issue that users are experiencing when upgrading from 2.10.4 to 2.10.5.  Possible issue around how the refresh system as implemented and an adjustment for that now has been done.  Recreation unsuccessful. (Issue #27 Issue #56)
+- Minor adjustments to the backend as discovered when working on Issue #48

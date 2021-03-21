@@ -111,21 +111,21 @@ if (isset($_POST["btn_customImg"])) {
                                             None
                                         </option>
 
-                                        <?php
-                                            $path = "../cache/custom";
-                                            $files = array_diff(scandir($path), array('.', '..'));
-                                            foreach ($files as $file) {
-                                                echo "<option value='$file'";
-                                                if ($customImage == $file) {
-                                                    echo "selected";
-                                                }
-                                                echo ">$file</option>";
-                                            }
-                                        ?>
+                                        <?php customImagesList(); ?>
                                     </select>
 
                                     <!-- <p class="help-block">
                                     </p> -->
+                                </div>
+                                
+                                <div class="form-group advanced-setting">
+                                    <hr>
+                                    Background Art:&nbsp;
+                                    <input type="checkbox" name="customBackgroundArt" id="customBackgroundArt" value="1" <?php if ($customBackgroundArt) echo " checked"?>>
+
+                                    <p class="help-block">
+                                        Set image to be background art instead of poster art.
+                                    </p>
                                 </div>
 
                                 <div class="form-group">

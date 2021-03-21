@@ -60,6 +60,7 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                                 //  document.write("PhotoMode");
                                 $('.' + "mediaArt").css('filter', "none");
                                 $('.' + "mediaArt").css('-webkit-filter', "none");
+                                $('.' + "mediaArt").css('background-size', "auto 100%");
                             }
                             break;
                         default:
@@ -107,6 +108,7 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                                     //  document.write("PhotoMode");
                                     $('.' + "mediaArt").css('filter', "none");
                                     $('.' + "mediaArt").css('-webkit-filter', "none");
+                                    $('.' + "mediaArt").css('background-size', "auto 100%");
                                 }
                             break;
                             default:

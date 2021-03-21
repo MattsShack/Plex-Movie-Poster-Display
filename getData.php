@@ -107,6 +107,8 @@ $bottomFontID = "";
 $autoScaleBottom = false;
 $scrollBottom = false;
 
+$photoModeStatus = FALSE;
+
 // Setting SSL Prefix
 if ($plexServerSSL) {
     $URLScheme = "https";
@@ -119,7 +121,11 @@ else {
 //Display Custom Image if Enabled
 if ($customImageEnabled == "Enabled") {
     $data['type'] = 'custom';
-    $RefreshSpeed = $customRefreshSpeed;
+
+    if (!empty($customRefreshSpeed)) {
+        $RefreshSpeed = $customRefreshSpeed;
+    }
+
     $topSize = $customTopFontSize;
     $topColor = $customTopFontColor;
     $bottomSize = $customBottomFontSize;
@@ -132,8 +138,28 @@ if ($customImageEnabled == "Enabled") {
     $bottomText = $customBottomText;
     $topSelection = $nowShowingTop;
     $bottomSelection = $nowShowingBottom;
-    $mediaThumb_Display = "url('$customPath/$customImage')";
-    $mediaArt_Display = "url('$customPath/$customImage')";
+    
+    if (strpos($customImage, $customPath)) {
+        $mediaThumb_Display = "url('$customImage')";    
+    }
+    else {
+        $mediaThumb_Display = "url('$customPath/$customImage')";
+    }
+    
+    if (strpos($customImage, $customPath)) {
+        $mediaArt_Display = "url('$customImage')";    
+    }
+    else {
+        $mediaArt_Display = "url('$customPath/$customImage')";
+    }
+
+    $mediaArt_Status = $customBackgroundArt;
+
+    if ($mediaArt_Status == TRUE) {
+        $mediaThumb_Display = "";
+        $photoModeStatus = TRUE;
+    }
+
     $topStrokeColor = $customTopFontOutlineColor;
     $topStrokeSize = $customTopFontOutlineSize;
     $bottomStrokeColor = $customBottomFontOutlineColor;
@@ -185,7 +211,9 @@ if ($customImageEnabled == "Enabled") {
                 $mediaArt_Status = $nowShowingBackgroundArt;
                 $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
 
-                $RefreshSpeed = $nowShowingRefreshSpeed;
+                if (!empty($nowShowingRefreshSpeed)) {
+                    $RefreshSpeed = $nowShowingRefreshSpeed;
+                }
 
                 $mediaTitle = $clients['title']; // Default
                 $mediaTagline = $clients['tagline']; // Default
@@ -290,7 +318,9 @@ if ($customImageEnabled == "Enabled") {
         $bottomFontEnabled = $comingSoonBottomFontEnabled;
         $bottomFontID = $comingSoonBottomFontID;
 
-        $RefreshSpeed = $comingSoonRefreshSpeed;
+        if (!empty($comingSoonRefreshSpeed)) {
+            $RefreshSpeed = $comingSoonRefreshSpeed;
+        }
 
         $mediaArt_Status = $comingSoonBackgroundArt;
         $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
@@ -456,7 +486,7 @@ updateStatusRefresh();
 
 $results = [];
 $results['refreshSpeed'] = ($RefreshSpeed);
-// $results['photoMode'] = TRUE; // Future Use (Issue #48)
+$results['photoMode'] = $photoModeStatus ; // Future Use (Issue #48)
 
 $results['top'] = $topLine . $progressBar;
 $results['middle'] = $mediaThumb_Display;
