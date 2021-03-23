@@ -1,11 +1,11 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
+include '../config.php';
 include '../assets/plexmovieposter/CommonLib.php';
 require_once '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
-include '../config.php';
 include '../assets/plexmovieposter/importExportLib.php';
 include 'PMPInfo.php';
 include 'PMPReleaseNotes.php';
@@ -17,28 +17,17 @@ if (!empty($_POST['saveConfig'])) {
     setData(basename(__FILE__));
 }
 
-//Count Items in Posters
-// PosterCache();
-GeneralCache_Count("../cache/posters/", "posterCount");
-
 //Clear Poster Cache Directory
 if (!empty($_POST['clearPosterCache'])) {
     PosterCacheClear();
     header("Location: $CurrentPage");
 }
 
-//Count Items in Custom Images
-// CustomCacheCount();
-GeneralCache_Count("../cache/custom/", "customCount");
-
 //Clear Custom Cache Directory
 if (!empty($_POST['clearCustomCache'])) {
     CustomCacheClear();
     header("Location: $CurrentPage");
 }
-
-//Count Items in Custom Fonts
-FontCacheCount();
 
 //Clear Custom Font Cache Directory
 if (!empty($_POST['clearFontCache'])) {
@@ -144,7 +133,7 @@ importFiles_Config();
                                             Browse Configuration
                                         </label>
                                         <input type="file" name="fileToUpload" id="fileToUpload" accept=".php" class="field-hideInput" onchange="showName()">
-                                        
+
                                         <p class="help-block">
                                             <small class="text-muted">Select configuration file to restore (config.php)</small>
                                         </p>
@@ -155,13 +144,13 @@ importFiles_Config();
                                                 <i>None</i>
                                             </div>
                                         </p>
-                                        
+
                                         Restore Configuration:
                                         <label for="submitConfig" class="btn btn-sm btn-faux btn-danger">
                                             Restore Configuration
                                         </label>
                                         <input type="submit" value="Restore Configuration" name="restoreConfig" id="submitConfig" style="opacity: 0;">
-                                        
+
                                         <p class="help-block">
                                             <small class="text-muted">Restore selected configuration file (config.php)</small>
                                         </p>

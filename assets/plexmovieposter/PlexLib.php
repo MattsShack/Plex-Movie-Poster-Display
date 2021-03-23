@@ -940,4 +940,122 @@ function plex_webhook_json_METADATA() {
    $pwhd_Metadata_updatedAt = $plex_webhook_data_json["Metadata"]["updatedAt"];
 }
 
+function plex_isPlaying_dataProcess() {
+    // Global Variables - Input
+    global $clients, $plexClient, $plexClientName;
+    global $data;
+
+    // Global Variables - Output
+    global $PLEX_PlayerAddress, $PLEX_Client_ARR;
+    global $PLEX_PlayerTitle, $PLEX_ClientName_ARR;
+
+    $PLEX_PlayerAddress = $clients->Player['address'];
+    $PLEX_Client_ARR = preg_split("#,#", $plexClient); // Split defined client IP address(s) (coma delimited array)
+
+    $PLEX_PlayerTitle = $clients->Player['title'];
+    $PLEX_ClientName_ARR = preg_split("#,#", $plexClientName); // Split defined client name(s) (coma delimited array)
+
+    pmp_Logging("PLEX_getMediaMetadata", "plex_isPlaying_dataProcess @ $PLEX_Client_ARR[0] - Test");
+}
+
+function plex_metadata_PROCESS() {
+    // Global Variables - Input
+    global $isPlaying, $clients;
+    global $mediaType_Display, $elementType, $mediaType;
+    global $isPlayingMode, $ComingSoonMode;
+
+    if ($isPlaying == TRUE) {
+        $isPlayingMode = TRUE;
+        $ComingSoonMode = FALSE;
+    }
+    else {
+        $isPlayingMode = FALSE;
+        $ComingSoonMode = TRUE;
+    }
+
+    plex_metadata_base("$mediaType", "START");
+
+    plex_metadata_title("$mediaType");
+    plex_metadata_summary("$mediaType");
+    plex_metadata_tagline("$mediaType");
+    plex_metadata_thumb("$mediaType", $ComingSoonMode); // COMING SOON MODE
+    plex_metadata_art("$mediaType");
+    plex_metadata_contentRating("$mediaType");
+
+    if ($isPlaying == TRUE) {
+        plex_metadata_decision("$mediaType", $isPlayingMode); // isPlaying Mode
+        plex_metadata_audioCodec("$mediaType", $isPlayingMode); // isPlaying Mode
+        plex_metadata_videoCodec("$mediaType", $isPlayingMode); // isPlaying Mode
+        plex_metadata_audioDisplay("$mediaType", $isPlayingMode); // isPlaying Mode
+        plex_metadata_videoDisplay("$mediaType", $isPlayingMode); // isPlaying Mode
+    }
+
+    plex_metadata_base("$mediaType", "END");
+}
+
+function plex_metadata_viewGroup() {
+    // Global Variables - Input
+    global $viewGroup, $mediaArt_ShowTVThumb;
+
+    // Global Variables - Output
+    global $mediaType_Display, $elementType, $mediaType;
+
+    switch ($viewGroup) {
+        case "movie":
+            $mediaType_Display = "$viewGroup";
+            $elementType = "Video";
+            $mediaType = "movie";
+            break;
+        case "episode":
+            $mediaType_Display = "$viewGroup";
+            $elementType = "Video";
+            $mediaType = $mediaArt_ShowTVThumb;
+            break;
+        case "show":
+            $mediaType_Display = "$viewGroup";
+            $elementType = "Directory";
+            $mediaType = $mediaArt_ShowTVThumb;
+            break;
+        case "track":
+            $mediaType_Display = "$viewGroup";
+            $elementType = "Directory";
+            $mediaType = "track";
+            break;
+        default:
+            $mediaType_Display = "Unknown";
+            $elementType = "Video";
+            $mediaType = "movie";
+            break;
+    }
+}
+
+function plex_metadata_Settings() {
+    // Prototype Object
+
+    $PLEXMedia = [];
+    $PLEXMedia['TestMedia'] = "value 1 2 3";
+
+    pmp_Logging("PLEX_getMediaMetadata", "plex_metadata_Settings (TESTING): " . $PLEXMedia['TestMedia']);
+}
+
+function plex_server_Settings() {
+    // Global Variables - Input
+    global $plexServerSSL, $plexServerDirect, $plexToken;
+
+    // Global Variables - Output
+    global $URLScheme, $plexServer, $plexServerURL;
+
+    // Setting SSL Prefix
+    if ($plexServerSSL) {
+        $URLScheme = "https";
+        $plexServer = $plexServerDirect;
+    }
+    else {
+        $URLScheme = "http";
+    }
+
+    $plexServerURL = "$URLScheme://$plexServer:32400/status/sessions?X-Plex-Token=$plexToken";
+    pmp_Logging("getMediaURL", "Plex Session URL: $plexServerURL");
+}
+
 ?>

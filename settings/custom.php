@@ -1,11 +1,11 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
+include '../config.php';
 include '../assets/plexmovieposter/CommonLib.php';
 require_once '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
-include '../config.php';
 include '../assets/plexmovieposter/FontLib.php';
 include '../assets/plexmovieposter/importExportLib.php';
 
@@ -104,20 +104,12 @@ if (isset($_POST["btn_customImg"])) {
                                 <div class="form-group">
                                     Custom Image Select:&nbsp;
 
-                                    <select class="form-inline"
-                                        id="customImage" name="customImage">
-                                        <option value=""
-                                            <?php if ($customImage == '') { echo "selected"; } ?>>
-                                            None
-                                        </option>
-
-                                        <?php customImagesList(); ?>
-                                    </select>
+                                    <?php customImagesList(); ?>
 
                                     <!-- <p class="help-block">
                                     </p> -->
                                 </div>
-                                
+
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Background Art:&nbsp;

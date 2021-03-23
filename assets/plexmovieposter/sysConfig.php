@@ -22,4 +22,10 @@
   $Log_PLEX_getCacheFile = TRUE;
   $Log_PLEX_WebHookData = TRUE;
 
+  // PMPD
+  $Log_PMPD_CustomImage = TRUE;
+
+  // Testing
+  $Log_TestLogs = TRUE;
+
 ?>

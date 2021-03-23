@@ -4,176 +4,34 @@ include 'config.php';
 include 'status.php';
 include 'assets/plexmovieposter/tools.php';
 include 'assets/plexmovieposter/CacheLib.php';
+include 'assets/plexmovieposter/PMPDLib.php';
 include 'assets/plexmovieposter/PlexLib.php';
 include 'assets/plexmovieposter/getPoster.php';
 
-// Security Work Around (quick fix)
-// include 'getPoster.php';
-
 $results = Array();
-$movies = Array();
-$shows = Array();
 $mediaArr = Array();
-// $mediaArt_ShowTVThumb = "show";
-// $mediaArt_ShowTVThumb = "season";
 
 ob_start();
 $data = [];
-//Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
-if ($pmpBottomScroll == 'Enabled') {
-    $bottomScroll = TRUE;
-    $scrollPrepend = "<div class='marquee' style='height: 100%'>";
-    $scrollAppend = "</div>
-      <script>
-        $(function(){
-          $('.marquee').marquee({
-             allowCss3Support: true,
-             css3easing: 'linear',
-             delayBeforeStart: 2000,
-             duration: 8000,
-             direction: 'up',
-             gap: 20,
-             startVisible: true
-           });
-        });
-      </script>";
-} else {
-    $bottomScroll = FALSE;
-    $scrollPrepend = "";
-    $scrollAppend = "";
-}
 
-// -------------------------
-// Poster Cache
-$cachePath = $pmpPosterDir;
-echo "Creating: $cachePath <br>";
-GeneralCache_Prep($cachePath, TRUE);
-// -------------------------
+CacheValidate();  // Validate all defined Cache folders and settings.
+getData_PreLoad(); // Setup default variables that will be required throughout the process.
 
-// -------------------------
-// Art Cache
-$cacheArtPath = $pmpArtDir;
-echo "Creating: $cacheArtPath <br>";
-GeneralCache_Prep($cacheArtPath, TRUE);
-// -------------------------
-
-// -------------------------
-// Custom Cache
-$customPath = $pmpCustomDir;
-echo "Creating: $customPath <br>";
-GeneralCache_Prep($customPath, FALSE);
-// -------------------------
-
-// -------------------------
-// Log Cache
-$LogPath = $pmpLogDir;
-echo "Creating: $LogPath <br>";
-GeneralCache_Prep($LogPath, FALSE);
-// -------------------------
-
-
-// Let's be lazy
-$title = "";
-$mediaThumb_Display = "";
-$mediaArt_Display = "";
-$mediaArt_Status = "";
-$isPlaying = false;
-
-$RefreshSpeed = 30; //Default: 30
-
-$mediaTitle = "";
-$mediaSummary = "";
-$mediaTagline = "";
-
-$topSelection = false;
-$topLine = "";
-$topText = "";
-$topSize = "";
-$topColor = "";
-$topCustom = "";
-$topFontEnabled = false;
-$topFontID = "";
-$autoScaleTop = false;
-$scrollTop = false;
-
-$bottomSelection = false;
-$bottomLine = "";
-$bottomText = "";
-$bottomSize = "";
-$bottomColor = "";
-$bottomCustom = "";
-$bottomFontEnabled = false;
-$bottomFontID = "";
-$autoScaleBottom = false;
-$scrollBottom = false;
-
-$photoModeStatus = FALSE;
-
-// Setting SSL Prefix
-if ($plexServerSSL) {
-    $URLScheme = "https";
-    $plexServer = $plexServerDirect;
-}
-else {
-    $URLScheme = "http";
-}
+plex_server_Settings(); // Server setting for PLEX interaction.
 
 //Display Custom Image if Enabled
 if ($customImageEnabled == "Enabled") {
-    $data['type'] = 'custom';
-
-    if (!empty($customRefreshSpeed)) {
-        $RefreshSpeed = $customRefreshSpeed;
-    }
-
-    $topSize = $customTopFontSize;
-    $topColor = $customTopFontColor;
-    $bottomSize = $customBottomFontSize;
-    $bottomColor = $customBottomFontColor;
-    $topFontEnabled = $customTopFontEnabled;
-    $topFontID = $customTopFontID;
-    $bottomFontEnabled = $customBottomFontEnabled;
-    $bottomFontID = $customBottomFontID;
-    $topText = $customTopText;
-    $bottomText = $customBottomText;
-    $topSelection = $nowShowingTop;
-    $bottomSelection = $nowShowingBottom;
-    
-    if (strpos($customImage, $customPath)) {
-        $mediaThumb_Display = "url('$customImage')";    
-    }
-    else {
-        $mediaThumb_Display = "url('$customPath/$customImage')";
-    }
-    
-    if (strpos($customImage, $customPath)) {
-        $mediaArt_Display = "url('$customImage')";    
-    }
-    else {
-        $mediaArt_Display = "url('$customPath/$customImage')";
-    }
-
-    $mediaArt_Status = $customBackgroundArt;
-
-    if ($mediaArt_Status == TRUE) {
-        $mediaThumb_Display = "";
-        $photoModeStatus = TRUE;
-    }
-
-    $topStrokeColor = $customTopFontOutlineColor;
-    $topStrokeSize = $customTopFontOutlineSize;
-    $bottomStrokeColor = $customBottomFontOutlineColor;
-    $bottomStrokeSize = $customBottomFontOutlineSize;
+    CustomImage_getData(); // Moved all actions to a function in the PMPDLib.php file.
 } else {
-    // Plex Module Connect to Plex
-    // $url = "http://$plexServer:32400/status/sessions?X-Plex-Token=$plexToken";
-    $url = "$URLScheme://$plexServer:32400/status/sessions?X-Plex-Token=$plexToken";
-    pmp_Logging("getMediaURL", "Session URL: $url");
+    // Plex Module Connect to Plex Server
+
     // Store this for debugging
-    $data['sessionUrl'] = $url;
+    $data['sessionUrl'] = $plexServerURL;
+    pmp_Logging("getMediaURL", "Session URL: " . $data['sessionUrl']);
+
     $data['plexClient'] = $plexClient;
     $data['plexClientName'] = $plexClientName;
-    $getXml = file_get_contents($url);
+    $getXml = file_get_contents($plexServerURL);
 
     $xml = simplexml_load_string($getXml) or die("feed not loading");
     $isPlaying = false;
@@ -188,32 +46,59 @@ if ($customImageEnabled == "Enabled") {
         }
 
         foreach ($xml->$mediaType as $clients) {
+            plex_isPlaying_dataProcess();
+
             // If this matches our client IP or name, gather data
-            if (strstr($clients->Player['address'], $plexClient) || strstr($clients->Player['title'], $plexClientName)) {
-                $isPlaying = true;
-                $autoScaleTop = $nowShowingTopAutoScale;
-                $autoScaleBottom = $nowShowingBottomAutoScale;
-                $topSelection = $nowShowingTop;
-                $bottomSelection = $nowShowingBottom;
-                $data['hasClient1'] = true;
+            if (in_array($PLEX_PlayerAddress, $PLEX_Client_ARR) || in_array($PLEX_PlayerAddress, $PLEX_ClientName_ARR)) {
+                // Mode
+                    $isPlaying = true;
+                    $data['hasClient1'] = true;
 
-                $topSize = $nowShowingTopFontSize;
-                $topColor = $nowShowingTopFontColor;
-                $bottomSize = $nowShowingBottomFontSize;
-                $bottomColor = $nowShowingBottomFontColor;
+                // PMPD Settings
+                    $autoScaleTop = $nowShowingTopAutoScale;
+                    $topSelection = $nowShowingTop;
+                    $topSize = $nowShowingTopFontSize;
+                    $topColor = $nowShowingTopFontColor;
+                    $topFontEnabled = $nowShowingTopFontEnabled;
+                    $topFontID = $nowShowingTopFontID;
 
-                $topFontEnabled = $nowShowingTopFontEnabled;
-                $topFontID = $nowShowingTopFontID;
+                    $autoScaleBottom = $nowShowingBottomAutoScale;
+                    $bottomSelection = $nowShowingBottom;
+                    $bottomSize = $nowShowingBottomFontSize;
+                    $bottomColor = $nowShowingBottomFontColor;
+                    $bottomFontEnabled = $nowShowingBottomFontEnabled;
+                    $bottomFontID = $nowShowingBottomFontID;
 
-                $bottomFontEnabled = $nowShowingBottomFontEnabled;
-                $bottomFontID = $nowShowingBottomFontID;
+                    $mediaArt_Status = $nowShowingBackgroundArt;
+                    $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
 
-                $mediaArt_Status = $nowShowingBackgroundArt;
-                $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
+                    if (!empty($nowShowingRefreshSpeed)) {
+                        $RefreshSpeed = $nowShowingRefreshSpeed;
+                    }
 
-                if (!empty($nowShowingRefreshSpeed)) {
-                    $RefreshSpeed = $nowShowingRefreshSpeed;
-                }
+                    //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
+                    if ($nowShowingBottomScroll == 'Enabled') {
+                        $bottomScroll = TRUE;
+                        $scrollPrepend = "<div class='marquee' style='height: 100%'>";
+                        $scrollAppend = "</div>
+                        <script>
+                            $(function(){
+                            $('.marquee').marquee({
+                                allowCss3Support: true,
+                                css3easing: 'linear',
+                                delayBeforeStart: 2000,
+                                duration: 8000,
+                                direction: 'up',
+                                gap: 20,
+                                startVisible: true
+                            });
+                            });
+                        </script>";
+                    } else {
+                        $bottomScroll = FALSE;
+                        $scrollPrepend = "";
+                        $scrollAppend = "";
+                    }
 
                 $mediaTitle = $clients['title']; // Default
                 $mediaTagline = $clients['tagline']; // Default
@@ -221,69 +106,12 @@ if ($customImageEnabled == "Enabled") {
                 $mediaArt = $clients['art']; // Default
                 $mediaThumb = $clients['thumb']; // Default
 
-                //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
-                if ($nowShowingBottomScroll == 'Enabled') {
-                    $bottomScroll = TRUE;
-                    $scrollPrepend = "<div class='marquee' style='height: 100%'>";
-                    $scrollAppend = "</div>
-                    <script>
-                        $(function(){
-                        $('.marquee').marquee({
-                            allowCss3Support: true,
-                            css3easing: 'linear',
-                            delayBeforeStart: 2000,
-                            duration: 8000,
-                            direction: 'up',
-                            gap: 20,
-                            startVisible: true
-                        });
-                        });
-                    </script>";
-                } else {
-                    $bottomScroll = FALSE;
-                    $scrollPrepend = "";
-                    $scrollAppend = "";
-                }
-
                 // (strstr($clients['type'], "movie") // Notes for validation
                 $viewGroup = $clients['type'];
 
-                switch ($viewGroup) {
-                    case "movie":
-                        $mediaType_Display = "$viewGroup";
-                        $elementType = "Video";
-                        $mediaType = "movie";
-                        break;
-                    case "episode":
-                        $mediaType_Display = "$viewGroup";
-                        $elementType = "Video";
-                        $mediaType = $mediaArt_ShowTVThumb;
-                        break;
-                    case "track":
-                        $mediaType_Display = "$viewGroup";
-                        $elementType = "Directory";
-                        $mediaType = "track";
-                        break;
-                    default:
-                        $mediaType_Display = "Unknown";
-                        $elementType = "Video";
-                        $mediaType = "movie";
-                        break;
-                }
+                plex_metadata_viewGroup();
 
-                plex_metadata_base("$mediaType", "START");
-                plex_metadata_title("$mediaType");
-                plex_metadata_summary("$mediaType");
-                plex_metadata_tagline("$mediaType");
-                plex_metadata_art("$mediaType");
-                plex_metadata_contentRating("$mediaType");
-                plex_metadata_decision("$mediaType", TRUE);
-                plex_metadata_audioCodec("$mediaType", TRUE);
-                plex_metadata_videoCodec("$mediaType", TRUE);
-                plex_metadata_audioDisplay("$mediaType", TRUE);
-                plex_metadata_videoDisplay("$mediaType", TRUE);
-                plex_metadata_thumb("$mediaType");
-                plex_metadata_base("$mediaType", "END");
+                plex_metadata_PROCESS();
 
                 //Progress Bar
                 if ($pmpDisplayProgress == 'Enabled') {
@@ -298,56 +126,58 @@ if ($customImageEnabled == "Enabled") {
             }
         }
     }
+
     $data['isPlaying'] = $isPlaying;
     //Coming Soon (If Nothing is Playing)
     if (!$isPlaying) {
         //Clean Up Status
         updateStatus();
 
-        $topSelection = $comingSoonTop;
-        $autoScaleTop = $comingSoonTopAutoScale;
-        $topColor = $comingSoonTopFontColor;
-        $topSize = $comingSoonTopFontSize;
-        $topFontEnabled = $comingSoonTopFontEnabled;
-        $topFontID = $comingSoonTopFontID;
+        // PMPD Settings
+            $autoScaleTop = $comingSoonTopAutoScale;
+            $topSelection = $comingSoonTop;
+            $topSize = $comingSoonTopFontSize;
+            $topColor = $comingSoonTopFontColor;
+            $topFontEnabled = $comingSoonTopFontEnabled;
+            $topFontID = $comingSoonTopFontID;
 
-        $bottomSelection = $comingSoonBottom;
-        $autoScaleBottom = $comingSoonBottomAutoScale;
-        $bottomColor = $comingSoonBottomFontColor;
-        $bottomSize = $comingSoonBottomFontSize;
-        $bottomFontEnabled = $comingSoonBottomFontEnabled;
-        $bottomFontID = $comingSoonBottomFontID;
+            $autoScaleBottom = $comingSoonBottomAutoScale;
+            $bottomSelection = $comingSoonBottom;
+            $bottomSize = $comingSoonBottomFontSize;
+            $bottomColor = $comingSoonBottomFontColor;
+            $bottomFontEnabled = $comingSoonBottomFontEnabled;
+            $bottomFontID = $comingSoonBottomFontID;
 
-        if (!empty($comingSoonRefreshSpeed)) {
-            $RefreshSpeed = $comingSoonRefreshSpeed;
-        }
+            $mediaArt_Status = $comingSoonBackgroundArt;
+            $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
 
-        $mediaArt_Status = $comingSoonBackgroundArt;
-        $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
+            if (!empty($comingSoonRefreshSpeed)) {
+                $RefreshSpeed = $comingSoonRefreshSpeed;
+            }
 
-        //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
-        if ($comingSoonBottomScroll == 'Enabled') {
-            $bottomScroll = TRUE;
-            $scrollPrepend = "<div class='marquee' style='height: 100%'>";
-            $scrollAppend = "</div>
-            <script>
-                $(function(){
-                $('.marquee').marquee({
-                    allowCss3Support: true,
-                    css3easing: 'linear',
-                    delayBeforeStart: 2000,
-                    duration: 8000,
-                    direction: 'up',
-                    gap: 20,
-                    startVisible: true
-                });
-                });
-            </script>";
-        } else {
-            $bottomScroll = FALSE;
-            $scrollPrepend = "";
-            $scrollAppend = "";
-        }
+            //Setup Scrolling Text Using jQuery Marquee (https://www.jqueryscript.net/animation/Text-Scrolling-Plugin-for-jQuery-Marquee.html)
+            if ($comingSoonBottomScroll == 'Enabled') {
+                $bottomScroll = TRUE;
+                $scrollPrepend = "<div class='marquee' style='height: 100%'>";
+                $scrollAppend = "</div>
+                <script>
+                    $(function(){
+                    $('.marquee').marquee({
+                        allowCss3Support: true,
+                        css3easing: 'linear',
+                        delayBeforeStart: 2000,
+                        duration: 8000,
+                        direction: 'up',
+                        gap: 20,
+                        startVisible: true
+                    });
+                    });
+                </script>";
+            } else {
+                $bottomScroll = FALSE;
+                $scrollPrepend = "";
+                $scrollAppend = "";
+            }
 
         plex_variable_presets(); // FUTURE USE
 
@@ -366,33 +196,7 @@ if ($customImageEnabled == "Enabled") {
         $countMedia = count($xmlMedia);
         if ($countMedia > '0') {
 
-            switch ($viewGroup) {
-                case "movie":
-                    $mediaType_Display = "$viewGroup";
-                    $elementType = "Video";
-                    $mediaType = "movie";
-                    break;
-                case "episode":
-                    $mediaType_Display = "$viewGroup";
-                    $elementType = "Video";
-                    $mediaType = $mediaArt_ShowTVThumb;
-                    break;
-                case "show":
-                    $mediaType_Display = "$viewGroup";
-                    $elementType = "Directory";
-                    $mediaType = $mediaArt_ShowTVThumb;
-                    break;
-                case "track":
-                    $mediaType_Display = "$viewGroup";
-                    $elementType = "Directory";
-                    $mediaType = "track";
-                    break;
-                default:
-                    $mediaType_Display = "Unknown";
-                    $elementType = "Video";
-                    $mediaType = "movie";
-                    break;
-            }
+            plex_metadata_viewGroup();
 
             // Media
             foreach ($xmlMedia->$elementType as $mediaElement) {
@@ -408,16 +212,8 @@ if ($customImageEnabled == "Enabled") {
                     if (strstr($clients['title'], $showMedia)) {
                         $checkTitle = $clients['title'];
                         pmp_Logging("getMediaURL", "Coming Soon ($mediaType_Display): $checkTitle");
-                        
-                        plex_metadata_base("$mediaType", "START");
-                        plex_metadata_title("$mediaType");
-                        plex_metadata_summary("$mediaType");
-                        plex_metadata_tagline("$mediaType");
-                        plex_metadata_art("$mediaType");
-                        plex_metadata_contentRating("$mediaType");
-                        plex_metadata_decision("$mediaType");
-                        plex_metadata_thumb("$mediaType", TRUE);
-                        plex_metadata_base("$mediaType", "END");
+
+                        plex_metadata_PROCESS();
                     }
                 }
             }
@@ -426,7 +222,7 @@ if ($customImageEnabled == "Enabled") {
     }
 }
 
-// If we're not using custom images, check if we need to cache art from Plex
+// If we're not using custom images, check if we need to cache art from PLEX
 // Otherwise, necessary values are set at the top
 if ($customImageEnabled != "Enabled") {
     // Check to see if we should cache our art
@@ -466,21 +262,49 @@ if ($customImageEnabled != "Enabled") {
     }
 }
 
-$topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
-if ($topFontEnabled == TRUE && $topFontID != "None") $topStyle .= " font-family: '$topFontID';";
-if (!$autoScaleTop) $topStyle .= " font-size: ${topSize}px;";
-$topLine = "<div><span class='userText' style=\"$topStyle\">${topText}</span></div>"; // Missing: Scroll Append?
+// --------------------------------------------------
+// Settings: Top
+    $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
 
-$bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
-if ($bottomFontEnabled == TRUE && $bottomFontID != "None") $bottomStyle .= " font-family: '$bottomFontID';";
-if (!$autoScaleBottom) $bottomStyle .= " font-size: ${bottomSize}px;";
-if ($bottomScroll == TRUE) {
-    $cssClass = "marqueeDisplay";
-}
-else {
-    $cssClass = "userText";
-}
-$bottomLine = "$scrollPrepend<div><span class='$cssClass' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
+    if ($topFontEnabled == TRUE && $topFontID != "None") {
+        $topStyle .= " font-family: '$topFontID';";
+    }
+
+    if (!$autoScaleTop) {
+        $topStyle .= " font-size: ${topSize}px;";
+    }
+
+    if ($topScroll == TRUE) {
+        $topCSSClass = "marqueeDisplay";
+    }
+    else {
+        $topCSSClass = "userText";
+    }
+
+    $topLine = "<div><span class='$topCSSClass' style=\"$topStyle\">${topText}</span></div>"; // Missing: Scroll Append?
+// --------------------------------------------------
+
+// --------------------------------------------------
+// Settings: Bottom
+    $bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
+
+    if ($bottomFontEnabled == TRUE && $bottomFontID != "None") {
+        $bottomStyle .= " font-family: '$bottomFontID';";
+    }
+
+    if (!$autoScaleBottom) {
+        $bottomStyle .= " font-size: ${bottomSize}px;";
+    }
+
+    if ($bottomScroll == TRUE) {
+        $bottomCSSClass = "marqueeDisplay";
+    }
+    else {
+        $bottomCSSClass = "userText";
+    }
+
+    $bottomLine = "$scrollPrepend<div><span class='$bottomCSSClass' style=\"$bottomStyle\">${bottomText}</span></div>$scrollAppend";
+// --------------------------------------------------
 
 updateStatusRefresh();
 

@@ -9,13 +9,44 @@ function fixupSize($bytes) {
     return sprintf("%.{$places}f", $bytes / pow(1024, $factor)) . @$size[$factor];
 }
 
-function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "posterCount") {
+function GeneralCache_Count($destination = "../cache/posters/", $cacheField = "posterCount", $ScanSubDir = TRUE) {
     //Count Items in Cache
+
+    // Create Ignore List (including fonts_custom.css, placeholder.txt)
+
+    $ignoreDirs = array('');
+    $ignoreFiles = array('fonts_custom.css','placeholder.txt');
 
     GeneralCache_Create($destination, "GeneralCache_Count");
 
-    $posters = scandir("$destination");
-    $GLOBALS[$cacheField] = count($posters) - 2;
+    $fileCount = 0;
+
+    if ($ScanSubDir == TRUE) {
+        // Multi Level
+        $dir_iterator = new RecursiveDirectoryIterator("$destination");
+        $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach($files as $file) {
+            if (is_file($file)) {
+                $file_parts = pathinfo($file);
+                // if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
+                    if (in_array(substr($file, strrpos($file, '/')+1), $ignoreFiles)) {
+                        // Ignored File
+                    }
+                    else {
+                        $fileCount = $fileCount + 1;
+                    }
+                // }
+            }
+        }
+    }
+    else {
+        // Single Level
+        $items = scandir("$destination");
+        $fileCount = count($items) - 2;
+    }
+
+    $GLOBALS[$cacheField] = $fileCount;
     if ($GLOBALS[$cacheField] < 0) {
         $GLOBALS[$cacheField] = 0;
     }
@@ -59,26 +90,18 @@ function GeneralCache_Clear_Placeholder($destination) {
 function GeneralCache_Clear_24H ($destination) {
     // Clean Up Cache Dir (Files Older than 24 hours)
 
+    pmp_Logging("getCacheFile", "24hr Cache Clear: $destination");
+
+    $ExpTime = "86400"; // 24hrs (X hrs. * 60 min. * 60 sec.)
+
     if ($destination != "") {
         if ($handle = opendir($destination)) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".." && ((time() - filectime($destination . $file)) > 86400)) {
+                if ($file != "." && $file != ".." && ((time() - filectime($destination . $file)) > $ExpTime)) {
                     unlink($destination . $file);
                 }
             }
         }
-    }
-}
-
-function PosterCacheCount($destination = "../cache/posters/", $cacheField = "posterCount") {
-    //Count Items in Posters
-
-    GeneralCache_Create($destination, "PosterCacheCount");
-
-    $posters = scandir("$destination");
-    $GLOBALS[$cacheField] = count($posters) - 2;
-    if ($GLOBALS[$cacheField] < 0) {
-        $GLOBALS[$cacheField] = 0;
     }
 }
 
@@ -95,18 +118,6 @@ function PosterCacheClear($destination = "../cache/posters/") {
     }
 }
 
-function CustomCacheCount($destination = "../cache/custom/", $cacheField = "customCount") {
-    //Count Items in Custom Images
-
-    GeneralCache_Create($destination, "CustomCacheCount");
-
-    $custom = scandir("$destination");
-    $GLOBALS[$cacheField] = count($custom) - 2;
-    if ($GLOBALS[$cacheField] < 0) {
-        $GLOBALS[$cacheField] = 0;
-    }
-}
-
 function CustomCacheClear($destination = "../cache/custom/") {
     //Clear Custom Cache Directory
 
@@ -117,32 +128,6 @@ function CustomCacheClear($destination = "../cache/custom/") {
         if (is_file($file)) {
             unlink($file);
         }
-    }
-}
-
-function FontCacheCount($destination = "../cache/fonts/", $cacheField = "customFontCount") {
-    //Count Items in Custom Font Cache Directory
-    // TODO: Fix Count to support all font ext. (2021-03-14)
-
-    GeneralCache_Create($destination, "FontCacheCount");
-
-    $fileCount = 0;
-
-    $dir_iterator = new RecursiveDirectoryIterator("$destination");
-    $files = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
-
-    foreach($files as $file) {
-        if (is_file($file)) {
-            $file_parts = pathinfo($file);
-            if (preg_match("{[tT][tT][fF]}",$file_parts['extension'])) {
-                $fileCount = $fileCount + 1;
-            }
-        }
-    }
-
-    $GLOBALS[$cacheField] = $fileCount;
-    if ($GLOBALS[$cacheField] < 0) {
-        $GLOBALS[$cacheField] = 0;
     }
 }
 
@@ -178,14 +163,13 @@ function FontCacheClear($destination = "../cache/fonts/", $ScanSubDir = TRUE) {
 }
 
 function CacheInfo_Display($MiniStatus = FALSE) {
-    global $posterCount, $customCount, $customFontCount;
-
+    global $posterCount, $customCount, $customFontCount, $logCount, $BGArtCount;
 
     GeneralCache_Count("../cache/posters/", "posterCount");
-
+    GeneralCache_Count("../cache/art/", "BGArtCount");
     GeneralCache_Count("../cache/custom/", "customCount");
+    GeneralCache_Count("../cache/fonts/", "customFontCount");
     GeneralCache_Count("../cache/logs/", "logCount");
-    FontCacheCount();
 
     $cacheFreeSpace = fixupSize(disk_free_space("/"));
 
@@ -199,8 +183,10 @@ function CacheInfo_Display($MiniStatus = FALSE) {
     echo "<table class=\"$tblClass\">";
 
     CacheInfo_Display_ROW("Posters:","$posterCount","Items in cache/posters","clearPosterCache",TRUE, $MiniStatus);
+    CacheInfo_Display_ROW("Background Art:","$BGArtCount","Items in cache/art","clearArtCache",FALSE, $MiniStatus);
     CacheInfo_Display_ROW("Custom Images:","$customCount","Items in cache/custom","clearCustomCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Custom Fonts:","$customFontCount","Items in cache/fonts","clearFontCache",TRUE, $MiniStatus);
+    CacheInfo_Display_ROW("Custom Logs:","$logCount","Items in cache/logs","clearLogCache",FALSE, $MiniStatus);
     CacheInfo_Display_ROW("Free Space:","$cacheFreeSpace","Free space on /","",FALSE, $MiniStatus);
 
     echo "</table>\n";
@@ -262,6 +248,107 @@ function CacheInfo_Display_ROW($Title, $Value, $Help, $btnID, $btnStatus = TRUE,
     }
 
     echo "</tr>\n";
+}
+
+function CacheConfig_Display() {
+    // Global Variables - Input
+    global $pmpPosterDir, $pmpPosterDir_24hExp;
+    global $pmpArtDir, $pmpArtDir_24hExp;
+    global $pmpCustomDir, $pmpCustomDir_24hExp;
+    global $pmpFontDir, $pmpFontDir_24hExp;
+    global $pmpLogDir, $pmpLogDir_24hExp;
+
+    $tblClass = "";
+
+    echo "<table class=\"$tblClass\">";
+
+    CacheConfig_Display_ROW("Posters:",TRUE,"pmpPosterDir","$pmpPosterDir","pmpPosterDir_24hExp","$pmpPosterDir_24hExp");
+    CacheConfig_Display_ROW("Background Art:",TRUE,"pmpArtDir","$pmpArtDir","pmpArtDir_24hExp","$pmpArtDir_24hExp");
+    CacheConfig_Display_ROW("Custom Images:",TRUE,"pmpCustomDir","$pmpCustomDir","pmpCustomDir_24hExp","$pmpCustomDir_24hExp");
+    CacheConfig_Display_ROW("Custom Fonts:",TRUE,"pmpFontDir","$pmpFontDir","pmpFontDir_24hExp","$pmpFontDir_24hExp");
+    CacheConfig_Display_ROW("Custom Logs:",TRUE,"pmpLogDir","$pmpLogDir","pmpLogDir_24hExp","$pmpLogDir_24hExp");
+
+    echo "</table>\n";
+}
+
+function CacheConfig_Display_ROW($Title, $Help, $InputField, $InputValue, $InputFieldExp, $InputValueExp){
+
+    $Display_Title = $Title;
+    $Display_Help_Title = "Location for $InputValue";
+    $tdClass = "";
+
+    echo "<tr class=\"$trClass\">\n";
+    echo "<td class=\"$tdClass\">\n";
+
+    echo "$Display_Title\n";
+
+    if ($Display_Help_Title != "") {
+        echo "<p class=\"help-block\">\n";
+        echo "  $Display_Help_Title\n";
+        echo "</p>\n";
+    }
+
+    echo "</td>\n";
+    echo "<td class=\"$tdClass StatsVal\">\n";
+
+    echo "<input type=\"text\" id=\"$InputField\" name=\"$InputField\" class=\"form-control fieldInfo-large form-inline\" value=\"$InputValue\" required>";
+
+    echo "</td>\n";
+    echo "<td class=\"$tdClass\">\n";
+
+    if ($InputValueExp == TRUE) {
+        $CheckBoxStatus = "checked";
+    }
+    else {
+        $CheckBoxStatus = "";
+    }
+
+    echo "24hr Expire: &nbsp\n";
+    echo "<input type=\"checkbox\" name=\"$InputFieldExp\" id=\"$InputFieldExp\" value=\"1\" $CheckBoxStatus>\n";
+    echo "\n";
+    echo "<p class=\"help-block\">\n";
+    echo "24hr expiration for files in this path.\n";
+    echo "</p>\n";
+
+    echo "</td>\n";
+    echo "</tr>\n";
+}
+
+function CacheValidate() {
+    // Global Variables - Input
+    global $pmpPosterDir, $pmpPosterDir_24hExp;
+    global $pmpArtDir, $pmpArtDir_24hExp;
+    global $pmpCustomDir, $pmpCustomDir_24hExp;
+    global $pmpFontDir, $pmpFontDir_24hExp;
+    global $pmpLogDir, $pmpLogDir_24hExp;
+
+    // Global Variables - Output
+    global $cachePath, $cacheArtPath, $customPath, $FontPath, $LogPath;
+
+    // Poster Cache
+    $cachePath = $pmpPosterDir;
+    echo "Creating: $cachePath <br>";
+    GeneralCache_Prep($cachePath, $pmpPosterDir_24hExp);
+
+    // Art Cache
+    $cacheArtPath = $pmpArtDir;
+    echo "Creating: $cacheArtPath <br>";
+    GeneralCache_Prep($cacheArtPath, $pmpArtDir_24hExp);
+
+    // Custom Cache
+    $customPath = $pmpCustomDir;
+    echo "Creating: $customPath <br>";
+    GeneralCache_Prep($customPath, $pmpCustomDir_24hExp);
+
+    // Font Cache
+    $FontPath = $pmpFontDir;
+    echo "Creating: $FontPath <br>";
+    GeneralCache_Prep($FontPath, $pmpFontDir_24hExp);
+
+    // Log Cache
+    $LogPath = $pmpLogDir;
+    echo "Creating: $LogPath <br>";
+    GeneralCache_Prep($LogPath, $pmpLogDir_24hExp);
 }
 
 ?>

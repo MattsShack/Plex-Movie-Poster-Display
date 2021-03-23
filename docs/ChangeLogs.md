@@ -315,3 +315,40 @@ Enhancement - Digital Picture Frame Mode (Issue #48)
 Updates and Bug Fixes:
 - Attempt to address an issue that users are experiencing when upgrading from 2.10.4 to 2.10.5.  Possible issue around how the refresh system as implemented and an adjustment for that now has been done.  Recreation unsuccessful. (Issue #27 Issue #56)
 - Minor adjustments to the backend as discovered when working on Issue #48
+
+**v2.11.0 Community Updates**\
+Enhancement - Digital Picture Frame Mode (Issue #48)
+- Fix issue with 'Custom Image Select' not reloading to its proper position.
+- Add 'Random' option for list of images for future use.
+- Update 'Custom Images' count to support sub-folders
+- When digital picture frame is not active, enable CSS blur and other changes that got applied
+- TODO: Adjust Unzip to work as 'Albums' when using Custom Images
+
+Bug: Config values how showing correctly on Save (Issue #62)
+- Adjust Save Sleep time from 2 seconds to 5 seconds
+- Move the include of config.php up to the second call in all the settings files
+- Should also address problem reported in Issue #27
+
+Enhancement: Cache Config Options (Issue #63)
+- Add 'Cache' configuration to 'Common Configuration' to control cache paths and enable/disable 24h cleanup.
+
+Cache Images Enabled but Posters disappearing (Issue #58)
+- Addressed in Issue #63
+
+Enhancement: Plex Function Isolation (Issue #64)
+- Migrate metadata reading from getData to PlexLib for Now Showing and Coming Soon.
+- Continue to migrate Plex related actions from getData to PlexLib
+
+Enhancement: Multiple IP Clients for Now Showing (Issue #59)
+- Update Plex Client IP field to support 3 ip addresses (length of 47char)
+- Add function to process multiple IP address and client names in the PlexLib
+
+Cache Images - No file extensions (Issue #26)
+- Adjustment was addressed in v2.10.x
+- Bug: The images that come from PLEX lose there metadata when saved to cache folder.  New way to get files will need to be found.
+
+Updates and Bug Fixes:
+- Update 'Posters' count to support sub-folders
+- Add 'Background Art' to count display
+- Add 'logs' to count display
+- Clean up old un-used fonts.

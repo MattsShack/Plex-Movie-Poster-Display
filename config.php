@@ -1,103 +1,121 @@
 
 <?php
-  //PMPD Configuration
-  $pmpConfigVersion = '2';
+  // PMPD Configuration
+  $pmpConfigVersion = '2.10.7';
   $pmpUsername = 'admin';
   $pmpPassword = 'password1';
-  $pmpClearImageCache = 'Yes'; //Default Yes
-  $pmpImageSpeed = '30'; //Default 30 Seconds
-  $pmpPosterDir = 'cache/posters/'; //Default cache/posters/ (FUTURE)
-  $pmpArtDir = 'cache/art/'; //Default cache/art/ (FUTURE)
-  $pmpCustomDir = 'cache/custom/'; //Default cache/custom/ (FUTURE)
-  $pmpLogDir = 'cache/logs/'; //Default cache/logs/ (FUTURE)
+  $pmpClearImageCache = 'Yes'; // Default: Yes
+  // $pmpImageSpeed = '30'; // Default: 30 (Seconds)
 
-  //Server Configuration
+  // Cache Configuration
+  $cacheEnabled = '1'; // Default: TRUE
+  $pmpPosterDir = 'cache/posters/'; // Default: cache/posters/
+  $pmpPosterDir_24hExp = '1'; // Default: TRUE
+  $pmpArtDir = 'cache/art/'; // Default: cache/art/
+  $pmpArtDir_24hExp = '1'; // Default: TRUE
+  $pmpCustomDir = 'cache/custom/'; // Default: cache/custom/
+  $pmpCustomDir_24hExp = ''; // Default: FALSE
+  $pmpFontDir = 'cache/fonts/'; // Default: cache/fonts/
+  $pmpFontDir_24hExp = ''; // Default: FALSE
+  $pmpLogDir = 'cache/logs/'; // Default: cache/logs/
+  $pmpLogDir_24hExp = ''; // Default: FALSE
+
+  // Plex Configuration
   $plexServer = '';
   $plexServerDirect = '';
   $plexToken = '';
   $plexServerMovieSection = '';
-  $cacheEnabled = ''; //Default true
-  $plexServerSSL = ''; //Default: Unchecked
-
-  //Client Configuration
+  $plexServerSSL = ''; // Default: FALSE
   $plexClient = '';
   $plexClientName = '';
 
-  //Custom Image Configuration
-  $customBackgroundArt = ''; //Default: false
-  $customImageEnabled = 'Disabled'; //Default: Disabled
-  $customRefreshSpeed = '30'; //Default 30 Seconds
+  // Custom Image Configuration
+  $customBackgroundArt = ''; // Default: FALSE
+  $customRefreshSpeed = '30'; // Default: 30 (Seconds)
+  $customImageEnabled = 'Disabled'; // Default: Disabled
   $customImage = '';
+
+  // Custom Image Configuration - Top Settings
   $customTopText = '';
-  $customTopFontSize = '55'; //Default: 55 (px)
-  $customTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $customTopFontEnabled = ''; //Default: Unchecked
-  $customTopFontID = 'None'; //Default: None
-  $customTopFontOutlineSize = '0'; //Default: 0 (px)
-  $customTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
+  $customTopFontSize = '55'; // Default: 55 (px)
+  $customTopFontColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $customTopFontOutlineSize = '0'; // Default: 0 (px)
+  $customTopFontOutlineColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $customTopFontEnabled = ''; // Default: FALSE
+  $customTopFontID = 'None'; // Default: None
+
+  // Custom Image Configuration - Bottom Settings
   $customBottomText = '';
-  $customBottomFontSize = '25'; //Default: 25 (px)
-  $customBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $customBottomFontEnabled = ''; //Default: Unchecked
-  $customBottomFontID = 'None'; //Default: None
-  $customBottomFontOutlineSize = '0'; //Default: 0 (px)
-  $customBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
+  $customBottomFontSize = '25'; // Default: 25 (px)
+  $customBottomFontColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $customBottomFontOutlineSize = '0'; // Default: 0 (px)
+  $customBottomFontOutlineColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $customBottomFontEnabled = ''; // Default: FALSE
+  $customBottomFontID = 'None'; // Default: None
 
-  //Coming Soon Configuration
-  $comingSoonBackgroundArt = ''; //Default: false
-  $comingSoonRefreshSpeed = '30'; //Default 30 Seconds
-  $comingSoonTop = 'custom'; //Default: custom (title/summary/tagline/custom)
-  $comingSoonTopAutoScale = ''; //Default: false
+  // Coming Soon Configuration
+  $comingSoonBackgroundArt = ''; // Default: FALSE
+  $comingSoonRefreshSpeed = '30'; // Default: 30 (Seconds)
+  $comingSoonShowTVThumb = 'series'; // Default: series
+  $comingSoonShowSelection = 'unwatched'; // Default: unwatched
+  // $showComingSoonInfo = ''; // Default: FALSE
+
+  // Coming Soon Configuration - Top Settings
+  $comingSoonTop = 'custom'; // Default: custom (title/summary/tagline/custom)
   $comingSoonTopText = 'COMING SOON';
-  $comingSoonTopFontSize = '55'; //Default: 55 (px)
-  $comingSoonTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $comingSoonTopFontEnabled = ''; //Default: Unchecked
-  $comingSoonTopFontID = 'None'; //Default: None
-  $comingSoonTopFontOutlineSize = '0'; //Default: 0 (px)
-  $comingSoonTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $showComingSoonInfo = ''; //Default: false
-  $comingSoonBottom = 'custom'; //Default: custom (title/summary/tagline/custom)
+  $comingSoonTopFontSize = '55'; // Default: 55 (px)
+  $comingSoonTopFontColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $comingSoonTopFontOutlineSize = '0'; // Default: 0 (px)
+  $comingSoonTopFontOutlineColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $comingSoonTopFontEnabled = ''; // Default: FALSE
+  $comingSoonTopFontID = 'None'; // Default: None
+  $comingSoonTopAutoScale = ''; // Default: FALSE
+
+  // Coming Soon Configuration - Bottom Settings
+  $comingSoonBottom = 'custom'; // Default: custom (title/summary/tagline/custom)
   $comingSoonBottomText = 'www.mattsshack.com';
-  $comingSoonBottomAutoScale = ''; //Default: false
-  $comingSoonBottomScroll = 'Disabled'; //Default: Disabled
-  $comingSoonBottomFontSize = '25'; //Default: 25 (px)
-  $comingSoonBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $comingSoonBottomFontEnabled = ''; //Default: Unchecked
-  $comingSoonBottomFontID = 'None'; //Default: None
-  $comingSoonBottomFontOutlineSize = '0'; //Default: 0 (px)
-  $comingSoonBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $comingSoonShowSelection = 'unwatched'; //Default: unwatched
-  $comingSoonShowTVThumb = 'series'; //Default: series
+  $comingSoonBottomFontSize = '25'; // Default: 25 (px)
+  $comingSoonBottomFontColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $comingSoonBottomFontOutlineSize = '0'; // Default: 0 (px)
+  $comingSoonBottomFontOutlineColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $comingSoonBottomFontEnabled = ''; // Default: FALSE
+  $comingSoonBottomFontID = 'None'; // Default: None
+  $comingSoonBottomAutoScale = ''; // Default: FALSE
+  $comingSoonBottomScroll = 'Disabled'; // Default: Disabled
 
-  //Now Showing Configuration
-  $nowShowingBackgroundArt = ''; //Default: false
-  $nowShowingRefreshSpeed = '30'; //Default 30 Seconds
-  $nowShowingTop = 'custom'; //Default: custom (title/summary/tagline/custom)
-  $nowShowingTopAutoScale = ''; //Default: false
+  // Now Showing Configuration
+  $nowShowingBackgroundArt = ''; // Default: FALSE
+  $nowShowingRefreshSpeed = '30'; // Default: 30 (Seconds)
+  $nowShowingShowTVThumb = 'series'; // Default: series
+  $pmpDisplayProgress = 'Disabled'; // Default: Disabled
+  $pmpDisplayProgressSize = '5'; // Default: 5 (px)
+  $pmpDisplayProgressColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+
+  // Now Showing Configuration - Top Settings
+  $nowShowingTop = 'custom'; // Default: custom (title/summary/tagline/custom)
   $nowShowingTopText = 'NOW SHOWING';
-  $nowShowingTopFontSize = '55'; //Default: 55 (px)
-  $nowShowingTopFontColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $nowShowingTopFontEnabled = ''; //Default: Unchecked
-  $nowShowingTopFontID = 'None'; //Default: None
-  $nowShowingTopFontOutlineSize = '0'; //Default: 0 (px)
-  $nowShowingTopFontOutlineColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $nowShowingBottom = 'title'; //Default: title (title/summary/tagline/custom)
-  $nowShowingBottomText = '';
-  $nowShowingBottomAutoScale = ''; //Default: false
-  $nowShowingBottomScroll = 'Disabled'; //Default: Disabled
-  $nowShowingBottomFontSize = '25'; //Default: 25 (px)
-  $nowShowingBottomFontColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $nowShowingBottomFontEnabled = ''; //Default: Unchecked
-  $nowShowingBottomFontID = 'None'; //Default: None
-  $nowShowingBottomFontOutlineSize = '0'; //Default: 0 (px)
-  $nowShowingBottomFontOutlineColor = '#FFFFFF'; //Default: #FFFFFF (White)
-  $nowShowingShowTVThumb = 'series'; //Default: series
+  $nowShowingTopFontSize = '55'; // Default: 55 (px)
+  $nowShowingTopFontColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $nowShowingTopFontOutlineSize = '0'; // Default: 0 (px)
+  $nowShowingTopFontOutlineColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
+  $nowShowingTopFontEnabled = ''; // Default: FALSE
+  $nowShowingTopFontID = 'None'; // Default: None
+  $nowShowingTopAutoScale = ''; // Default: FALSE
 
-  //Misc Configuration
-  $pmpDisplayProgress = 'Disabled'; //Default: Disabled
-  $pmpDisplayProgressSize = '5'; //Default: 5 (px)
-  $pmpDisplayProgressColor = '#FFFF00'; //Default: #FFFF00 (Yellow)
-  $pmpDisplayClock = 'Disabled'; //Default: Disabled (FUTURE)
-  $pmpBottomScroll = 'Disabled'; //Default: Disabled
-  $pmpBottomScrollSpeed = '1'; //Default: 1 (FUTURE)
+  // Now Showing Configuration - Bottom Settings
+  $nowShowingBottom = 'title'; // Default: title (title/summary/tagline/custom)
+  $nowShowingBottomText = '';
+  $nowShowingBottomFontSize = '25'; // Default: 25 (px)
+  $nowShowingBottomFontColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $nowShowingBottomFontOutlineSize = '0'; // Default: 0 (px)
+  $nowShowingBottomFontOutlineColor = '#FFFFFF'; // Default: #FFFFFF (White)
+  $nowShowingBottomFontEnabled = ''; // Default: FALSE
+  $nowShowingBottomFontID = 'None'; // Default: None
+  $nowShowingBottomAutoScale = ''; // Default: FALSE
+  $nowShowingBottomScroll = 'Disabled'; // Default: Disabled
+
+  // Misc Configuration
+  $pmpDisplayClock = 'Disabled'; // Default: Disabled (FUTURE)
+  // $pmpBottomScroll = 'Disabled'; // Default: Disabled
+  $pmpBottomScrollSpeed = '1'; // Default: 1 (FUTURE)
 ?>
