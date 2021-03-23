@@ -109,6 +109,12 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                                     $('.' + "mediaArt").css('filter', "none");
                                     $('.' + "mediaArt").css('-webkit-filter', "none");
                                     $('.' + "mediaArt").css('background-size', "auto 100%");
+                                } 
+                                else {
+                                    //  document.write("PhotoMode");
+                                    $('.' + "mediaArt").css('filter', "blur(8px)");
+                                    $('.' + "mediaArt").css('-webkit-filter', "blur(8px)");
+                                    $('.' + "mediaArt").css('background-size', "cover");
                                 }
                             break;
                             default:

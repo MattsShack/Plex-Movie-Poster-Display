@@ -75,7 +75,7 @@ function HeaderInfo($configPage, $debugMode = FALSE) {
     echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/fonts_stock.css\">\n";
     echo "\t<link rel=\"shortcut icon\" type=\"image/png\" href=\"$paths/assets/$AppName/images/favicon.ico\"/>\n";
     // echo "\t<link rel=\"mask-icon\" href=\"$paths/assets/$AppName/images/favicon-mask.svg\" color=\"#cc7b19\">\n";
-    
+
     if ($debugMode == TRUE) {
         $font_custom_ver = date('his');
         // echo "\t<link rel=\"stylesheet\" href=\"$paths/assets/$AppName/fonts_custom.css?v=$font_custom_ver\">\n";
@@ -345,6 +345,7 @@ function signInForm($warning) {
 }
 
 function customImagesList() {
+    global $customImage;
 
     $source = "../cache/custom";
 
@@ -361,14 +362,43 @@ function customImagesList() {
     //Single Level
         //$mediaArr = array_diff(scandir($source), array('.', '..'));
 
-        foreach ($mediaArr as $file) {
-            echo "<option value='$file'";
-            if ($customImage == $file) {
-                echo "selected";
-            }
-            echo ">$file</option>";
-        }
-        
+    echo "<select class=\"form-inline\"\n";
+    echo "id=\"customImage\" name=\"customImage\"> \n";
+
+    if (empty($customImage)) {
+        $NONE_Select = "selected";
+    }
+
+    echo "<option value=\"\" $NONE_Select>";
+    echo "None";
+    echo "</option>\n";
+
+    if ($customImage == "RANDOM") {
+        $RANDOM_Select = "selected";
+    }
+
+    echo "<option value=\"RANDOM\" $RANDOM_Select>";
+    echo "Random";
+    echo "</option>\n";
+
+    foreach ($mediaArr as $file) {
+        dropdownCustomImagesSub($file);
+    }
+
+    echo "</select>";
+}
+
+function dropdownCustomImagesSub($file) {
+    global $customImage;
+
+    $HTMLSelect = "";
+    if ($file == $customImage) {
+        $HTMLSelect = "selected";
+    }
+
+    echo "<option value=\"$file\" $HTMLSelect>";
+    echo "$file";
+    echo "</option>\n";
 }
 
 ?>

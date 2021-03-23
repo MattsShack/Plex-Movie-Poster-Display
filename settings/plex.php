@@ -1,11 +1,11 @@
 <?php
 //For feedback, suggestions, or issues please visit https://www.mattsshack.com/plex-movie-poster-display/
 include_once('../assets/plexmovieposter/loginCheck.php');
+include '../config.php';
 include '../assets/plexmovieposter/CommonLib.php';
 // include '../assets/plexmovieposter/tools.php';
 include '../assets/plexmovieposter/CacheLib.php';
 include '../assets/plexmovieposter/setData.php';
-include '../config.php';
 
 //Save Configuration
 if (!empty($_POST['saveConfig'])) {
@@ -84,15 +84,16 @@ if (!empty($_POST['saveConfig'])) {
                                 </div>
 
                                 <div class="form-group advanced-setting">
+                                    Enable Plex SSL connection:&nbsp;
+
                                     <input type="checkbox" name="plexServerSSL" id="plexServerSSL" value="1" <?php if ($plexServerSSL) echo " checked"?>>
-                                    Plex SSL
 
                                     <!-- <p class="help-block">
                                     </p> -->
                                 </div>
 
                                 <div class="form-group advanced-setting">
-                                    Plex Server Direct:
+                                    Plex Server Direct address:
                                     <a href="https://support.plex.tv/articles/206225077-how-to-use-secure-server-connections/" target=_blank>
                                         <span class="badge badge-primary">?</span>
                                     </a>
@@ -112,13 +113,14 @@ if (!empty($_POST['saveConfig'])) {
                                 </div>
 
                                 <div class="form-group">
+                                    <!-- Max Length is 3 IP address 15chr per (IP Length) + 2 for comma -->
                                     Plex Client IP:&nbsp;
-                                    <input type="text" class="fieldInfo-ipaddress form-control form-inline" id="plexClient" name="plexClient" maxlength="15"
+                                    <input type="text" class="fieldInfo-ipaddress form-control form-inline" id="plexClient" name="plexClient" maxlength="47"
                                         placeholder="Plex Client IP" value="<?php echo $plexClient; ?>" required>
 
-                                    <!-- <p class="help-block">
-                                        A Plex client IP address is required.
-                                    </p> -->
+                                    <p class="help-block">
+                                        A Plex client IP address is required. For multiple clients, use comma separation with no spaces.
+                                    </p>
                                 </div>
 
                                 <div class="form-group">
@@ -127,8 +129,9 @@ if (!empty($_POST['saveConfig'])) {
                                     <input type="text" class="fieldInfo-xlarge form-control form-inline" id="plexClientName" name="plexClientName"
                                         placeholder="Plex Client Name" value="<?php echo $plexClientName; ?>">
 
-                                    <!-- <p class="help-block">
-                                    </p> -->
+                                    <p class="help-block">
+                                        A Plex client IP name is optional. For multiple clients, use comma separation with no spaces.
+                                    </p>
                                 </div>
                             <!-- SEGMENT BLOCK END -->
 
