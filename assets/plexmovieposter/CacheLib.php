@@ -118,10 +118,55 @@ function PosterCacheClear($destination = "../cache/posters/") {
     }
 }
 
-function CustomCacheClear($destination = "../cache/custom/") {
+function CustomCacheClear($destination = "../cache/custom/", $ScanSubDir = TRUE) {
     //Clear Custom Cache Directory
 
     GeneralCache_Create($destination, "CustomCacheClear");
+
+    if ($ScanSubDir == TRUE) {
+        // Multi Level
+        $dir_iterator = new RecursiveDirectoryIterator("$destination");
+        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+        // could use CHILD_FIRST if you so wish
+
+        foreach ($iterator as $file) {
+            if (is_file($file)) {
+                pmp_Logging("getCacheFile", "Removing Custom Image: $file");
+                unlink($file);
+            }
+        }
+    }
+    else {
+        // Single Level
+        $files = glob("$destination/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                pmp_Logging("getCacheFile", "Removing Custom Image: $file");
+                unlink($file);
+            }
+        }
+    }
+
+}
+
+function ArtCacheClear($destination = "../cache/art/") {
+    //Clear Art Cache Directory
+
+    GeneralCache_Create($destination, "ArtCacheClear");
+
+    $files = glob("$destination/*");
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            unlink($file);
+        }
+    }
+}
+
+function LogCacheClear($destination = "../cache/logs/") {
+    //Clear Log Cache Directory
+    // Condense all Clear Cache into single function.
+
+    GeneralCache_Create($destination, "LogCacheClear");
 
     $files = glob("$destination/*");
     foreach ($files as $file) {
@@ -162,6 +207,8 @@ function FontCacheClear($destination = "../cache/fonts/", $ScanSubDir = TRUE) {
     }
 }
 
+
+
 function CacheInfo_Display($MiniStatus = FALSE) {
     global $posterCount, $customCount, $customFontCount, $logCount, $BGArtCount;
 
@@ -183,10 +230,10 @@ function CacheInfo_Display($MiniStatus = FALSE) {
     echo "<table class=\"$tblClass\">";
 
     CacheInfo_Display_ROW("Posters:","$posterCount","Items in cache/posters","clearPosterCache",TRUE, $MiniStatus);
-    CacheInfo_Display_ROW("Background Art:","$BGArtCount","Items in cache/art","clearArtCache",FALSE, $MiniStatus);
+    CacheInfo_Display_ROW("Background Art:","$BGArtCount","Items in cache/art","clearArtCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Custom Images:","$customCount","Items in cache/custom","clearCustomCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Custom Fonts:","$customFontCount","Items in cache/fonts","clearFontCache",TRUE, $MiniStatus);
-    CacheInfo_Display_ROW("Custom Logs:","$logCount","Items in cache/logs","clearLogCache",FALSE, $MiniStatus);
+    CacheInfo_Display_ROW("Custom Logs:","$logCount","Items in cache/logs","clearLogCache",TRUE, $MiniStatus);
     CacheInfo_Display_ROW("Free Space:","$cacheFreeSpace","Free space on /","",FALSE, $MiniStatus);
 
     echo "</table>\n";

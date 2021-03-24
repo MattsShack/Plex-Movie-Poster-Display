@@ -23,6 +23,18 @@ if (!empty($_POST['clearPosterCache'])) {
     header("Location: $CurrentPage");
 }
 
+//Clear Art Cache Directory
+if (!empty($_POST['clearArtCache'])) {
+    ArtCacheClear();
+    header("Location: $CurrentPage");
+}
+
+//Clear Log Cache Directory
+if (!empty($_POST['clearLogCache'])) {
+    LogCacheClear();
+    header("Location: $CurrentPage");
+}
+
 //Clear Custom Cache Directory
 if (!empty($_POST['clearCustomCache'])) {
     CustomCacheClear();
