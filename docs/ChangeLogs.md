@@ -352,3 +352,8 @@ Updates and Bug Fixes:
 - Add 'Background Art' to count display
 - Add 'logs' to count display
 - Clean up old un-used fonts.
+
+**v2.11.1 Community Updates**\
+Enhancement: Cache Config Options (Issue #63)
+- Enable 'Clear Cache' for Background Art and Logs.
+- TODO: Consolidate all CacheClear functions into a single reusable function.
