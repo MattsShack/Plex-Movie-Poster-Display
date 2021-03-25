@@ -51,7 +51,7 @@ if (isset($_POST["btn_customImg"])) {
                                         <label for="customImageUpload" class="btn btn-sm btn-faux">
                                             Browse File
                                         </label>
-                                        <input type="file" name="customImageUpload" id="customImageUpload" class="field-hideInput" onchange="showName_customImg()">
+                                        <input type="file" name="customImageUpload" id="customImageUpload" accept=".zip,.jpg,.jpeg,.gif,.png" class="field-hideInput" onchange="showName_customImg()">
 
                                         <p>
                                             <div id="UploadFileName_Custom" style="font-size: smaller;">
@@ -112,11 +112,21 @@ if (isset($_POST["btn_customImg"])) {
 
                                 <div class="form-group advanced-setting">
                                     <hr>
-                                    Background Art:&nbsp;
-                                    <input type="checkbox" name="customBackgroundArt" id="customBackgroundArt" value="1" <?php if ($customBackgroundArt) echo " checked"?>>
+                                    Full Screen Art:&nbsp;
+                                    <input type="checkbox" name="customFullScreenArt" id="customFullScreenArt" value="1" <?php if ($customFullScreenArt) echo " checked"?>>
 
                                     <p class="help-block">
-                                        Set image to be background art instead of poster art.
+                                        Set image to be full screen without any other display items.
+                                    </p>
+                                </div>
+
+                                <div class="form-group advanced-setting">
+                                    <hr>
+                                    Background Art:&nbsp;
+                                    <input type="checkbox" name="customBackgroundArt" id="customBackgroundArt" value="1" <?php if ($customBackgroundArt) echo " checked"?> disabled>
+
+                                    <p class="help-block">
+                                        Set background art to match background of media in your library.
                                     </p>
                                 </div>
 

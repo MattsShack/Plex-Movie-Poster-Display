@@ -356,4 +356,14 @@ Updates and Bug Fixes:
 **v2.11.1 Community Updates**\
 Enhancement: Cache Config Options (Issue #63)
 - Enable 'Clear Cache' for Background Art and Logs.
-- TODO: Consolidate all CacheClear functions into a single reusable function.
+
+**v2.11.2 Community Updates**\
+Enhancement: Cache Config Options (Issue #63)
+- Consolidate all CacheClear functions into a single reusable function.
+- Add placeholder for Cache config input fields
+
+Enhancement: Full Screen Poster (Issue #57)
+- Full Screen Poster using 'FullScreenArtMode'.
+
+Updates and Bug Fixes:
+- Update Custom Image upload to support only the following file types: zip/jpg/jpeg/gif/png

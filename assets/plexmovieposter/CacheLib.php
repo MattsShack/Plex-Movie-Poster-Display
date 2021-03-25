@@ -87,7 +87,7 @@ function GeneralCache_Clear_Placeholder($destination) {
     }
 }
 
-function GeneralCache_Clear_24H ($destination) {
+function GeneralCache_Clear_24H($destination) {
     // Clean Up Cache Dir (Files Older than 24 hours)
 
     pmp_Logging("getCacheFile", "24hr Cache Clear: $destination");
@@ -105,109 +105,59 @@ function GeneralCache_Clear_24H ($destination) {
     }
 }
 
-function PosterCacheClear($destination = "../cache/posters/") {
-    //Clear Poster Cache Directory
+function GeneralCacheClear($destination = "../cache/posters/", $ScanSubDir = TRUE) {
+    //Clear Cache Directory
 
-    GeneralCache_Create($destination, "PosterCacheClear");
+    // Global Variables - Input
+    global $pmpPosterDir, $pmpArtDir, $pmpCustomDir, $pmpFontDir, $pmpLogDir;
 
-    $files = glob("$destination/*");
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            unlink($file);
-        }
+    switch ($destination) {
+        case "poster":
+            $destination = "../$pmpPosterDir";
+            break;
+        case "art":
+            $destination = "../$pmpArtDir";
+            break;
+        case "custom":
+            $destination = "../$pmpCustomDir";
+            break;
+        case "font":
+            $destination = "../$pmpFontDir";
+            break;
+        case "log":
+            $destination = "../$pmpLogDir";
+            break;
+        default:
+            $destination = "../$pmpPosterDir";
+            break;
     }
-}
 
-function CustomCacheClear($destination = "../cache/custom/", $ScanSubDir = TRUE) {
-    //Clear Custom Cache Directory
-
-    GeneralCache_Create($destination, "CustomCacheClear");
+    GeneralCache_Create($destination, "GeneralCacheClear");
 
     if ($ScanSubDir == TRUE) {
-        // Multi Level
+        // Multi Level Search
         $dir_iterator = new RecursiveDirectoryIterator("$destination");
         $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
         // could use CHILD_FIRST if you so wish
 
         foreach ($iterator as $file) {
             if (is_file($file)) {
-                pmp_Logging("getCacheFile", "Removing Custom Image: $file");
+                pmp_Logging("getCacheFile", "Removing Image ($destination): $file");
                 unlink($file);
             }
         }
     }
     else {
-        // Single Level
+        // Single Level Search
         $files = glob("$destination/*");
         foreach ($files as $file) {
             if (is_file($file)) {
-                pmp_Logging("getCacheFile", "Removing Custom Image: $file");
-                unlink($file);
-            }
-        }
-    }
-
-}
-
-function ArtCacheClear($destination = "../cache/art/") {
-    //Clear Art Cache Directory
-
-    GeneralCache_Create($destination, "ArtCacheClear");
-
-    $files = glob("$destination/*");
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            unlink($file);
-        }
-    }
-}
-
-function LogCacheClear($destination = "../cache/logs/") {
-    //Clear Log Cache Directory
-    // Condense all Clear Cache into single function.
-
-    GeneralCache_Create($destination, "LogCacheClear");
-
-    $files = glob("$destination/*");
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            unlink($file);
-        }
-    }
-}
-
-function FontCacheClear($destination = "../cache/fonts/", $ScanSubDir = TRUE) {
-    //Clear Custom Font Cache Directory
-    // ToDo: Add support to clean up empty directories
-
-    GeneralCache_Create($destination, "FontCacheClear");
-
-    if ($ScanSubDir == TRUE) {
-        // Multi Level
-        $dir_iterator = new RecursiveDirectoryIterator("$destination");
-        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
-        // could use CHILD_FIRST if you so wish
-
-        foreach ($iterator as $file) {
-            if (is_file($file)) {
-                pmp_Logging("getCacheFile", "Removing Font: $file");
-                unlink($file);
-            }
-        }
-    }
-    else {
-        // Single Level
-        $files = glob("$destination/*");
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                pmp_Logging("getCacheFile", "Removing Font: $file");
+                pmp_Logging("getCacheFile", "Removing Image ($destination): $file");
                 unlink($file);
             }
         }
     }
 }
-
-
 
 function CacheInfo_Display($MiniStatus = FALSE) {
     global $posterCount, $customCount, $customFontCount, $logCount, $BGArtCount;
@@ -309,16 +259,16 @@ function CacheConfig_Display() {
 
     echo "<table class=\"$tblClass\">";
 
-    CacheConfig_Display_ROW("Posters:",TRUE,"pmpPosterDir","$pmpPosterDir","pmpPosterDir_24hExp","$pmpPosterDir_24hExp");
-    CacheConfig_Display_ROW("Background Art:",TRUE,"pmpArtDir","$pmpArtDir","pmpArtDir_24hExp","$pmpArtDir_24hExp");
-    CacheConfig_Display_ROW("Custom Images:",TRUE,"pmpCustomDir","$pmpCustomDir","pmpCustomDir_24hExp","$pmpCustomDir_24hExp");
-    CacheConfig_Display_ROW("Custom Fonts:",TRUE,"pmpFontDir","$pmpFontDir","pmpFontDir_24hExp","$pmpFontDir_24hExp");
-    CacheConfig_Display_ROW("Custom Logs:",TRUE,"pmpLogDir","$pmpLogDir","pmpLogDir_24hExp","$pmpLogDir_24hExp");
+    CacheConfig_Display_ROW("Posters:",TRUE,"pmpPosterDir","$pmpPosterDir","pmpPosterDir_24hExp","$pmpPosterDir_24hExp","cache/posters/");
+    CacheConfig_Display_ROW("Background Art:",TRUE,"pmpArtDir","$pmpArtDir","pmpArtDir_24hExp","$pmpArtDir_24hExp","cache/art/");
+    CacheConfig_Display_ROW("Custom Images:",TRUE,"pmpCustomDir","$pmpCustomDir","pmpCustomDir_24hExp","$pmpCustomDir_24hExp","cache/custom/");
+    CacheConfig_Display_ROW("Custom Fonts:",TRUE,"pmpFontDir","$pmpFontDir","pmpFontDir_24hExp","$pmpFontDir_24hExp","cache/fonts/");
+    CacheConfig_Display_ROW("Custom Logs:",TRUE,"pmpLogDir","$pmpLogDir","pmpLogDir_24hExp","$pmpLogDir_24hExp","cache/logs/");
 
     echo "</table>\n";
 }
 
-function CacheConfig_Display_ROW($Title, $Help, $InputField, $InputValue, $InputFieldExp, $InputValueExp){
+function CacheConfig_Display_ROW($Title, $Help, $InputField, $InputValue, $InputFieldExp, $InputValueExp,$InputPlaceholder){
 
     $Display_Title = $Title;
     $Display_Help_Title = "Location for $InputValue";
@@ -338,7 +288,7 @@ function CacheConfig_Display_ROW($Title, $Help, $InputField, $InputValue, $Input
     echo "</td>\n";
     echo "<td class=\"$tdClass StatsVal\">\n";
 
-    echo "<input type=\"text\" id=\"$InputField\" name=\"$InputField\" class=\"form-control fieldInfo-large form-inline\" value=\"$InputValue\" required>";
+    echo "<input type=\"text\" id=\"$InputField\" name=\"$InputField\" class=\"form-control fieldInfo-large form-inline\" placeholder=\"$InputPlaceholder\" value=\"$InputValue\" required>";
 
     echo "</td>\n";
     echo "<td class=\"$tdClass\">\n";
