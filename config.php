@@ -31,6 +31,7 @@
 
   // Custom Image Configuration
   $customBackgroundArt = ''; // Default: FALSE
+  $customFullScreenArt = ''; // Default: FALSE
   $customRefreshSpeed = '30'; // Default: 30 (Seconds)
   $customImageEnabled = 'Disabled'; // Default: Disabled
   $customImage = '';
@@ -55,6 +56,7 @@
 
   // Coming Soon Configuration
   $comingSoonBackgroundArt = ''; // Default: FALSE
+  $comingSoonFullScreenArt = ''; // Default: FALSE
   $comingSoonRefreshSpeed = '30'; // Default: 30 (Seconds)
   $comingSoonShowTVThumb = 'series'; // Default: series
   $comingSoonShowSelection = 'unwatched'; // Default: unwatched
@@ -85,6 +87,7 @@
 
   // Now Showing Configuration
   $nowShowingBackgroundArt = ''; // Default: FALSE
+  $nowShowingFullScreenArt = ''; // Default: FALSE
   $nowShowingRefreshSpeed = '30'; // Default: 30 (Seconds)
   $nowShowingShowTVThumb = 'series'; // Default: series
   $pmpDisplayProgress = 'Disabled'; // Default: Disabled

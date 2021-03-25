@@ -54,14 +54,20 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                         case "mediaArt":
                             $('.' + key).css('background-image', val);
                             break;
-                        case 'photoMode':
+                        case 'fullScreenMode':
                             var SetMode = val;
                             if (SetMode == true) {
-                                //  document.write("PhotoMode");
+                                //  document.write("fullScreenMode");
                                 $('.' + "mediaArt").css('filter', "none");
                                 $('.' + "mediaArt").css('-webkit-filter', "none");
                                 $('.' + "mediaArt").css('background-size', "auto 100%");
                             }
+                            else {
+                                //  document.write("fullScreenMode");
+                                $('.' + "mediaArt").css('filter', "blur(8px)");
+                                $('.' + "mediaArt").css('-webkit-filter', "blur(8px)");
+                                $('.' + "mediaArt").css('background-size', "cover");
+                                }
                             break;
                         default:
                             $('#' + key).html(val);
@@ -102,16 +108,16 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                             case "mediaArt":
                                 $('.' + key).css('background-image', val);
                                 break;
-                            case 'photoMode':
+                            case 'fullScreenMode':
                                 var SetMode = val;
                                 if (SetMode == true) {
-                                    //  document.write("PhotoMode");
+                                    //  document.write("fullScreenMode");
                                     $('.' + "mediaArt").css('filter', "none");
                                     $('.' + "mediaArt").css('-webkit-filter', "none");
                                     $('.' + "mediaArt").css('background-size', "auto 100%");
                                 } 
                                 else {
-                                    //  document.write("PhotoMode");
+                                    //  document.write("fullScreenMode");
                                     $('.' + "mediaArt").css('filter', "blur(8px)");
                                     $('.' + "mediaArt").css('-webkit-filter', "blur(8px)");
                                     $('.' + "mediaArt").css('background-size', "cover");

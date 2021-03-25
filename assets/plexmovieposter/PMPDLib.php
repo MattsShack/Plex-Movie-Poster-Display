@@ -12,7 +12,7 @@ function getData_PreLoad() {
 
     global $isPlaying;
     global $mediaThumb_Display, $mediaArt_Status, $mediaArt_Display;
-    global $RefreshSpeed, $photoModeStatus, $title;
+    global $RefreshSpeed, $BackgroundArtMode, $FullScreenArtMode, $title;
     global $mediaTitle, $mediaSummary, $mediaTagline;
     global $topSelection, $topLine, $topCustom, $autoScaleTop, $topScroll;
     global $topText, $topSize, $topColor, $topStrokeSize, $topStrokeColor, $topFontEnabled, $topFontID;
@@ -40,8 +40,11 @@ function getData_PreLoad() {
         $RefreshSpeed = 30; // Variables - Legacy
         $PMPDDisplay['RefreshSpeed'] = 30; // Variables - Future
 
-        $photoModeStatus = FALSE; // Variables - Legacy
-        $PMPDDisplay['photoModeStatus'] = FALSE; // Variables - Future
+        $BackgroundArtMode = FALSE; // Variables - Legacy
+        $PMPDDisplay['BackgroundArtMode'] = FALSE; // Variables - Future
+
+        $FullScreenArtMode = FALSE; // Variables - Legacy
+        $PMPDDisplay['FullScreenArtMode'] = FALSE; // Variables - Future
 
         $title = ""; // Variables - Legacy
         $PMPDDisplay['title'] = ""; // Variables - Future
@@ -138,14 +141,14 @@ function CustomImage_getData() {
     // When moved to PHP 8.x use str_contains instead of strpos.
 
     // Global Variables - Input
-    global $data;
+    global $data, $PMPDDisplay;
     global $pmpCustomDir;
-    global $customRefreshSpeed, $customImage, $customPath, $customBackgroundArt;
+    global $customRefreshSpeed, $customImage, $customPath, $customBackgroundArt, $customFullScreenArt;
     global $customTopText, $customTopFontSize, $customTopFontColor, $customTopFontOutlineSize, $customTopFontOutlineColor, $customTopFontEnabled, $customTopFontID;
     global $customBottomText, $customBottomFontSize, $customBottomFontColor, $customBottomFontOutlineSize, $customBottomFontOutlineColor, $customBottomFontEnabled, $customBottomFontID;
 
     // Global Variables - Output
-    global $RefreshSpeed, $mediaThumb_Display, $mediaArt_Display, $mediaArt_Status, $photoModeStatus;
+    global $RefreshSpeed, $mediaThumb_Display, $mediaArt_Display, $mediaArt_Status, $FullScreenArtMode;
     global $topText, $topSize, $topColor, $topStrokeSize, $topStrokeColor, $topFontEnabled, $topFontID;
     global $bottomText, $bottomSize, $bottomColor, $bottomStrokeSize, $bottomStrokeColor, $bottomFontEnabled, $bottomFontID;
 
@@ -154,25 +157,52 @@ function CustomImage_getData() {
 
     if (!empty($customRefreshSpeed)) {
         $RefreshSpeed = $customRefreshSpeed;
+        $PMPDDisplay['RefreshSpeed'] = $customRefreshSpeed;
     }
 
     // $topSelection = $nowShowingTop;
     $topText = $customTopText;
+    $PMPDDisplay['topText'] = $customTopText;
+
     $topSize = $customTopFontSize;
+    $PMPDDisplay['topSize'] = $customTopFontSize;
+
     $topColor = $customTopFontColor;
+    $PMPDDisplay['topColor'] = $customTopFontColor;
+
     $topStrokeSize = $customTopFontOutlineSize;
+    $PMPDDisplay['topStrokeSize'] = $customTopFontOutlineSize;
+
     $topStrokeColor = $customTopFontOutlineColor;
+    $PMPDDisplay['topStrokeColor'] = $customTopFontOutlineColor;
+
     $topFontEnabled = $customTopFontEnabled;
+    $PMPDDisplay['topFontEnabled'] = $customTopFontEnabled;
+
     $topFontID = $customTopFontID;
+    $PMPDDisplay['topFontID'] = $customTopFontID;
 
     // $bottomSelection = $nowShowingBottom;
     $bottomText = $customBottomText;
+    $PMPDDisplay['bottomText'] = $customBottomText;
+
     $bottomSize = $customBottomFontSize;
+    $PMPDDisplay['bottomSize'] = $customBottomFontSize;
+
     $bottomColor = $customBottomFontColor;
+    $PMPDDisplay['bottomColor'] = $customBottomFontColor;
+
     $bottomStrokeSize = $customBottomFontOutlineSize;
+    $PMPDDisplay['bottomStrokeSize'] = $customBottomFontOutlineSize;
+
     $bottomStrokeColor = $customBottomFontOutlineColor;
+    $PMPDDisplay['bottomStrokeColor'] = $customBottomFontOutlineColor;
+
     $bottomFontEnabled = $customBottomFontEnabled;
+    $PMPDDisplay['bottomFontEnabled'] = $customBottomFontEnabled;
+
     $bottomFontID = $customBottomFontID;
+    $PMPDDisplay['bottomFontID'] = $customBottomFontID;
 
     if ($customImage == "RANDOM") {
         $source = $pmpCustomDir;
@@ -214,24 +244,80 @@ function CustomImage_getData() {
 
     if ($Validate_IMGPath == TRUE) {
         $mediaThumb_Display = "url('$customImage')";
+        $PMPDDisplay['mediaThumb_Display'] = "url('$customImage')";
     }
     else {
         $mediaThumb_Display = "url('$customPath/$customImage')";
+        $PMPDDisplay['mediaThumb_Display'] = "url('$customPath/$customImage')";
     }
 
     if ($Validate_IMGPath == TRUE) {
         $mediaArt_Display = "url('$customImage')";
+        $PMPDDisplay['mediaArt_Display'] = "url('$customImage')";
     }
     else {
         $mediaArt_Display = "url('$customPath/$customImage')";
+        $PMPDDisplay['mediaArt_Display'] = "url('$customPath/$customImage')";
     }
 
     $mediaArt_Status = $customBackgroundArt;
+    $PMPDDisplay['mediaArt_Status'] = $customBackgroundArt;
 
-    if ($mediaArt_Status == TRUE) {
-        $mediaThumb_Display = "";
-        $photoModeStatus = TRUE;
+    $FullScreenArtMode = $customFullScreenArt;
+    $PMPDDisplay['FullScreenArtMode'] = $customFullScreenArt;
+}
+
+function SetFullScreenMode($SetMode = FALSE) {
+    // Global Variables - Input
+    global $PMPDDisplay;
+    global $mediaArt_Status, $mediaThumb_Display;
+
+    // Global Variables - Output
+    global $FullScreenArtMode;
+    global $topText, $bottomText;
+
+    if ($SetMode == TRUE) {
+        $mediaArt_Display = $mediaThumb_Display;
+        $PMPDDisplay['mediaArt_Display'] = $mediaThumb_Display;
+
+        $FullScreenArtMode = TRUE;
+        $PMPDDisplay['FullScreenArtMode'] = TRUE;
     }
 }
 
+function PMPD_SetResults() {
+
+    // Global Variables - Input
+    global $PMPDDisplay;
+    global $topLine, $progressBar, $mediaThumb_Display, $mediaArt_Status, $mediaArt_Display, $bottomLine;
+    global $RefreshSpeed;
+
+    // Global Variables - Output
+    global $results;
+
+    // Business Logic
+    $results = [];
+
+    $results['refreshSpeed'] = ($RefreshSpeed);
+    $results['fullScreenMode'] = $PMPDDisplay['FullScreenArtMode'] ; // Future Use (Issue #48)
+
+    if ($PMPDDisplay['FullScreenArtMode'] == TRUE) {
+        $results['top'] = "";
+        $results['middle'] = "";
+        $results['mediaArt'] = $PMPDDisplay['mediaArt_Display'];
+        $results['bottom'] = "";
+    }
+    else {
+        $results['top'] = $topLine . $progressBar;
+        $results['middle'] = $mediaThumb_Display;
+
+        if ($mediaArt_Status) {
+            $results['mediaArt'] = $mediaArt_Display;
+        } else {
+            $results['mediaArt'] = "";
+        }
+
+        $results['bottom'] = $bottomLine;
+    }
+}
 ?>

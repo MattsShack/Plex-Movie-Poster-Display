@@ -70,6 +70,7 @@ if ($customImageEnabled == "Enabled") {
                     $bottomFontID = $nowShowingBottomFontID;
 
                     $mediaArt_Status = $nowShowingBackgroundArt;
+                    $FullScreenArtMode = $nowShowingFullScreenArt;
                     $mediaArt_ShowTVThumb = $nowShowingShowTVThumb;
 
                     if (!empty($nowShowingRefreshSpeed)) {
@@ -149,6 +150,7 @@ if ($customImageEnabled == "Enabled") {
             $bottomFontID = $comingSoonBottomFontID;
 
             $mediaArt_Status = $comingSoonBackgroundArt;
+            $FullScreenArtMode = $comingSoonFullScreenArt;
             $mediaArt_ShowTVThumb = $comingSoonShowTVThumb;
 
             if (!empty($comingSoonRefreshSpeed)) {
@@ -308,20 +310,10 @@ if ($customImageEnabled != "Enabled") {
 
 updateStatusRefresh();
 
-$results = [];
-$results['refreshSpeed'] = ($RefreshSpeed);
-$results['photoMode'] = $photoModeStatus ; // Future Use (Issue #48)
+SetFullScreenMode($FullScreenArtMode);
 
-$results['top'] = $topLine . $progressBar;
-$results['middle'] = $mediaThumb_Display;
+PMPD_SetResults();
 
-if ($mediaArt_Status) {
-    $results['mediaArt'] = $mediaArt_Display;
-} else {
-    $results['mediaArt'] = "";
-}
-
-$results['bottom'] = $bottomLine;
 ob_end_clean();
 echo json_encode($results);
 die();

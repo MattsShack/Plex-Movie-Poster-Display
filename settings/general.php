@@ -19,31 +19,31 @@ if (!empty($_POST['saveConfig'])) {
 
 //Clear Poster Cache Directory
 if (!empty($_POST['clearPosterCache'])) {
-    PosterCacheClear();
+    GeneralCacheClear("poster");
     header("Location: $CurrentPage");
 }
 
 //Clear Art Cache Directory
 if (!empty($_POST['clearArtCache'])) {
-    ArtCacheClear();
+    GeneralCacheClear("art");
     header("Location: $CurrentPage");
 }
 
 //Clear Log Cache Directory
 if (!empty($_POST['clearLogCache'])) {
-    LogCacheClear();
+    GeneralCacheClear("log");
     header("Location: $CurrentPage");
 }
 
 //Clear Custom Cache Directory
 if (!empty($_POST['clearCustomCache'])) {
-    CustomCacheClear();
+    GeneralCacheClear("custom");
     header("Location: $CurrentPage");
 }
 
 //Clear Custom Font Cache Directory
 if (!empty($_POST['clearFontCache'])) {
-    FontCacheClear();
+    GeneralCacheClear("font");
     header("Location: $CurrentPage");
 }
 

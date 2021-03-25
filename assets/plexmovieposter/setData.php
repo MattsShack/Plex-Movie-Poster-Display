@@ -135,6 +135,9 @@ function ghostData($configPage) {
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonBackgroundArt\" name=\"comingSoonBackgroundArt\" value=\"$comingSoonBackgroundArt\">\n";
         echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonFullScreenArt\" name=\"comingSoonFullScreenArt\" value=\"$comingSoonFullScreenArt\">\n";
+        echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"comingSoonRefreshSpeed\" name=\"comingSoonRefreshSpeed\" value=\"$comingSoonRefreshSpeed\">\n";
         echo $ghostField;
@@ -212,6 +215,9 @@ function ghostData($configPage) {
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingBackgroundArt\" name=\"nowShowingBackgroundArt\" value=\"$nowShowingBackgroundArt\">\n";
+        echo $ghostField;
+        
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingFullScreenArt\" name=\"nowShowingFullScreenArt\" value=\"$nowShowingFullScreenArt\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"nowShowingRefreshSpeed\" name=\"nowShowingRefreshSpeed\" value=\"$nowShowingRefreshSpeed\">\n";
@@ -299,6 +305,9 @@ function ghostData($configPage) {
         // // echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customBackgroundArt\" name=\"customBackgroundArt\" value=\"$customBackgroundArt\">\n";
+        echo $ghostField;
+
+        $ghostField = "$formIndent<input type=\"hidden\" id=\"customFullScreenArt\" name=\"customFullScreenArt\" value=\"$customFullScreenArt\">\n";
         echo $ghostField;
 
         $ghostField = "$formIndent<input type=\"hidden\" id=\"customImageEnabled\" name=\"customImageEnabled\" value=\"$customImageEnabled\">\n";
@@ -410,6 +419,7 @@ function setData($configPage) {
 
   // Custom Image Configuration
   \$customBackgroundArt = '$_POST[customBackgroundArt]'; // Default: FALSE
+  \$customFullScreenArt = '$_POST[customFullScreenArt]'; // Default: FALSE
   \$customRefreshSpeed = '$_POST[customRefreshSpeed]'; // Default: 30 (Seconds)
   \$customImageEnabled = '$_POST[customImageEnabled]'; // Default: Disabled
   \$customImage = '$_POST[customImage]';
@@ -434,6 +444,7 @@ function setData($configPage) {
 
   // Coming Soon Configuration
   \$comingSoonBackgroundArt = '$_POST[comingSoonBackgroundArt]'; // Default: FALSE
+  \$comingSoonFullScreenArt = '$_POST[comingSoonFullScreenArt]'; // Default: FALSE
   \$comingSoonRefreshSpeed = '$_POST[comingSoonRefreshSpeed]'; // Default: 30 (Seconds)
   \$comingSoonShowTVThumb = '$_POST[comingSoonShowTVThumb]'; // Default: series
   \$comingSoonShowSelection = '$_POST[comingSoonShowSelection]'; // Default: unwatched
@@ -464,6 +475,7 @@ function setData($configPage) {
 
   // Now Showing Configuration
   \$nowShowingBackgroundArt = '$_POST[nowShowingBackgroundArt]'; // Default: FALSE
+  \$nowShowingFullScreenArt = '$_POST[nowShowingFullScreenArt]'; // Default: FALSE
   \$nowShowingRefreshSpeed = '$_POST[nowShowingRefreshSpeed]'; // Default: 30 (Seconds)
   \$nowShowingShowTVThumb = '$_POST[nowShowingShowTVThumb]'; // Default: series
   \$pmpDisplayProgress = '$_POST[pmpDisplayProgress]'; // Default: Disabled

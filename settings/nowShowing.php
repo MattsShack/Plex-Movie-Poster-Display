@@ -53,6 +53,16 @@ GenerateCSS_Font_ALL();
 
                                 <div class="form-group advanced-setting">
                                     <hr>
+                                    Full Screen Art:&nbsp;
+                                    <input type="checkbox" name="nowShowingFullScreenArt" id="nowShowingFullScreenArt" value="1" <?php if ($nowShowingFullScreenArt) echo " checked"?>>
+
+                                    <p class="help-block">
+                                        Set poster art to be full screen without any other display items.
+                                    </p>
+                                </div>
+
+                                <div class="form-group advanced-setting">
+                                    <hr>
                                     Background Art:&nbsp;
                                     <input type="checkbox" name="nowShowingBackgroundArt" id="nowShowingBackgroundArt" value="1" <?php if ($nowShowingBackgroundArt) echo " checked"?>>
 
