@@ -60,7 +60,8 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                                 //  document.write("fullScreenMode");
                                 $('.' + "mediaArt").css('filter', "none");
                                 $('.' + "mediaArt").css('-webkit-filter', "none");
-                                $('.' + "mediaArt").css('background-size', "auto 100%");
+                                // $('.' + "mediaArt").css('background-size', "auto 100%");
+                                $('.' + "mediaArt").css('background-size', "contain");
                             }
                             else {
                                 //  document.write("fullScreenMode");
@@ -76,14 +77,29 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                 });
             });
 
+            // Press 's' key will bring up the settings page.
+            // onkeypress - The Unicode CHARACTER code is: 115
+            // onkeydown - The Unicode KEY code is: 83
+            // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_event_key_keycode2
             $(document).keypress(function(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 console.log("Keypress: " + keycode);
-                if(keycode == '115'){
-                    $('#myModal').modal({show:true});
-                    $("#settingFrame").attr('src', 'admin.php');
+                // if (keycode == '115') {
+                //     $('#myModal').modal({show:true});
+                //     $("#settingFrame").attr('src', 'settings/general.php');
+                // }
+                switch (keycode) {
+                    case 115: // 's'
+                        $('#myModal').modal({show:true});
+                        $("#settingFrame").attr('src', 'settings/general.php');
+                        break;
+                    // case 105: // 'i'
+                    //     $('#myModal').modal({show:true});
+                    //     $("#settingFrame").attr('src', '');
+                    //     break;
+                    default:
+                        break;
                 }
-
             });
 
             $('#myModal').on('hidden.bs.modal', function(){
@@ -114,7 +130,8 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
                                     //  document.write("fullScreenMode");
                                     $('.' + "mediaArt").css('filter', "none");
                                     $('.' + "mediaArt").css('-webkit-filter', "none");
-                                    $('.' + "mediaArt").css('background-size', "auto 100%");
+                                    // $('.' + "mediaArt").css('background-size', "auto 100%");
+                                    $('.' + "mediaArt").css('background-size', "contain");
                                 } 
                                 else {
                                     //  document.write("fullScreenMode");
@@ -148,16 +165,14 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content bmd-modalContent">
-
                 <div class="modal-body">
-
                     <div class="close-button">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <iframe class="embed-responsive-item" id='settingFrame' frameborder="0"></iframe>
-
                 </div>
-
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

@@ -367,3 +367,23 @@ Enhancement: Full Screen Poster (Issue #57)
 
 Updates and Bug Fixes:
 - Update Custom Image upload to support only the following file types: zip/jpg/jpeg/gif/png
+
+**v2.11.3 Community Updates**\
+Enhancement: Full Screen Poster (Issue #57)
+- BUG: When using 'Full Screen Art' poster gets trimmed & depending on custom image size image is not scaled to window size.
+    - Fix 1 (Implemented): Change CSS in index.php from 'auto 100%' to 'contain', but that does not fully scale movie poster as desired.  
+    - Fix 2 (Future): Look at different options for different modes.
+    - Fix 3 (Future): In 'Poster Mode' look at setting image size explicit.
+    - Fix 4 (Future): Adjust size dimensions of image based on orientation of the screen.
+
+PMPD Pop-up Window with 'S' Key (Issue #70)
+- Update 'S' key to bring up the settings pages.
+- Adjust how the CSS displays the iFrame and remove un-required scroll bar for main page.
+- Change script from using 'if' statement to 'switch' statement so that adding future keys is a bit simpler.
+- TODO: Look at other 'keys' to add to bring up special stats pages depending on mode?
+
+Enhancement: Cache Config Options (Issue #63)
+- Remove empty folders after Clear Cache
+
+Updates and Bug Fixes:
+- Update Docker system to allow SSH into container for more debugging options.

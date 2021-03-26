@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#start ssh
+service ssh start
+service ssh enable
+service ssh status
+
 #start nginx
 service nginx start &
 
