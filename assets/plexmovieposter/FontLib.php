@@ -452,7 +452,7 @@ function FontDirCleanup($source = "../cache/fonts/", $ScanSubDir = TRUE) {
                           }
                         }
                         rmdir($fontPath);
-                      }
+                    }
                 }
             }
         }

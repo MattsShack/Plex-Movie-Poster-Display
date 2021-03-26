@@ -141,9 +141,30 @@ function GeneralCacheClear($destination = "../cache/posters/", $ScanSubDir = TRU
         // could use CHILD_FIRST if you so wish
 
         foreach ($iterator as $file) {
-            if (is_file($file)) {
-                pmp_Logging("getCacheFile", "Removing Image ($destination): $file");
-                unlink($file);
+            $file_parts = pathinfo($file);
+            $dirPath = $file_parts['dirname'];
+            $dirPath = realpath($dirPath);
+
+            // if (is_file($file)) {
+            //     pmp_Logging("getCacheFile", "Removing Item ($destination): $file");
+            //     unlink($file);
+            // }
+
+            if (is_dir($dirPath)) {
+                $objects = scandir($dirPath);
+                foreach ($objects as $object) {
+                    if ($object != "." && $object != "..") {
+                        if (is_dir($dirPath. DIRECTORY_SEPARATOR .$object) && !is_link($dirPath."/".$object)) {
+                            pmp_Logging("getCacheFile", "\tPurge empty cache directory".$dirPath. DIRECTORY_SEPARATOR .$object );
+                            rmdir($dirPath. DIRECTORY_SEPARATOR .$object);
+                        }
+                        else {
+                            pmp_Logging("getCacheFile", "\tPurge files from cache directory ($destination).".$dirPath. DIRECTORY_SEPARATOR .$object);
+                            unlink($dirPath. DIRECTORY_SEPARATOR .$object);
+                        }
+                    }
+                }
+                rmdir($fontPath);
             }
         }
     }

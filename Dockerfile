@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
     php-xml \
     php-zip \
     # python3 \
+    ssh \
     supervisor
 
 #region Install PHP 8.0 software packages (Prototype)
@@ -42,6 +43,14 @@ RUN apt-get update && apt-get install -y \
 
 
 # RUN apt-get upgrade -y
+#endregion
+
+#region SSH
+#Set password to root account
+RUN echo 'root:password' | chpasswd
+
+#Enable login to root account
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
 #endregion
 
 #region Setup PHP with NGINX
