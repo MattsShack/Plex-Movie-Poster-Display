@@ -287,7 +287,12 @@ GenerateCSS_Font_ALL();
                                             Tagline
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb4" value="custom"
+                                            <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb4" value="presented"
+                                            <?php if($nowShowingBottom == 'presented') echo " checked"?> onChange="nowShowingBottomSelected()">
+                                            Presented Info.
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="nowShowingBottom" id="csb5" value="custom"
                                             <?php if($nowShowingBottom == 'custom') echo " checked"?> onChange="nowShowingBottomSelected()">
                                             Custom
                                         </div>

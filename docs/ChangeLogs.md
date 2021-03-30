@@ -371,7 +371,7 @@ Updates and Bug Fixes:
 **v2.11.3 Community Updates**\
 Enhancement: Full Screen Poster (Issue #57)
 - BUG: When using 'Full Screen Art' poster gets trimmed & depending on custom image size image is not scaled to window size.
-    - Fix 1 (Implemented): Change CSS in index.php from 'auto 100%' to 'contain', but that does not fully scale movie poster as desired.  
+    - Fix 1 (Implemented): Change CSS in index.php from 'auto 100%' to 'contain', but that does not fully scale movie poster as desired.
     - Fix 2 (Future): Look at different options for different modes.
     - Fix 3 (Future): In 'Poster Mode' look at setting image size explicit.
     - Fix 4 (Future): Adjust size dimensions of image based on orientation of the screen.
@@ -387,3 +387,16 @@ Enhancement: Cache Config Options (Issue #63)
 
 Updates and Bug Fixes:
 - Update Docker system to allow SSH into container for more debugging options.
+
+**v2.11.4 Community Updates**\
+Enhancement: Images to the bottom of Now Showing for resolution, sound format, and aspect ratio (Issue #74)
+- Create GIMP template file for all icons for 'Presented' mode
+- Add support for resolution display
+- Add support for rating display
+- TODO:
+    - Add support for sound format
+    - Add support for aspect ratio
+    - Add support for changing 'font color' for 'PRESENTED IN' text
+    - Add icons for 720p & 1080p (explicit)
+- BUG(s):
+    - If playing a lower quality video the 'current' video resolution is not displayed.

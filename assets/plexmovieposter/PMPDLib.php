@@ -285,6 +285,171 @@ function SetFullScreenMode($SetMode = FALSE) {
     }
 }
 
+function PMPD_DisplayMediaInfo(){
+    // Global Variables - Input
+    global $mediaContentRating, $mediaVideoCodec, $mediaVideoResolution, $mediaAudioCodec, $mediaAudioChannelLayout;
+
+    // Global Variables - Output
+    global $bottomLine;
+
+    $iconPath = "assets/plexmovieposter/images/icons/mediaInfo";
+
+    $title = "PRESENTED IN";
+
+    $iconSizeWidth = "20%";
+
+    // https://www.spectrum.net/support/tv/tv-and-movie-ratings-descriptions/
+
+    switch ($mediaContentRating) {
+        case "TV-Y":
+            $contentRatingProfile = "$iconPath/Rated-TVY.png";
+            break;
+        case "TV-Y7":
+            $contentRatingProfile = "$iconPath/Rated-TVY7.png";
+            break;
+        case "TV-Y7 FV":
+            $contentRatingProfile = "$iconPath/Rated-TVY7FV.png";
+            break;
+        case "G":
+            $contentRatingProfile = "$iconPath/Rated-G.png";
+            break;
+        case "TV-G":
+            $contentRatingProfile = "$iconPath/Rated-TVG.png";
+            break;
+        case "PG":
+            $contentRatingProfile = "$iconPath/Rated-PG.png";
+            break;
+        case "TV-PG":
+            $contentRatingProfile = "$iconPath/Rated-TVPG.png";
+            break;
+        case "PG-13":
+            $contentRatingProfile = "$iconPath/Rated-PG13.png";
+            break;
+        case "TV-14":
+            $contentRatingProfile = "$iconPath/Rated-TV14.png";
+            break;
+        case "R":
+            $contentRatingProfile = "$iconPath/Rated-R.png";
+            break;
+        case "TV-MA":
+            $contentRatingProfile = "$iconPath/Rated-TVMA.png";
+            break;
+        case "NC-17":
+            $contentRatingProfile = "$iconPath/Rated-NC17.png";
+            break;
+        case "XXX":
+            $contentRatingProfile = "$iconPath/Rated-XXX.png";
+            break;
+        default:
+            $contentRatingProfile = "$iconPath/Rated-NA.png";
+            break;
+    }
+
+    switch ($mediaVideoResolution)  {
+        case "sd":
+            $videoResolutionProfile = "$iconPath/Res-SD.png";
+            break;
+        case "720":
+            $videoResolutionProfile = "$iconPath/Res-HD720.png";
+            break;
+        case "720p":
+            $videoResolutionProfile = "$iconPath/Res-HD720.png";
+            break;
+        case "1080":
+            $videoResolutionProfile = "$iconPath/Res-HD1080.png";
+            break;
+        case "1080p":
+            $videoResolutionProfile = "$iconPath/Res-HD1080.png";
+            break;
+        case "4k":
+            $videoResolutionProfile = "$iconPath/Res-UHD4K.png";
+            break;
+        case "8k":
+            $videoResolutionProfile = "$iconPath/Res-UHD8K.png";
+            break;
+        default:
+            $videoResolutionProfile = "";
+            break;
+    }
+
+    switch ($mediaVideoCodec)  {
+        case "h264":
+            $videoCodecProfile = "";
+            break;
+        case "mpeg4":
+            $videoCodecProfile = "";
+            break;
+        case "hevc":
+            $videoCodecProfile = "";
+            break;
+        default:
+            $videoCodecProfile = "";
+            break;
+    }
+
+    switch ($mediaAudioCodec)  {
+        case "aac":
+            $audioCodecProfile = "";
+            break;
+        case "ac3":
+            $audioCodecProfile = "";
+            break;
+        case "eac3":
+            $audioCodecProfile = "";
+            break;
+        case "dca":
+            $audioCodecProfile = "";
+            break;
+        case "dca-ma":
+            $audioCodecProfile = "";
+            break;
+        case "mp3":
+            $audioCodecProfile = "";
+            break;
+        case "opus":
+            $audioCodecProfile = "";
+            break;
+        default:
+            $audioCodecProfile = "";
+            break;
+    }
+
+    switch ($mediaAudioChannelLayout)  {
+        case "mono":
+            $audioChannelLayoutProfile = "";
+            break;
+        case "stereo":
+            $audioChannelLayoutProfile = "";
+            break;
+        case "5.1":
+            $audioChannelLayoutProfile = "";
+            break;
+        case "7.1":
+            $audioChannelLayoutProfile = "$iconPath/Dolby_TRUEHD71.png";
+            break;
+        default:
+            $audioCodecProfile = "";
+            break;
+    }
+
+    $profileHeader = "";
+    $titleProfile = "<div style=\"font-size:10px\">$title <p><p>";
+
+    $contentRatingProfile = "<img src=\"$contentRatingProfile\" width=$iconSizeWidth>";
+    $videoResolutionProfile = "<img src=\"$videoResolutionProfile\" width=$iconSizeWidth>";
+    $videoCodecProfile = "<img src=\"$videoCodecProfile\" width=$iconSizeWidth>";
+    $audioCodecProfile = "<img src=\"$audioCodecProfile\" width=$iconSizeWidth>";
+    $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\" width=$iconSizeWidth>";
+
+    $profileFooter = "</div>";
+
+    $mediaProfiles = "$videoResolutionProfile $videoCodecProfile $audioChannelLayoutProfile $contentRatingProfile";
+
+    $masterProfile = "$profileHeader $titleProfile $mediaProfiles $profileFooter";
+
+    $bottomLine = $masterProfile;
+}
+
 function PMPD_SetResults() {
 
     // Global Variables - Input

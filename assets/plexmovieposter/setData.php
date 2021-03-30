@@ -462,7 +462,7 @@ function setData($configPage) {
   \$comingSoonTopAutoScale = '$_POST[comingSoonTopAutoScale]'; // Default: FALSE
 
   // Coming Soon Configuration - Bottom Settings
-  \$comingSoonBottom = '$_POST[comingSoonBottom]'; // Default: custom (title/summary/tagline/custom)
+  \$comingSoonBottom = '$_POST[comingSoonBottom]'; // Default: custom (title/summary/tagline/presented/custom)
   \$comingSoonBottomText = '$_POST[comingSoonBottomText]';
   \$comingSoonBottomFontSize = '$_POST[comingSoonBottomFontSize]'; // Default: 25 (px)
   \$comingSoonBottomFontColor = '$_POST[comingSoonBottomFontColor]'; // Default: #FFFFFF (White)
@@ -494,7 +494,7 @@ function setData($configPage) {
   \$nowShowingTopAutoScale = '$_POST[nowShowingTopAutoScale]'; // Default: FALSE
 
   // Now Showing Configuration - Bottom Settings
-  \$nowShowingBottom = '$_POST[nowShowingBottom]'; // Default: title (title/summary/tagline/custom)
+  \$nowShowingBottom = '$_POST[nowShowingBottom]'; // Default: title (title/summary/tagline/presented/custom)
   \$nowShowingBottomText = '$_POST[nowShowingBottomText]';
   \$nowShowingBottomFontSize = '$_POST[nowShowingBottomFontSize]'; // Default: 25 (px)
   \$nowShowingBottomFontColor = '$_POST[nowShowingBottomFontColor]'; // Default: #FFFFFF (White)
