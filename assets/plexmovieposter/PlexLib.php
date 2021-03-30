@@ -318,7 +318,7 @@ function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE
     // Notes: audioCodec
     //
 
-    // contentRating
+    // Audio Codec
     switch ($mediaType) {
         case "episode":
             $media_metadata_name = 'audioCodec';
@@ -345,12 +345,12 @@ function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE
             $media_logClass = "PLEX_getTVMetadata";
     }
 
-    if ($isPlayingMode == TRUE) {
+    // if ($isPlayingMode == TRUE) {
         $mediaAudioCodec = $clients->Media[$media_metadata_name];
-    }
-    else {
-        $mediaAudioCodec = "N/A";
-    }
+    // }
+    // else {
+        // $mediaAudioCodec = "N/A";
+    // }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioCodec);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -358,6 +358,58 @@ function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE
 
     // $mediaAudioCodec_MetadataID = $media_MetadataID;
     pmp_Logging("$media_logClass", "\tmediaAudioCodec @ $mediaType ($media_metadata_name) - \"$mediaAudioCodec\"");
+}
+
+function plex_metadata_audioChannelLayout($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaAudioChannelLayout, $mediaAudioChannelLayout_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes: audioChannelLayout
+    //
+
+    // Audio Codec
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'audioChannelLayout';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    // if ($isPlayingMode == TRUE) {
+        $rootElement = $clients->Media->Part->Stream[0];
+        $mediaAudioChannelLayout = $rootElement[$media_metadata_name];
+    // }
+    // else {
+        // $mediaAudioChannelLayout = "N/A";
+    // }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioChannelLayout);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaAudioChannelLayout_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaAudioChannelLayout @ $mediaType ($media_metadata_name) - \"$mediaAudioChannelLayout\"");
 }
 
 function plex_metadata_videoCodec($mediaType = "episode", $isPlayingMode = FALSE) {
@@ -396,12 +448,12 @@ function plex_metadata_videoCodec($mediaType = "episode", $isPlayingMode = FALSE
             $media_logClass = "PLEX_getTVMetadata";
     }
 
-    if ($isPlayingMode == TRUE) {
+    // if ($isPlayingMode == TRUE) {
         $mediaVideoCodec = $clients->Media[$media_metadata_name];
-    }
-    else {
-        $mediaVideoCodec = "N/A";
-    }
+    // }
+    // else {
+        // $mediaVideoCodec = "N/A";
+    // }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoCodec);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -409,6 +461,57 @@ function plex_metadata_videoCodec($mediaType = "episode", $isPlayingMode = FALSE
 
     // $mediaVideoCodec_MetadataID = $media_MetadataID;
     pmp_Logging("$media_logClass", "\tmediaVideoCodec @ $mediaType ($media_metadata_name) - \"$mediaVideoCodec\"");
+}
+
+function plex_metadata_videoResolution($mediaType = "episode", $isPlayingMode = FALSE) {
+    global $clients, $isPlaying;
+    global $mediaVideoResolution, $mediaVideoResolution_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Notes: videoResolution
+    //
+
+    // videoResolution
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "season":
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "series":
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getTVMetadata";
+            break;
+        case "movie":
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getMovieMetadata";
+            break;
+        case "track":
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getMusicMetadata";
+            break;
+        default:
+            $media_metadata_name = 'videoResolution';
+            $media_logClass = "PLEX_getTVMetadata";
+    }
+
+    // if ($isPlayingMode == TRUE) {
+        $mediaVideoResolution = $clients->Media[$media_metadata_name];
+    // }
+    // else {
+        // $mediaVideoResolution = "N/A";
+    // }
+
+    // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoResolution);
+    // $media_MetadataID = $media_MetadataID_TMP[3];
+    // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
+
+    // $mediaVideoResolution_MetadataID = $media_MetadataID;
+    pmp_Logging("$media_logClass", "\tmediaVideoResolution @ $mediaType ($media_metadata_name) - \"$mediaVideoResolution\"");
 }
 
 function plex_metadata_audioDisplay($mediaType = "episode", $isPlayingMode = FALSE) {
@@ -981,11 +1084,13 @@ function plex_metadata_PROCESS() {
     plex_metadata_thumb("$mediaType", $ComingSoonMode); // COMING SOON MODE
     plex_metadata_art("$mediaType");
     plex_metadata_contentRating("$mediaType");
+    plex_metadata_audioCodec("$mediaType");
+    plex_metadata_audioChannelLayout("$mediaType");
+    plex_metadata_videoCodec("$mediaType");
+    plex_metadata_videoResolution("$mediaType");
 
     if ($isPlaying == TRUE) {
         plex_metadata_decision("$mediaType", $isPlayingMode); // isPlaying Mode
-        plex_metadata_audioCodec("$mediaType", $isPlayingMode); // isPlaying Mode
-        plex_metadata_videoCodec("$mediaType", $isPlayingMode); // isPlaying Mode
         plex_metadata_audioDisplay("$mediaType", $isPlayingMode); // isPlaying Mode
         plex_metadata_videoDisplay("$mediaType", $isPlayingMode); // isPlaying Mode
     }

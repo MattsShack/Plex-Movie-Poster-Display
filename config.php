@@ -74,7 +74,7 @@
   $comingSoonTopAutoScale = ''; // Default: FALSE
 
   // Coming Soon Configuration - Bottom Settings
-  $comingSoonBottom = 'custom'; // Default: custom (title/summary/tagline/custom)
+  $comingSoonBottom = 'custom'; // Default: custom (title/summary/tagline/presented/custom)
   $comingSoonBottomText = 'www.mattsshack.com';
   $comingSoonBottomFontSize = '25'; // Default: 25 (px)
   $comingSoonBottomFontColor = '#FFFFFF'; // Default: #FFFFFF (White)
@@ -106,7 +106,7 @@
   $nowShowingTopAutoScale = ''; // Default: FALSE
 
   // Now Showing Configuration - Bottom Settings
-  $nowShowingBottom = 'title'; // Default: title (title/summary/tagline/custom)
+  $nowShowingBottom = 'title'; // Default: title (title/summary/tagline/presented/custom)
   $nowShowingBottomText = '';
   $nowShowingBottomFontSize = '25'; // Default: 25 (px)
   $nowShowingBottomFontColor = '#FFFFFF'; // Default: #FFFFFF (White)

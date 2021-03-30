@@ -236,18 +236,34 @@ if ($customImageEnabled != "Enabled") {
     plex_getMedia_art();
 
     // Figure out which text goes where
-    switch($topSelection) {
-        case 'title': $topText = $mediaTitle;break;
-        case 'summary': $topText = $mediaSummary;break;
-        case 'tagline': $topText = $mediaTagline;break;
-        case 'custom': $topText = $isPlaying ? $nowShowingTopText : $comingSoonTopText;break;
+    switch ($topSelection) {
+        case 'title':
+            $topText = $mediaTitle;
+            break;
+        case 'summary':
+            $topText = $mediaSummary;
+            break;
+        case 'tagline':
+            $topText = $mediaTagline;
+            break;
+        case 'custom':
+            $topText = $isPlaying ? $nowShowingTopText : $comingSoonTopText;
+            break;
     }
 
-    switch($bottomSelection) {
-        case 'title': $bottomText = $mediaTitle;break;
-        case 'summary': $bottomText = $mediaSummary;break;
-        case 'tagline': $bottomText = $mediaTagline;break;
-        case 'custom': $bottomText = $isPlaying ? $nowShowingBottomText : $comingSoonBottomText;break;
+    switch ($bottomSelection) {
+        case 'title':
+            $bottomText = $mediaTitle;
+            break;
+        case 'summary':
+            $bottomText = $mediaSummary;
+            break;
+        case 'tagline':
+            $bottomText = $mediaTagline;
+            break;
+        case 'custom':
+            $bottomText = $isPlaying ? $nowShowingBottomText : $comingSoonBottomText;
+            break;
     }
 
     // Set our stroke size and color for top and bottom
@@ -311,6 +327,14 @@ if ($customImageEnabled != "Enabled") {
 updateStatusRefresh();
 
 SetFullScreenMode($FullScreenArtMode);
+
+switch ($bottomSelection) {
+    case 'presented':
+        PMPD_DisplayMediaInfo();
+        break;
+    default:
+        break;
+}
 
 PMPD_SetResults();
 
