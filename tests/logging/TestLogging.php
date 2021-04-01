@@ -19,7 +19,7 @@ pmp_Logging("getMediaThumb", "Test Logging");
 $files = array_diff(scandir($path), array('.', '..'));
 
 foreach ($files as $file) {
-    echo "$file <br>";
+    echo "<a target='_blank' href=\"ShowLog.php?logFile=$file\">$file</a><br>";
 }
 
 ?>

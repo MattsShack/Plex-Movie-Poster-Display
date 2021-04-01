@@ -67,21 +67,38 @@
 .modal-dialog {
     width: 90%;
     height: 90%;
-  }
+}
   
-  .modal-content {
+.modal-content {
     width: 90%;
     height: 90%;
-  }
-  
-  .modal-body {
+}
+
+.modal-body {
     padding: 0;
-  }
-  
-  #settingFrame {
+}
+
+#settingFrame {
     width: 100%;
     height: 100%;
-  }
+}
+
+.showMetadata {
+    font-size: 10px;
+}
+
+@media screen and (orientation: landscape) {
+    .showMetadata img {
+        width: 20%;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    .showMetadata img {
+        width: 40%;
+    }
+}
+
 
 /* -------------------------------------------------- */
 

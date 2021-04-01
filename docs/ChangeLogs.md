@@ -400,3 +400,22 @@ Enhancement: Images to the bottom of Now Showing for resolution, sound format, a
     - Add icons for 720p & 1080p (explicit)
 - BUG(s):
     - If playing a lower quality video the 'current' video resolution is not displayed.
+
+**v2.11.5 Community Updates**\
+Enhancement: Images to the bottom of Now Showing for resolution, sound format, and aspect ratio (Issue #74)
+- Update icons to be better color coded and easier to read
+- Update to support audio information
+- Update CSS to support size of icons depending on screen orientation
+- Add support for font size 'Presented In' to use bottom font.
+- Add iconChangeID code to icon links to force a non-cache image so that when updating to newer versions of the project the new icons will be displayed.
+- TODO:
+    - Update TV Ratings icons to better match film icons
+    - Look at spacing between icons
+
+Enhancement: Full Path Logging (Issue #75)
+- Update logging system to provide full URL to media XML
+
+Enhancement: Plex Function Isolation (Issue #64)
+- Isolate PLEX read from using 'clients' variable and converted to PLEX object.  Full conversion still in progress.
+- Clean up duplicated variables for 'logName' to use as part of PLEX object.
+- Move away from reading media session information xml to direct media information for much richer metadata.  Media session information still required to get direct media library ID for direct read.

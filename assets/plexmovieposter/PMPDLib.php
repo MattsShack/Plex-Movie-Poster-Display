@@ -285,10 +285,11 @@ function SetFullScreenMode($SetMode = FALSE) {
     }
 }
 
-function PMPD_DisplayMediaInfo(){
+function PMPD_DisplayMediaInfo() {
     // Global Variables - Input
     global $mediaContentRating, $mediaVideoCodec, $mediaVideoResolution, $mediaAudioCodec, $mediaAudioChannelLayout;
-
+    global $bottomSize;
+    
     // Global Variables - Output
     global $bottomLine;
 
@@ -296,76 +297,76 @@ function PMPD_DisplayMediaInfo(){
 
     $title = "PRESENTED IN";
 
-    $iconSizeWidth = "20%";
-
     // https://www.spectrum.net/support/tv/tv-and-movie-ratings-descriptions/
+
+    $iconChangeID = "2021-03-31";
 
     switch ($mediaContentRating) {
         case "TV-Y":
-            $contentRatingProfile = "$iconPath/Rated-TVY.png";
+            $contentRatingProfile = "$iconPath/Rated-TVY.png?$iconChangeID";
             break;
         case "TV-Y7":
-            $contentRatingProfile = "$iconPath/Rated-TVY7.png";
+            $contentRatingProfile = "$iconPath/Rated-TVY7.png?$iconChangeID";
             break;
         case "TV-Y7 FV":
-            $contentRatingProfile = "$iconPath/Rated-TVY7FV.png";
+            $contentRatingProfile = "$iconPath/Rated-TVY7FV.png?$iconChangeID";
             break;
         case "G":
-            $contentRatingProfile = "$iconPath/Rated-G.png";
+            $contentRatingProfile = "$iconPath/Rated-G.png?$iconChangeID";
             break;
         case "TV-G":
-            $contentRatingProfile = "$iconPath/Rated-TVG.png";
+            $contentRatingProfile = "$iconPath/Rated-TVG.png?$iconChangeID";
             break;
         case "PG":
-            $contentRatingProfile = "$iconPath/Rated-PG.png";
+            $contentRatingProfile = "$iconPath/Rated-PG.png?$iconChangeID";
             break;
         case "TV-PG":
-            $contentRatingProfile = "$iconPath/Rated-TVPG.png";
+            $contentRatingProfile = "$iconPath/Rated-TVPG.png?$iconChangeID";
             break;
         case "PG-13":
-            $contentRatingProfile = "$iconPath/Rated-PG13.png";
+            $contentRatingProfile = "$iconPath/Rated-PG13.png?$iconChangeID";
             break;
         case "TV-14":
-            $contentRatingProfile = "$iconPath/Rated-TV14.png";
+            $contentRatingProfile = "$iconPath/Rated-TV14.png?$iconChangeID";
             break;
         case "R":
-            $contentRatingProfile = "$iconPath/Rated-R.png";
+            $contentRatingProfile = "$iconPath/Rated-R.png?$iconChangeID";
             break;
         case "TV-MA":
-            $contentRatingProfile = "$iconPath/Rated-TVMA.png";
+            $contentRatingProfile = "$iconPath/Rated-TVMA.png?$iconChangeID";
             break;
         case "NC-17":
-            $contentRatingProfile = "$iconPath/Rated-NC17.png";
+            $contentRatingProfile = "$iconPath/Rated-NC17.png?$iconChangeID";
             break;
         case "XXX":
-            $contentRatingProfile = "$iconPath/Rated-XXX.png";
+            $contentRatingProfile = "$iconPath/Rated-XXX.png?$iconChangeID";
             break;
         default:
-            $contentRatingProfile = "$iconPath/Rated-NA.png";
+            $contentRatingProfile = "$iconPath/Rated-NA.png?$iconChangeID";
             break;
     }
 
     switch ($mediaVideoResolution)  {
         case "sd":
-            $videoResolutionProfile = "$iconPath/Res-SD.png";
+            $videoResolutionProfile = "$iconPath/Res-SD.png?$iconChangeID";
             break;
         case "720":
-            $videoResolutionProfile = "$iconPath/Res-HD720.png";
+            $videoResolutionProfile = "$iconPath/Res-HD720.png?$iconChangeID";
             break;
         case "720p":
-            $videoResolutionProfile = "$iconPath/Res-HD720.png";
+            $videoResolutionProfile = "$iconPath/Res-HD720.png?$iconChangeID";
             break;
         case "1080":
-            $videoResolutionProfile = "$iconPath/Res-HD1080.png";
+            $videoResolutionProfile = "$iconPath/Res-HD1080.png?$iconChangeID";
             break;
         case "1080p":
-            $videoResolutionProfile = "$iconPath/Res-HD1080.png";
+            $videoResolutionProfile = "$iconPath/Res-HD1080.png?$iconChangeID";
             break;
         case "4k":
-            $videoResolutionProfile = "$iconPath/Res-UHD4K.png";
+            $videoResolutionProfile = "$iconPath/Res-UHD4K.png?$iconChangeID";
             break;
         case "8k":
-            $videoResolutionProfile = "$iconPath/Res-UHD8K.png";
+            $videoResolutionProfile = "$iconPath/Res-UHD8K.png?$iconChangeID";
             break;
         default:
             $videoResolutionProfile = "";
@@ -416,16 +417,17 @@ function PMPD_DisplayMediaInfo(){
 
     switch ($mediaAudioChannelLayout)  {
         case "mono":
-            $audioChannelLayoutProfile = "";
+            $audioChannelLayoutProfile = "$iconPath/Sound-Mono.png?$iconChangeID";
             break;
         case "stereo":
-            $audioChannelLayoutProfile = "";
+            $audioChannelLayoutProfile = "$iconPath/Sound-2.0.png?$iconChangeID";
             break;
-        case "5.1":
-            $audioChannelLayoutProfile = "";
+        // case "5.1":
+        case (preg_match('/5.1.*/', $mediaAudioChannelLayout) ? TRUE : FALSE):
+            $audioChannelLayoutProfile = "$iconPath/Sound-5.1.png?$iconChangeID";
             break;
         case "7.1":
-            $audioChannelLayoutProfile = "$iconPath/Dolby_TRUEHD71.png";
+            $audioChannelLayoutProfile = "$iconPath/Dolby_TRUEHD71.png?$iconChangeID";
             break;
         default:
             $audioCodecProfile = "";
@@ -433,17 +435,17 @@ function PMPD_DisplayMediaInfo(){
     }
 
     $profileHeader = "";
-    $titleProfile = "<div style=\"font-size:10px\">$title <p><p>";
+    $titleProfile = "<div class=\"showMetadata\" style=\"font-size:${bottomSize}px\">$title<p><p>";
 
-    $contentRatingProfile = "<img src=\"$contentRatingProfile\" width=$iconSizeWidth>";
-    $videoResolutionProfile = "<img src=\"$videoResolutionProfile\" width=$iconSizeWidth>";
-    $videoCodecProfile = "<img src=\"$videoCodecProfile\" width=$iconSizeWidth>";
-    $audioCodecProfile = "<img src=\"$audioCodecProfile\" width=$iconSizeWidth>";
-    $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\" width=$iconSizeWidth>";
+    $contentRatingProfile = "<img  src=\"$contentRatingProfile\">";
+    $videoResolutionProfile = "<img src=\"$videoResolutionProfile\">";
+    $videoCodecProfile = "<img src=\"$videoCodecProfile\">";
+    $audioCodecProfile = "<img src=\"$audioCodecProfile\">";
+    $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\">";
 
     $profileFooter = "</div>";
 
-    $mediaProfiles = "$videoResolutionProfile $videoCodecProfile $audioChannelLayoutProfile $contentRatingProfile";
+    $mediaProfiles = $videoResolutionProfile . $videoCodecProfile . $audioChannelLayoutProfile . $contentRatingProfile;
 
     $masterProfile = "$profileHeader $titleProfile $mediaProfiles $profileFooter";
 
