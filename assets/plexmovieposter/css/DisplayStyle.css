@@ -87,15 +87,24 @@
     font-size: 10px;
 }
 
+.showMetadata img {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 @media screen and (orientation: landscape) {
     .showMetadata img {
-        width: 20%;
+        width: 15%;
+        /* padding-left: 2px; */
+        /* padding-right: 2px; */
     }
 }
 
 @media screen and (orientation: portrait) {
     .showMetadata img {
-        width: 40%;
+        width: 30%;
+        /* padding-left: 2px; */
+        /* padding-right: 2px; */
     }
 }
 

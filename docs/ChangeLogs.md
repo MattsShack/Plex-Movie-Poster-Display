@@ -419,3 +419,18 @@ Enhancement: Plex Function Isolation (Issue #64)
 - Isolate PLEX read from using 'clients' variable and converted to PLEX object.  Full conversion still in progress.
 - Clean up duplicated variables for 'logName' to use as part of PLEX object.
 - Move away from reading media session information xml to direct media information for much richer metadata.  Media session information still required to get direct media library ID for direct read.
+
+Updates and Bug Fixes:
+- Update test for logging to allow read of logs directly from the browser.
+
+**v2.11.6 Community Updates**\
+Enhancement: Images to the bottom of Now Showing for resolution, sound format, and aspect ratio (Issue #74)
+- Add padding to information icons so they don't sit up against each other.
+- Adjust sizing of info icons to be a little smaller
+- Update 'TV-' icons to more match film colors and make a bit easier to read.
+- Add TV-G icon
+- Update icon logic to eliminate empty icon if not available.
+
+Updates and Bug Fixes:
+- Update missed information in ChangeLog for 2.11.5
+- Update tokenCheck.php to point to settings/general.php

@@ -346,6 +346,10 @@ function PMPD_DisplayMediaInfo() {
             break;
     }
 
+    if ($contentRatingProfile != "") {
+        $contentRatingProfile = "<img  src=\"$contentRatingProfile\">";
+    }
+
     switch ($mediaVideoResolution)  {
         case "sd":
             $videoResolutionProfile = "$iconPath/Res-SD.png?$iconChangeID";
@@ -372,6 +376,10 @@ function PMPD_DisplayMediaInfo() {
             $videoResolutionProfile = "";
             break;
     }
+    
+    if ($videoResolutionProfile != "") {
+        $videoResolutionProfile = "<img src=\"$videoResolutionProfile\">";
+    }
 
     switch ($mediaVideoCodec)  {
         case "h264":
@@ -386,6 +394,10 @@ function PMPD_DisplayMediaInfo() {
         default:
             $videoCodecProfile = "";
             break;
+    }
+
+    if ($videoCodecProfile != "") {
+        $videoCodecProfile = "<img src=\"$videoCodecProfile\">";
     }
 
     switch ($mediaAudioCodec)  {
@@ -414,6 +426,10 @@ function PMPD_DisplayMediaInfo() {
             $audioCodecProfile = "";
             break;
     }
+    
+    if ($audioCodecProfile != "") {
+        $audioCodecProfile = "<img src=\"$audioCodecProfile\">";
+    }
 
     switch ($mediaAudioChannelLayout)  {
         case "mono":
@@ -433,15 +449,13 @@ function PMPD_DisplayMediaInfo() {
             $audioCodecProfile = "";
             break;
     }
+    
+    if ($audioChannelLayoutProfile != "") {
+        $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\">";
+    }
 
     $profileHeader = "";
     $titleProfile = "<div class=\"showMetadata\" style=\"font-size:${bottomSize}px\">$title<p><p>";
-
-    $contentRatingProfile = "<img  src=\"$contentRatingProfile\">";
-    $videoResolutionProfile = "<img src=\"$videoResolutionProfile\">";
-    $videoCodecProfile = "<img src=\"$videoCodecProfile\">";
-    $audioCodecProfile = "<img src=\"$audioCodecProfile\">";
-    $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\">";
 
     $profileFooter = "</div>";
 
