@@ -433,3 +433,4 @@ Enhancement: Images to the bottom of Now Showing for resolution, sound format, a
 
 Updates and Bug Fixes:
 - Update missed information in ChangeLog for 2.11.5
+- Update tokenCheck.php to point to settings/general.php
