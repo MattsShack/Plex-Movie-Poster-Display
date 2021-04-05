@@ -434,3 +434,20 @@ Enhancement: Images to the bottom of Now Showing for resolution, sound format, a
 Updates and Bug Fixes:
 - Update missed information in ChangeLog for 2.11.5
 - Update tokenCheck.php to point to settings/general.php
+
+**v2.11.7 Community Updates**\
+Coming Soon All or Unwatched not displaying Series Posters Anymore (Issue #79)
+- Fix issue with series poster not displaying.
+
+Updates and Bug Fixes:
+- Adjust Resolution and AudioCodec display when using All/Unwatched, so that these icons are not displayed as they are inaccurate because they do not point to a media file directly.
+
+Bugs:
+- 'Display TV Show info' option not disabling on refresh and resetting to episode
+- Blank media when music is part of the libraries.
+- Random missing metadata causing blank screen.
+- Cache images sometimes coming back as blank; need to add checks to make sure values are not empty before attempting to display.
+
+ToDos:
+- Create remainder of TV- ratings images
+- Adjust more of the PlexLib to use the PLEXMetadata object for more organized set of references.
