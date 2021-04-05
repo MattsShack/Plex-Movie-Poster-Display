@@ -302,6 +302,9 @@ function PMPD_DisplayMediaInfo() {
     $iconChangeID = "2021-03-31";
 
     switch ($mediaContentRating) {
+        case "N/A":
+            $contentRatingProfile = "$iconPath/Rated-NA.png?$iconChangeID";
+            break;
         case "TV-Y":
             $contentRatingProfile = "$iconPath/Rated-TVY.png?$iconChangeID";
             break;
@@ -351,6 +354,9 @@ function PMPD_DisplayMediaInfo() {
     }
 
     switch ($mediaVideoResolution)  {
+        case "N/A":
+            $videoResolutionProfile = "";
+            break;
         case "sd":
             $videoResolutionProfile = "$iconPath/Res-SD.png?$iconChangeID";
             break;
@@ -382,6 +388,9 @@ function PMPD_DisplayMediaInfo() {
     }
 
     switch ($mediaVideoCodec)  {
+        case "N/A":
+            $videoCodecProfile = "";
+            break;
         case "h264":
             $videoCodecProfile = "";
             break;
@@ -401,6 +410,9 @@ function PMPD_DisplayMediaInfo() {
     }
 
     switch ($mediaAudioCodec)  {
+        case "N/A":
+            $audioCodecProfile = "";
+            break;
         case "aac":
             $audioCodecProfile = "";
             break;
@@ -432,6 +444,9 @@ function PMPD_DisplayMediaInfo() {
     }
 
     switch ($mediaAudioChannelLayout)  {
+        case "N/A":
+            $audioChannelLayoutProfile = "";
+            break;
         case "mono":
             $audioChannelLayoutProfile = "$iconPath/Sound-Mono.png?$iconChangeID";
             break;

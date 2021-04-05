@@ -79,6 +79,10 @@ function plex_metadata_title($mediaType = "episode") {
     $subElement = $rootElement;
     $mediaTitle = $subElement[$media_metadata_name];
 
+    if (empty($mediaTitle)) {
+        $mediaTitle = "N/A";
+    }
+
     // $media_MetadataID_TMP = preg_split("#/#", $mediaTitle);
     // $media_MetadataID = $media_MetadataID_TMP[3];
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
@@ -122,6 +126,10 @@ function plex_metadata_summary($mediaType = "episode") {
     $rootElement = $PLEXMetadata['rootXMLData'];
     $subElement = $rootElement;
     $mediaSummary = $subElement[$media_metadata_name];
+
+    if (empty($mediaSummary)) {
+        $mediaSummary = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaSummary);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -169,6 +177,10 @@ function plex_metadata_tagline($mediaType = "episode") {
     $subElement = $rootElement;
     $mediaTagline = $subElement[$media_metadata_name];
 
+    if (empty($mediaTagline)) {
+        $mediaTagline = "N/A";
+    }
+
     // $media_MetadataID_TMP = preg_split("#/#", $mediaTagline);
     // $media_MetadataID = $media_MetadataID_TMP[3];
     // $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
@@ -212,6 +224,10 @@ function plex_metadata_art($mediaType = "episode") {
     $rootElement = $PLEXMetadata['rootXMLData'];
     $subElement = $rootElement;
     $mediaArt = $subElement[$media_metadata_name];
+
+    if (empty($mediaArt)) {
+        $mediaArt = "N/A";
+    }
 
     $media_MetadataID_TMP = preg_split("#/#", $mediaArt);
     $media_MetadataID = $media_MetadataID_TMP[3];
@@ -258,6 +274,10 @@ function plex_metadata_contentRating($mediaType = "episode") {
     $rootElement = $PLEXMetadata['rootXMLData'];
     $subElement = $rootElement;
     $mediaContentRating = $subElement[$media_metadata_name];
+
+    if (empty ($mediaContentRating)) {
+        $mediaContentRating = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaContentRating);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -309,6 +329,10 @@ function plex_metadata_decision($mediaType = "episode", $isPlayingMode = FALSE) 
         $rootElement = $clients;
         $subElement = $rootElement->Media->Part;
         $mediaDecision = $subElement[$media_metadata_name];
+        
+        if (empty($mediaDecision)) {
+            $mediaDecision = "N/A";
+        }
     }
     else {
         $mediaDecision = "N/A";
@@ -358,14 +382,14 @@ function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE
 
     $media_logClass = $PLEXMetadata['LogClass'];
 
-    // if ($isPlayingMode == TRUE) {
-        $rootElement = $PLEXMetadata['rootXMLData'];
-        $subElement = $rootElement->Media;
-        $mediaAudioCodec = $subElement[$media_metadata_name];
-    // }
-    // else {
-        // $mediaAudioCodec = "N/A";
-    // }
+    
+    $rootElement = $PLEXMetadata['rootXMLData'];
+    $subElement = $rootElement->Media;
+    $mediaAudioCodec = $subElement[$media_metadata_name];
+    
+    if (empty($mediaAudioCodec)) {
+        $mediaAudioCodec = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioCodec);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -411,14 +435,13 @@ function plex_metadata_audioChannelLayout($mediaType = "episode", $isPlayingMode
 
     $media_logClass = $PLEXMetadata['LogClass'];
 
-    // if ($isPlayingMode == TRUE) {
-        $rootElement = $PLEXMetadata['rootXMLData'];
-        $subElement = $rootElement->Media->Part->Stream[1];
-        $mediaAudioChannelLayout = $subElement[$media_metadata_name];
-    // }
-    // else {
-        // $mediaAudioChannelLayout = "N/A";
-    // }
+    $rootElement = $PLEXMetadata['rootXMLData'];
+    $subElement = $rootElement->Media->Part->Stream[1];
+    $mediaAudioChannelLayout = $subElement[$media_metadata_name];
+
+    if (empty($mediaAudioChannelLayout)) {
+        $mediaAudioChannelLayout = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaAudioChannelLayout);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -464,14 +487,13 @@ function plex_metadata_videoCodec($mediaType = "episode", $isPlayingMode = FALSE
 
     $media_logClass = $PLEXMetadata['LogClass'];
 
-    // if ($isPlayingMode == TRUE) {
-        $rootElement = $PLEXMetadata['rootXMLData'];
-        $subElement = $rootElement->Media;
-        $mediaVideoCodec = $subElement[$media_metadata_name];
-    // }
-    // else {
-        // $mediaVideoCodec = "N/A";
-    // }
+    $rootElement = $PLEXMetadata['rootXMLData'];
+    $subElement = $rootElement->Media;
+    $mediaVideoCodec = $subElement[$media_metadata_name];
+
+    if (empty($mediaVideoCodec)) {
+        $mediaVideoCodec = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoCodec);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -517,14 +539,13 @@ function plex_metadata_videoResolution($mediaType = "episode", $isPlayingMode = 
 
     $media_logClass = $PLEXMetadata['LogClass'];
 
-    // if ($isPlayingMode == TRUE) {
-        $rootElement = $PLEXMetadata['rootXMLData'];
-        $subElement = $rootElement->Media;
-        $mediaVideoResolution = $subElement[$media_metadata_name];
-    // }
-    // else {
-        // $mediaVideoResolution = "N/A";
-    // }
+    $rootElement = $PLEXMetadata['rootXMLData'];
+    $subElement = $rootElement->Media;
+    $mediaVideoResolution = $subElement[$media_metadata_name];
+
+    if (empty($mediaVideoResolution)) {
+        $mediaVideoResolution = "N/A";
+    }
 
     // $media_MetadataID_TMP = preg_split("#/#", $mediaVideoResolution);
     // $media_MetadataID = $media_MetadataID_TMP[3];
@@ -575,6 +596,10 @@ function plex_metadata_audioDisplay($mediaType = "episode", $isPlayingMode = FAL
         $rootElement = $clients;
         $subElement = $rootElement->Media->Part->Stream[1];
         $mediaAudioDisplay = $subElement[$media_metadata_name];
+
+        if (empty($mediaAudioDisplay)) {
+            $mediaAudioDisplay = "N/A";
+        }
     }
     else {
         $mediaAudioDisplay = "N/A";
@@ -629,6 +654,10 @@ function plex_metadata_videoDisplay($mediaType = "episode", $isPlayingMode = FAL
         $rootElement = $clients;
         $subElement = $rootElement->Media->Part->Stream[0];
         $mediaVideoDisplay = $subElement[$media_metadata_name];
+
+        if (empty($mediaVideoDisplay)) {
+            $mediaVideoDisplay = "N/A";
+        }
     }
     else {
         $mediaVideoDisplay = "N/A";
@@ -753,6 +782,10 @@ function plex_metadata_thumb($mediaType = "episode", $ComingSoonMode = FALSE) {
     $subElement = $rootElement;
     $mediaThumb = $subElement[$media_metadata_name];
 
+    if (empty($mediaThumb)) {
+        $mediaThumb = "N/A";
+    }
+
     $media_MetadataID_TMP = preg_split("#/#", $mediaThumb);
     $media_MetadataID = $media_MetadataID_TMP[3];
     $media_MetadataID_STR = "(metadata ID: $media_MetadataID)";
@@ -819,8 +852,8 @@ function plex_random_media($mediaAttempt = 0) {
 }
 
 function plex_variable_presets($mode = "comingSoon") {
-    $topSelection_test = ${$mode . "Top"};
-    pmp_Logging("PLEX_getMediaMetadata", "GenVar: $topSelection_test");
+    // $topSelection_test = ${$mode . "Top"};
+    // pmp_Logging("PLEX_getMediaMetadata", "GenVar: $topSelection_test");
     // $autoScaleTop = $comingSoonTopAutoScale;
     // $topColor = $comingSoonTopFontColor;
     // $topSize = $comingSoonTopFontSize;
@@ -840,30 +873,38 @@ function plex_variable_presets($mode = "comingSoon") {
 
 function plex_getMedia_thumb() {
     // Media Thumb (Poster)
+    global $PLEXMetadata;
     global $URLScheme, $plexServer, $plexToken, $cachePath, $cacheEnabled; // Input Variables
     global $mediaThumb, $mediaThumb_MetadataID; // Input Variables
     global $mediaThumb_Display; // Output Variables
 
     $mediaThumb_Display = "";
 
-    // $mediaThumb_ID, $mediaThumb_CacheFileName, $mediaThumb_CacheFullName, $mediaThumb_URL, $mediaThumb_CacheURL; // Internal Variables
-
     // Check if the cache option is enabled, and if so set the name of the saved file and store in the designated cache path.
     if ($cacheEnabled) {
+        $mediaThumb = $PLEXMetadata['thumb'];
+        pmp_Logging("PLEX_getMediaFile", "\nmediaThumb (RAW inCache) - $mediaThumb");
+        pmp_Logging("PLEX_getMediaFile", "\nmediaThumb (inCache - readMediaType) - " . $PLEXMetadata['readMediaType']);
+    
         $mediaThumb_ID = explode("/", $mediaThumb);
         $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
 
-        if (!isset($mediaThumb_MetadataID) || trim($mediaThumb_MetadataID) === '') {
-            $mediaThumb_CacheFileName = $mediaThumb_ID . ".jpeg";
-        } else {
-            $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID . ".jpeg";
+        if ($mediaThumb_ID != "") {
+            if (!isset($mediaThumb_MetadataID) || trim($mediaThumb_MetadataID) === '') {
+                $mediaThumb_CacheFileName = $mediaThumb_ID . ".jpeg";
+            } else {
+                $mediaThumb_CacheFileName = $mediaThumb_ID . "_" . $mediaThumb_MetadataID . ".jpeg";
+            }
+
+            $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
+            pmp_Logging("PLEX_getMediaFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
+
+            $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
+            pmp_Logging("PLEX_getMediaFile", "Media Thumb ID: $mediaThumb_ID ($cachePath) - $mediaThumb_URL");
         }
-
-        $mediaThumb_CacheFullName = join('/', array(trim($cachePath, '/'), trim($mediaThumb_CacheFileName, '/')));
-        pmp_Logging("PLEX_getMediaFile", "Cache File @ Output (mediaThumb) - $mediaThumb_CacheFullName");
-
-        $mediaThumb_URL = "$URLScheme://$plexServer:32400$mediaThumb?X-Plex-Token=$plexToken";
-        pmp_Logging("PLEX_getMediaFile", "$mediaThumb_ID ($cachePath) - $mediaThumb_URL");
+        else {
+            pmp_Logging("PLEX_getMediaFile", "Unable to find Media Thumb information.");
+        }
 
         // There's nothing else to do here, just save it
         if (!file_exists($mediaThumb_CacheFullName)) {
@@ -1101,7 +1142,7 @@ function plex_metadata_PROCESS() {
     global $PLEXMetadata;
 
     $PLEXMetadata = []; // Variables - Future
-    
+
     if ($isPlaying == TRUE) {
         $isPlayingMode = TRUE;
         $ComingSoonMode = FALSE;
@@ -1144,14 +1185,46 @@ function plex_metadata_getMediaKeys() {
     $PLEXMetadata['rootMediaKey'] = $clients[key];
     pmp_Logging("PLEX_getMediaMetadata", "rootMediaKey @ ". $PLEXMetadata['rootMediaKey']);
 
+    $UpdateKey = explode("/child", $PLEXMetadata['rootMediaKey']);
+    $PLEXMetadata['rootMediaKey'] = $UpdateKey[0];
+    pmp_Logging("PLEX_getMediaMetadata", "rootMediaKey (Updated) @ ". $PLEXMetadata['rootMediaKey']);
+
     $PLEXMetadata['rootMediaURL'] = "${URLScheme}://${plexServer}:32400". $PLEXMetadata['rootMediaKey'] . "?X-Plex-Token=${plexToken}";
     pmp_Logging("PLEX_getMediaMetadata", "rootMediaURL @ ". $PLEXMetadata['rootMediaURL']);
-    
+
     $getXMLDataRAW = file_get_contents($PLEXMetadata['rootMediaURL']);
     $getXMLData = simplexml_load_string($getXMLDataRAW);
 
-    $PLEXMetadata['readMediaType'] = "Video";
-    $mediaCode = $PLEXMetadata['readMediaType'];
+    if (empty($UpdateKey[1])) {
+        $PLEXMetadata['readMediaType'] = "Video";
+    }
+    else {
+        $PLEXMetadata['readMediaType'] = "Directory";
+    }
+    pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ ". $PLEXMetadata['readMediaType']);
+
+    if ($getXMLData->Video) {
+        $PLEXMetadata['readMediaType'] = "Video";
+        pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type: Video");
+    }
+    
+    if ($getXMLData->Directory) {
+        $PLEXMetadata['readMediaType'] = "Directory";
+        pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type: Directory");
+    }
+
+    if ($getXMLData->Track) {
+        $PLEXMetadata['readMediaType'] = "Track";
+        pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type: Track");
+    }
+
+    if ($PLEXMetadata['readMediaType'] == "") {
+        pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ ERROR - Read Media Type Blank");
+    }
+    else{ 
+        $mediaCode = $PLEXMetadata['readMediaType'];
+        pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type (Cast): $mediaCode");
+    }
 
     $PLEXMetadata['rootXMLData'] = $getXMLData->$mediaCode;
 }
