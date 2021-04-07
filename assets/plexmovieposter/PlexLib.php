@@ -329,7 +329,7 @@ function plex_metadata_decision($mediaType = "episode", $isPlayingMode = FALSE) 
         $rootElement = $clients;
         $subElement = $rootElement->Media->Part;
         $mediaDecision = $subElement[$media_metadata_name];
-        
+
         if (empty($mediaDecision)) {
             $mediaDecision = "N/A";
         }
@@ -382,11 +382,11 @@ function plex_metadata_audioCodec($mediaType = "episode", $isPlayingMode = FALSE
 
     $media_logClass = $PLEXMetadata['LogClass'];
 
-    
+
     $rootElement = $PLEXMetadata['rootXMLData'];
     $subElement = $rootElement->Media;
     $mediaAudioCodec = $subElement[$media_metadata_name];
-    
+
     if (empty($mediaAudioCodec)) {
         $mediaAudioCodec = "N/A";
     }
@@ -885,7 +885,7 @@ function plex_getMedia_thumb() {
         $mediaThumb = $PLEXMetadata['thumb'];
         pmp_Logging("PLEX_getMediaFile", "\nmediaThumb (RAW inCache) - $mediaThumb");
         pmp_Logging("PLEX_getMediaFile", "\nmediaThumb (inCache - readMediaType) - " . $PLEXMetadata['readMediaType']);
-    
+
         $mediaThumb_ID = explode("/", $mediaThumb);
         $mediaThumb_ID = trim($mediaThumb_ID[count($mediaThumb_ID) - 1], '/');
 
@@ -1123,13 +1123,27 @@ function plex_isPlaying_dataProcess() {
     global $PLEX_PlayerAddress, $PLEX_Client_ARR;
     global $PLEX_PlayerTitle, $PLEX_ClientName_ARR;
 
-    $PLEX_PlayerAddress = $clients->Player['address'];
-    $PLEX_Client_ARR = preg_split("#,#", $plexClient); // Split defined client IP address(s) (coma delimited array)
+    $PLEXMetadata_checkType = $clients['type']; // Clip (eg. B-Roll)
+    pmp_Logging("PLEX_getMediaMetadata", "plex_isPlaying_dataProcess @ Type: $PLEXMetadata_checkType");
 
-    $PLEX_PlayerTitle = $clients->Player['title'];
-    $PLEX_ClientName_ARR = preg_split("#,#", $plexClientName); // Split defined client name(s) (coma delimited array)
+    $PLEXMetadata_checkSubtype = $clients['subtype']; // Trailer
+    pmp_Logging("PLEX_getMediaMetadata", "plex_isPlaying_dataProcess @ SubType: $PLEXMetadata_checkSubtype");
+    
+    switch ($PLEXMetadata_checkType) {
+        case 'clip':
+            break;
+        case 'trailer':
+            break;
+        default:
+            $PLEX_PlayerAddress = $clients->Player['address'];
+            $PLEX_Client_ARR = preg_split("#,#", $plexClient); // Split defined client IP address(s) (coma delimited array)
 
-    pmp_Logging("PLEX_getMediaMetadata", "plex_isPlaying_dataProcess @ $PLEX_Client_ARR[0] - Test");
+            $PLEX_PlayerTitle = $clients->Player['title'];
+            $PLEX_ClientName_ARR = preg_split("#,#", $plexClientName); // Split defined client name(s) (coma delimited array)
+
+            pmp_Logging("PLEX_getMediaMetadata", "plex_isPlaying_dataProcess @ $PLEX_Client_ARR[0]");
+            break;
+    }
 }
 
 function plex_metadata_PROCESS() {
@@ -1207,7 +1221,7 @@ function plex_metadata_getMediaKeys() {
         $PLEXMetadata['readMediaType'] = "Video";
         pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type: Video");
     }
-    
+
     if ($getXMLData->Directory) {
         $PLEXMetadata['readMediaType'] = "Directory";
         pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type: Directory");
@@ -1221,7 +1235,7 @@ function plex_metadata_getMediaKeys() {
     if ($PLEXMetadata['readMediaType'] == "") {
         pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ ERROR - Read Media Type Blank");
     }
-    else{ 
+    else{
         $mediaCode = $PLEXMetadata['readMediaType'];
         pmp_Logging("PLEX_getMediaMetadata", "readMediaType @ Type (Cast): $mediaCode");
     }

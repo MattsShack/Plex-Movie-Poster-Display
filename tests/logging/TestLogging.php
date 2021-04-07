@@ -12,7 +12,7 @@ GeneralCache_Prep($LogPath, FALSE);
 // -------------------------
 
 
-pmp_Logging("getMediaThumb", "Test Logging");
+// pmp_Logging("getMediaThumb", "Test Logging");
 
 // exit;
 
