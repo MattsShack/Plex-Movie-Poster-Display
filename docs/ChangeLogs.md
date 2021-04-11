@@ -451,3 +451,16 @@ Bugs:
 ToDos:
 - Create remainder of TV- ratings images
 - Adjust more of the PlexLib to use the PLEXMetadata object for more organized set of references.
+ 
+**v2.11.8 Community Updates**\
+Remove Cinema trailer and Movie pre-roll Image before Now Showing poster (Issue #81)
+- Update client check to first validate if the media type is a clip (type) or trailer (subtype).  If so, then ignore client and proceed to show 'Coming Soon' until next refresh and a re-evaluation is done.
+ 
+Updates and Bug Fixes:
+- Add missing TV rating images. Note: Currently 'TV-Y7' and 'TV-Y7 FV' share the same image of 'TV-Y7', if required a specific 'TV-Y7 FV' image can be created on request.
+- Update 'N/A' rating image to reflect same style/design as all other rating images.
+
+Bugs:
+- Random blank page
+- Random incorrect cache image (A.jpeg)
+- Cache image failing when music library is added to libraries.

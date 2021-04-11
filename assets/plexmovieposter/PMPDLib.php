@@ -312,7 +312,8 @@ function PMPD_DisplayMediaInfo() {
             $contentRatingProfile = "$iconPath/Rated-TVY7.png?$iconChangeID";
             break;
         case "TV-Y7 FV":
-            $contentRatingProfile = "$iconPath/Rated-TVY7FV.png?$iconChangeID";
+            // $contentRatingProfile = "$iconPath/Rated-TVY7FV.png?$iconChangeID";
+            $contentRatingProfile = "$iconPath/Rated-TVY7.png?$iconChangeID";
             break;
         case "G":
             $contentRatingProfile = "$iconPath/Rated-G.png?$iconChangeID";
