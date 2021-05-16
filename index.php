@@ -158,6 +158,7 @@ $pmpImageSpeed = ($currentRefreshSpeed * 1000);
     <div id="container">
         <div id="alert" align="center" class="center"></div>
         <div id="top" style="overflow: hidden;" align="center" class="center"></div>
+        <div id="progress" class="center"></div>
         <div id="middle" class="middle"></div>
         <div id="bottom" style="overflow: hidden;" align="center" class="center"></div>
     </div>

@@ -464,3 +464,28 @@ Bugs:
 - Random blank page
 - Random incorrect cache image (A.jpeg)
 - Cache image failing when music library is added to libraries.
+
+**v2.12.0 Community Updates**\
+Progress Bar not displaying correctly (Issue #85)
+- Add new 'field' to store progress bar with a max of 2% of the screen height and 50% of the screen width.  This allows a separation of the progress bar from the top field
+- Remove progress bar from 'top' field
+
+Add a start and end time display option for the now showing display (Issue #83)
+- Add 'viewOffset' and 'lastViewedAt' as part of the Plex metadata media read
+- Add new 'Now Playing' top option, 'Progress Info.'
+- Display 'Start Time' and 'End Time'
+- Add 'Title' display media
+- 'Title' size is respected 'time' size is fixed.
+- TODO:
+    - Add Support for User defined font.
+    
+- BUGS:
+    - TV Shows are working movies are displaying incorrectly
+
+Updates and Bug Fixes:
+- Update Dockerfile to support TimeZone. Set TimeZone to 'America/Los_Angeles'
+
+Future Enhancements:
+- Allow the user to control the size of each 'field'?
+- Add multiple 'Progress Info.' layouts/formats
+- When using 'Progress Info.', if 'TV Show' then use 'Episode Title' as subTitle (Display format: B)

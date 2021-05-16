@@ -53,6 +53,11 @@ RUN echo 'root:password' | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
 #endregion
 
+#region Set: TimeZone
+ENV TZ=America/Los_Angeles
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#endregion
+
 #region Setup PHP with NGINX
 WORKDIR ${nginxpath}/sites-enabled/
 

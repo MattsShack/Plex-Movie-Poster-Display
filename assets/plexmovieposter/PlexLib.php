@@ -140,6 +140,63 @@ function plex_metadata_summary($mediaType = "episode") {
     pmp_Logging("$media_logClass", "\tmediaSummary @ $mediaType ($media_metadata_name) $media_MetadataID_STR - \n $mediaSummary");
 }
 
+function plex_metadata_time($mediaType = "episode") {
+    // Global Variables - Input
+    global $PLEXMetadata;
+    // global $mediaViewOffset, $mediaSummary_MetadataID;
+
+    $media_MetadataID_STR = "";
+
+    // Summary
+    switch ($mediaType) {
+        case "episode":
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+        case "season":
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+        case "series":
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+        case "movie":
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+        case "track":
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+        default:
+            $media_metadata_name_A = 'viewOffset';
+            $media_metadata_name_B = 'lastViewedAt';
+            break;
+    }
+
+    $media_logClass = $PLEXMetadata['LogClass'];
+
+    $rootElement = $PLEXMetadata['rootXMLData'];
+    $subElement = $rootElement;
+    $mediaViewOffset = $subElement[$media_metadata_name_A];
+    $mediaLastViewedAt = $subElement[$media_metadata_name_B];
+
+    if (empty($mediaViewOffset)) {
+        $mediaViewOffset = "N/A";
+    }
+
+    $PLEXMetadata['viewOffset'] = $mediaViewOffset;
+    pmp_Logging("$media_logClass", "\mediaViewOffset @ $mediaType ($media_metadata_name_A) $media_MetadataID_STR - $mediaViewOffset");
+    
+    if (empty($mediaLastViewedAt)) {
+        $mediaLastViewedAt = "N/A";
+    }
+
+    $PLEXMetadata['lastViewedAt'] = $mediaLastViewedAt;
+    pmp_Logging("$media_logClass", "\mediaLastViewedAt @ $mediaType ($media_metadata_name_B) $media_MetadataID_STR - $mediaLastViewedAt");
+}
+
 function plex_metadata_tagline($mediaType = "episode") {
     // Global Variables - Input
     global $PLEXMetadata;
@@ -1172,6 +1229,7 @@ function plex_metadata_PROCESS() {
 
     plex_metadata_title("$mediaType");
     plex_metadata_summary("$mediaType");
+    plex_metadata_time("$mediaType");
     plex_metadata_tagline("$mediaType");
     plex_metadata_thumb("$mediaType", $ComingSoonMode); // COMING SOON MODE
     plex_metadata_art("$mediaType");

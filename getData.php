@@ -116,6 +116,7 @@ if ($customImageEnabled == "Enabled") {
 
                 //Progress Bar
                 if ($pmpDisplayProgress == 'Enabled') {
+                    // Replace viewOffset with data from PlexLib.php
                     $progress_duration = ((int)$clients['duration'] / 1000);
                     $progress_viewOffset = ((int)$clients['viewOffset'] / 1000);
 
@@ -327,6 +328,14 @@ if ($customImageEnabled != "Enabled") {
 updateStatusRefresh();
 
 SetFullScreenMode($FullScreenArtMode);
+
+switch ($topSelection) {
+    case 'progessinfo':
+        PMPD_DisplayProgressInfo();
+        break;
+    default:
+        break;
+}
 
 switch ($bottomSelection) {
     case 'presented':
