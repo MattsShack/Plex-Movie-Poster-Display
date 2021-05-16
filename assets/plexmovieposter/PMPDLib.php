@@ -285,11 +285,79 @@ function SetFullScreenMode($SetMode = FALSE) {
     }
 }
 
+function PMPD_DisplayProgressInfo() {
+    // Global Variables - Input
+    global $clients, $mediaTitle;
+    global $topSize;
+
+    // Global Variables - Output
+    global $topLine;
+
+    $SetTitle = $mediaTitle;
+    $SetSubTitle = "";
+
+    $durationSize = 18;
+
+    $SetStartTime =  date("g:i A", (int)$clients->TranscodeSession['timeStamp']);
+    $SetEndTime = date("g:i A", (int)time() + (int)($clients->TranscodeSession['duration'] * (1-$clients->TranscodeSession['progress']/100)/1000));
+
+    $progressDisplay_A = "<table>
+        <tr>
+            <td>
+                <div style=\"font-size:${durationSize}px\">
+                    Start Time <br>
+                    ${SetStartTime}
+                </div>
+            </td>
+            <td>
+                <div style=\"font-size:${topSize}px\">
+                    ${SetTitle}
+                </div>
+            </td>
+            <td>
+                <div style=\"font-size:${durationSize}px\">
+                    End Time <br>
+                    ${SetEndTime}
+                </div>
+            </td>
+        </tr>
+    </table>";
+
+    $progressDisplay_B = "<table style=\"font-size:${topSize}px\">
+        <tr>
+            <td>
+                Start Time
+            </td>
+            <td>
+                ${SetTitle}
+            </td>
+            <td>
+                End Time
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ${SetStartTime}
+            </td>
+            <td>
+                ${SetSubTitle}
+            </td>
+            <td>
+                ${SetEndTime}
+            </td>
+        </tr>
+    </table>";
+
+    $progressInfo = $progressDisplay_A;
+
+    $topLine = $progressInfo;
+}
+
 function PMPD_DisplayMediaInfo() {
     // Global Variables - Input
     global $mediaContentRating, $mediaVideoCodec, $mediaVideoResolution, $mediaAudioCodec, $mediaAudioChannelLayout;
     global $bottomSize;
-    
+
     // Global Variables - Output
     global $bottomLine;
 
@@ -383,7 +451,7 @@ function PMPD_DisplayMediaInfo() {
             $videoResolutionProfile = "";
             break;
     }
-    
+
     if ($videoResolutionProfile != "") {
         $videoResolutionProfile = "<img src=\"$videoResolutionProfile\">";
     }
@@ -439,7 +507,7 @@ function PMPD_DisplayMediaInfo() {
             $audioCodecProfile = "";
             break;
     }
-    
+
     if ($audioCodecProfile != "") {
         $audioCodecProfile = "<img src=\"$audioCodecProfile\">";
     }
@@ -465,7 +533,7 @@ function PMPD_DisplayMediaInfo() {
             $audioCodecProfile = "";
             break;
     }
-    
+
     if ($audioChannelLayoutProfile != "") {
         $audioChannelLayoutProfile = "<img src=\"$audioChannelLayoutProfile\">";
     }
@@ -500,12 +568,14 @@ function PMPD_SetResults() {
 
     if ($PMPDDisplay['FullScreenArtMode'] == TRUE) {
         $results['top'] = "";
+        $results['progress'] = "";
         $results['middle'] = "";
         $results['mediaArt'] = $PMPDDisplay['mediaArt_Display'];
         $results['bottom'] = "";
     }
     else {
-        $results['top'] = $topLine . $progressBar;
+        $results['top'] = $topLine;
+        $results['progress'] = $progressBar;
         $results['middle'] = $mediaThumb_Display;
 
         if ($mediaArt_Status) {

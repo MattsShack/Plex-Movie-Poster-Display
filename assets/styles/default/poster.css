@@ -26,12 +26,12 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-#top, #bottom {
+#top, #progress, #bottom {
   height: 10%;
   padding: 10px;
 }
 
-#top > div, #bottom > div {
+#top > div, #progress > div, #bottom > div {
   width: 100%;
   height: 100%;
 }
@@ -40,7 +40,18 @@ body {
   position: fixed;
   width: 100%;
   top: 0;
-  max-height: 10%;
+  max-height: 8%;
+}
+
+#progress {
+  /* Field Position */
+  position: fixed;
+  top: 8%;
+  max-height: 2%;
+  
+  /* Data Size and Location */
+  width: 50%;
+  left: 25%;
 }
 
 #middle {

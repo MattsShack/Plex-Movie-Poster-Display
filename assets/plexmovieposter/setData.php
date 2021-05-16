@@ -483,7 +483,7 @@ function setData($configPage) {
   \$pmpDisplayProgressColor = '$_POST[pmpDisplayProgressColor]'; // Default: #FFFF00 (Yellow)
 
   // Now Showing Configuration - Top Settings
-  \$nowShowingTop = '$_POST[nowShowingTop]'; // Default: custom (title/summary/tagline/custom)
+  \$nowShowingTop = '$_POST[nowShowingTop]'; // Default: custom (title/summary/tagline/progessinfo/custom)
   \$nowShowingTopText = '$_POST[nowShowingTopText]';
   \$nowShowingTopFontSize = '$_POST[nowShowingTopFontSize]'; // Default: 55 (px)
   \$nowShowingTopFontColor = '$_POST[nowShowingTopFontColor]'; // Default: #FFFF00 (Yellow)

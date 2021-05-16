@@ -95,7 +95,7 @@
   $pmpDisplayProgressColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
 
   // Now Showing Configuration - Top Settings
-  $nowShowingTop = 'custom'; // Default: custom (title/summary/tagline/custom)
+  $nowShowingTop = 'custom'; // Default: custom (title/summary/tagline/progessinfo/custom)
   $nowShowingTopText = 'NOW SHOWING';
   $nowShowingTopFontSize = '55'; // Default: 55 (px)
   $nowShowingTopFontColor = '#FFFF00'; // Default: #FFFF00 (Yellow)
