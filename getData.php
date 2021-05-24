@@ -115,16 +115,8 @@ if ($customImageEnabled == "Enabled") {
                 plex_metadata_PROCESS();
 
                 //Progress Bar
-                if ($pmpDisplayProgress == 'Enabled') {
-                    // Replace viewOffset with data from PlexLib.php
-                    $progress_duration = ((int)$clients['duration'] / 1000);
-                    $progress_viewOffset = ((int)$clients['viewOffset'] / 1000);
-
-                    $percentComplete = (((int)$clients['viewOffset'] / 1000) / ((int)$clients['duration'] / 1000)) * 100;
-                    $progressBar = "<div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'><div class='progress-bar' role='progressbar' style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";' aria-valuenow='" . $percentComplete . "' aria-valuemin='0' aria-valuemax='100'></div></div> ";
-                } else {
-                    $progressBar = NULL;
-                }
+                PMPD_CalcProgressInfo();
+                PMPD_SetProgressBar();
             }
         }
     }
@@ -283,6 +275,7 @@ if ($customImageEnabled != "Enabled") {
 
 // --------------------------------------------------
 // Settings: Top
+    // Move to PMPDLib.php
     $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
 
     if ($topFontEnabled == TRUE && $topFontID != "None") {
@@ -305,6 +298,7 @@ if ($customImageEnabled != "Enabled") {
 
 // --------------------------------------------------
 // Settings: Bottom
+    // Move to PMPDLib.php
     $bottomStyle = "color: ${bottomColor}; -webkit-text-stroke: ${bottomStrokeSize}px ${bottomStrokeColor};";
 
     if ($bottomFontEnabled == TRUE && $bottomFontID != "None") {

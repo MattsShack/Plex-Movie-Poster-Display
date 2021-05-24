@@ -285,36 +285,176 @@ function SetFullScreenMode($SetMode = FALSE) {
     }
 }
 
+function PMPD_SetTopLineDisplay() {
+    // Global Variables - Input
+    global $topColor, $topStrokeSize, $topStrokeColor;
+    global $topFontEnabled, $topFontID;
+    global $autoScaleTop;
+    global $topSize, $topScroll, $topText;
+
+    // Global Variables - Output
+    global $topLine, $LineSTR;
+
+    $topStyle = "color: ${topColor}; -webkit-text-stroke: ${topStrokeSize}px ${topStrokeColor};";
+
+    if ($topFontEnabled == TRUE && $topFontID != "None") {
+        $topStyle .= " font-family: '$topFontID';";
+    }
+
+    if (!$autoScaleTop) {
+        $topStyle .= " font-size: ${topSize}px;";
+    }
+
+    if ($topScroll == TRUE) {
+        $topCSSClass = "marqueeDisplay";
+    }
+    else {
+        $topCSSClass = "userText";
+    }
+
+    $topLine = "<div><span class='$topCSSClass' style=\"$topStyle\">${topText}</span></div>"; // Missing: Scroll Append?
+    $LineSTR = "<span style=\"$topStyle\">${topText}</span>";
+}
+
+function PMPD_SetProgressBar() {
+    // Global Variables - Input
+    global $clients, $pmpDisplayProgress, $pmpDisplayProgressSize, $pmpDisplayProgressColor;
+    global $SetStartTime, $SetEndTime;
+    global $percentComplete;
+
+    // Global Variables - Output
+    global $progressBar;
+
+    $durationSize = 18;
+    // PMPD_CalcProgressInfo();
+
+    if ($pmpDisplayProgress == 'Enabled') {
+        $progressBar_Original = "
+        <div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'>
+            <div class='progress-bar'
+                role='progressbar'
+                style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";'
+                aria-valuenow='" . $percentComplete . "'
+                aria-valuemin='0'
+                aria-valuemax='100'>
+            </div>
+        </div>";
+
+        $progressBar_Standard = "
+        <table class='SetProgressBar'>
+            <tr>
+                <td colspan=2>
+                    <div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'>
+                        <div class='progress-bar'
+                            role='progressbar'
+                            style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";'
+                            aria-valuenow='" . $percentComplete . "'
+                            aria-valuemin='0'
+                            aria-valuemax='100'>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>";
+
+        $progressBar_wTime = "
+        <table class='SetProgressBar'>
+            <tr>
+                <td colspan=2>
+                    <div class='progress' style='height : " . $pmpDisplayProgressSize . "px;'>
+                        <div role='progressbar'
+                            style='width: " . $percentComplete . "%; background-color : " . $pmpDisplayProgressColor . ";'
+                            aria-valuenow='" . $percentComplete . "'
+                            aria-valuemin='0'
+                            aria-valuemax='100'>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style=\"text-align:left;\">
+                    <div style=\"font-size:${durationSize}px\">
+                        ${SetStartTime}
+                    </div>
+                </td>
+                <td style=\"text-align:right;\">
+                    <div style=\"font-size:${durationSize}px\">
+                        ${SetEndTime}
+                    </div>
+                </td>
+            </tr>
+        </table>";
+
+        $progressBar = $progressBar_Standard;
+    } else {
+        $progressBar = NULL;
+    }
+}
+
+function PMPD_CalcProgressInfo() {
+    // Replace viewOffset with data from PlexLib.php and build into proper object for reuse between functions.
+    // Global Variables - Input
+    global $clients;
+
+    // Global Variables - Output
+    global $SetStartTime, $SetEndTime;
+    global $percentComplete;
+
+    $progress_duration = ((int)$clients['duration'] / 1000);
+    $progress_viewOffset = ((int)$clients['viewOffset'] / 1000);
+    $percentComplete = ($progress_viewOffset / $progress_duration) * 100;
+
+    $progress_StartPoint = ($progress_duration * $percentComplete) / 100;
+    $progress_EndPoint = ($progress_duration - $progress_StartPoint);
+
+    $SetStartTime = date("g:i A", (int)time() - $progress_StartPoint);
+    $SetEndTime = date("g:i A", (int)time() + $progress_EndPoint);
+}
+
 function PMPD_DisplayProgressInfo() {
     // Global Variables - Input
     global $clients, $mediaTitle;
-    global $topSize;
+    global $topSize, $LineSTR;
+    global $SetStartTime, $SetEndTime;
+    global $percentComplete;
 
     // Global Variables - Output
-    global $topLine;
-
-    $SetTitle = $mediaTitle;
-    $SetSubTitle = "";
+    global $topLine, $topText;
 
     $durationSize = 18;
+    // PMPD_CalcProgressInfo();
 
-    $SetStartTime =  date("g:i A", (int)$clients->TranscodeSession['timeStamp']);
-    $SetEndTime = date("g:i A", (int)time() + (int)($clients->TranscodeSession['duration'] * (1-$clients->TranscodeSession['progress']/100)/1000));
+    #region
+        $topText = $mediaTitle;
+        PMPD_SetTopLineDisplay();
+    #endregion
 
-    $progressDisplay_A = "<table>
-        <tr>
-            <td>
+    if (empty($LineSTR)) {
+        $SetTitle = $mediaTitle;
+        $SetSubTitle = "";
+
+        if (empty($SetSubTitle)){
+            $SetTitleDisplay = "<div style=\"font-size:${topSize}px\">${SetTitle}</div>";
+        } else {
+            $SetTitleDisplay = "<div style=\"font-size:${topSize}px\">${SetTitle}</div><div style=\"font-size:${durationSize}px\">${SetSubTitle}</div>";
+        }
+    } else {
+        $SetTitleDisplay = $LineSTR;
+    }
+
+    $progressDisplay_A = "
+    <table class='DisplayProgressInfo'>
+        <tr class='DisplayProgressInfo'>
+            <td class='DisplayProgressInfo' style=\"width:20%\" valign=top>
                 <div style=\"font-size:${durationSize}px\">
                     Start Time <br>
                     ${SetStartTime}
                 </div>
             </td>
-            <td>
-                <div style=\"font-size:${topSize}px\">
-                    ${SetTitle}
-                </div>
+            <td class='DisplayProgressInfo'>
+                ${SetTitleDisplay}
             </td>
-            <td>
+            <td class='DisplayProgressInfo' style=\"width:20%\" valign=top>
                 <div style=\"font-size:${durationSize}px\">
                     End Time <br>
                     ${SetEndTime}
