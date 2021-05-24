@@ -489,3 +489,24 @@ Future Enhancements:
 - Allow the user to control the size of each 'field'?
 - Add multiple 'Progress Info.' layouts/formats
 - When using 'Progress Info.', if 'TV Show' then use 'Episode Title' as subTitle (Display format: B)
+
+**v2.12.1 Community Updates**\
+Add a start and end time display option for the now showing display (Issue #83)
+- Redesign and resolve 'Start Time/End Time' calculation to address inconstancy with calculations.
+    - Supporting the following media types:
+        - TV Shows
+        - Movies
+        - Music
+- BUGS:
+    - If size is set too large 'timer' display is unreadable.
+
+Updates and Bug Fixes:
+    - 'Progress Bar' dynamic size based on screen orientation.
+    - BACKEND: Add 'Start Time/End Time' to 'Progress Bar'
+    - BACKEND: Create standard progress calculation function.
+
+Future Enhancements:
+    - Add option to show 'Time Remaining' vs 'End Time'?
+    - Add 'Start Time/End Time' to 'Progress Bar' (Frontend)
+    - Possible support for refresh time options for different media types.
+    - Enable/Disable 'Start Time/End Time' headers

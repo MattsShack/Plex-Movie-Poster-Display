@@ -98,6 +98,19 @@
         /* padding-left: 2px; */
         /* padding-right: 2px; */
     }
+
+    table.DisplayProgressInfo {
+        width: 45%;
+    }
+
+    table.SetProgressBar {
+        width: 75%;
+    }
+
+    #progress {
+        width: 50%;
+        left: 25%
+    }
 }
 
 @media screen and (orientation: portrait) {
@@ -106,20 +119,52 @@
         /* padding-left: 2px; */
         /* padding-right: 2px; */
     }
+
+    table.DisplayProgressInfo {
+        width: 100%;
+    }
+
+    table.SetProgressBar {
+        width: 100%;
+    }
+
+    #progress {
+        width: 100%;
+        left: 0%
+    }
 }
 
-table {
+table.DisplayProgressInfo {
     margin-left: auto;
     margin-right: auto;
     table-layout: fixed;
+
+    /* Debugging */
+    /* border: 1px solid white; */
 }
 
-td {
+tr.DisplayProgressInfo {
+    /* Debugging */
+    /* border: 1px solid white; */
+}
+
+td.DisplayProgressInfo {
     text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+
+    /* Debugging */
+    /* border: 1px solid white; */
 }
 
+table.SetProgressBar {
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+
+    /* Debugging */
+    /* border: 1px solid white; */
+}
 
 /* -------------------------------------------------- */
 
