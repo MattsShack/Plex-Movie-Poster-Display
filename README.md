@@ -21,7 +21,7 @@ https://www.mattsshack.com/plex-movie-poster-display-v3/
 Plex Information that is required for setup can be found [here](docs/PlexData.md)
 
 ## Local Installation
-If you would like to setup locally the installation instructions can be found [here](docs/Setup_local.md).
+If you would like to setup locally the installation instructions can be found here: https://www.mattsshack.com/plex-movie-poster-display-v3/.
 
 ## Docker Setup
 If you would like to create a docker image locally the instructions can be found [here](docs/Setup_docker.md).
