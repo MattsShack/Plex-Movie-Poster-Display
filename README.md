@@ -15,7 +15,7 @@ Plex Media Server is running on a dedicated server.
 Plex Movie Poster Display is running on separate Raspberry Pi 3 connected to a screen via HDMI. On boot up the Pi launches Chromium in kiosk mode and loads the Plex Movie Poster Display URL.
 
 ## Help
-https://www.mattsshack.com/plex-movie-poster-display/
+https://www.mattsshack.com/plex-movie-poster-display-v3/
 
 ## Plex Information for Setup
 Plex Information that is required for setup can be found [here](docs/PlexData.md)
