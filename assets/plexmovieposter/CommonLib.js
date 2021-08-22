@@ -23,6 +23,31 @@ function ShowHideAdvanced() {
     });
 }
 
+function ShowHideSideBar() {
+    $(document).ready(function(){
+
+        $('.advanced-sideBarButton').click(function(){
+        if ( this.value === '\uFEFF\u2630' ) {
+            // if it's open close it
+            open = false;
+            this.value = '\u2630\uFEFF';
+            document.getElementById('mySidebar').style.display = "none";
+            // $("div.advanced-sideBar").hide("fast"); // For <div.showhideconfig> global
+            $("div.w3-sidebar.w3-collapse").hide("fast"); // For <div.showhideconfig> global
+        }
+        else {
+            // if it's close open it
+            open = true;
+            this.value = '\uFEFF\u2630';
+            document.getElementById('mySidebar').style.display = "block";
+            // $("div.advanced-sideBar").show("fast"); // For <div.showhideconfig> global
+            $("div.w3-sidebar.w3-collapse").show("fast"); // For <div.showhideconfig> global
+        }
+        });
+
+    });
+}
+
 function passwordView() {
     event.preventDefault();
     if ($('#password_view input').attr("type") == "text") {
@@ -149,4 +174,12 @@ function comingSoonBottomSelected() {
         document.getElementById("comingSoonBottomText").setAttribute('readonly', true);
         // document.getElementById("comingSoonBottomText").removeAttribute('disabled');
     }
+}
+
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
 }

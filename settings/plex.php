@@ -19,6 +19,7 @@ if (!empty($_POST['saveConfig'])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -86,7 +87,10 @@ if (!empty($_POST['saveConfig'])) {
                                 <div class="form-group advanced-setting">
                                     Enable Plex SSL connection:&nbsp;
 
+                                    <label class="switch">
                                     <input type="checkbox" name="plexServerSSL" id="plexServerSSL" value="1" <?php if ($plexServerSSL) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <!-- <p class="help-block">
                                     </p> -->
@@ -149,6 +153,6 @@ if (!empty($_POST['saveConfig'])) {
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

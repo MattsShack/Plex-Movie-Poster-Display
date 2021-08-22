@@ -64,6 +64,7 @@ importFiles_Config();
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -183,6 +184,6 @@ importFiles_Config();
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

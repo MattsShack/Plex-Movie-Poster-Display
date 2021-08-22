@@ -35,6 +35,7 @@ if (isset($_POST["btn_zip"])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -129,6 +130,6 @@ if (isset($_POST["btn_zip"])) {
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

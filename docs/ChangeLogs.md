@@ -510,3 +510,12 @@ Future Enhancements:
     - Add 'Start Time/End Time' to 'Progress Bar' (Frontend)
     - Possible support for refresh time options for different media types.
     - Enable/Disable 'Start Time/End Time' headers
+
+**v2.13.0 Community Updates**\
+Enhancement: Settings page mobile friendly (Issue #93)
+- Change out 'Check Box' with Slider toggles
+- Build a 'Show/Hide' process for the side menu bar (Only active on small displays)
+- BUGS:
+    - On mobile device, Safari does not start in a 'Collapsed' state.
+    - Two buttons are required for 'Hide/Show' due to an issue with Safari.  To be addressed in a future build.
+    - Some devices have the footer and save option overlapping (Small Screen)

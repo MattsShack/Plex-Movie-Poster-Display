@@ -22,6 +22,7 @@ GenerateCSS_Font_ALL();
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -83,7 +84,11 @@ GenerateCSS_Font_ALL();
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Full Screen Art:&nbsp;
+
+                                    <label class="switch">
                                     <input type="checkbox" name="comingSoonFullScreenArt" id="comingSoonFullScreenArt" value="1" <?php if ($comingSoonFullScreenArt) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <p class="help-block">
                                         Set poster art to be full screen without any other display items.
@@ -93,7 +98,11 @@ GenerateCSS_Font_ALL();
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Background Art:&nbsp;
+
+                                    <label class="switch">
                                     <input type="checkbox" name="comingSoonBackgroundArt" id="comingSoonBackgroundArt" value="1" <?php if ($comingSoonBackgroundArt) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <p class="help-block">
                                         Set background art to match background of media in your library.
@@ -271,8 +280,12 @@ GenerateCSS_Font_ALL();
                                         <tr>
                                             <td>
                                                 Enable Custom Font: &nbsp;
+
+                                                <label class="switch">
                                                 <input type="checkbox" name="comingSoonTopFontEnabled" id="comingSoonTopFontEnabled" value="1"
                                                 <?php if ($comingSoonTopFontEnabled) echo " checked"?>>
+                                                <span class="slider round"></span>
+                                                </label>
 
                                                 <!-- <p class="help-block">
                                                 </p> -->
@@ -295,8 +308,12 @@ GenerateCSS_Font_ALL();
 
                                 <div class="form-group advanced-setting">
                                     Auto-scale text:&nbsp;
+
+                                    <label class="switch">
                                     <input type="checkbox" name="comingSoonTopAutoScale" id="comingSoonTopAutoScale" value="1"
                                     <?php if ($comingSoonTopAutoScale) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <!-- <p class="help-block">
                                     </p> -->
@@ -445,8 +462,12 @@ GenerateCSS_Font_ALL();
                                         <tr>
                                             <td>
                                                 Enable Custom Font: &nbsp;
+
+                                                <label class="switch">
                                                 <input type="checkbox" name="comingSoonBottomFontEnabled" id="comingSoonBottomFontEnabled" value="1"
                                                 <?php if ($comingSoonBottomFontEnabled) echo " checked"?>>
+                                                <span class="slider round"></span>
+                                                </label>
 
                                                 <!-- <p class="help-block">
                                                 </p> -->
@@ -470,8 +491,11 @@ GenerateCSS_Font_ALL();
                                 <div class="form-group advanced-setting">
                                     Auto-scale text:&nbsp;
 
+                                    <label class="switch">
                                     <input type="checkbox" name="comingSoonBottomAutoScale" id="comingSoonBottomAutoScale" value="1"
                                     <?php if ($comingSoonBottomAutoScale) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <!-- <p class="help-block">
                                     </p> -->
@@ -507,6 +531,6 @@ GenerateCSS_Font_ALL();
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

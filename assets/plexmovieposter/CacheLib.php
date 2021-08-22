@@ -322,7 +322,10 @@ function CacheConfig_Display_ROW($Title, $Help, $InputField, $InputValue, $Input
     }
 
     echo "24hr Expire: &nbsp\n";
+    echo "<label class=\"switch\">";
     echo "<input type=\"checkbox\" name=\"$InputFieldExp\" id=\"$InputFieldExp\" value=\"1\" $CheckBoxStatus>\n";
+    echo "<span class=\"slider round\"></span>";
+    echo "</label>";
     echo "\n";
     echo "<p class=\"help-block\">\n";
     echo "24hr expiration for files in this path.\n";

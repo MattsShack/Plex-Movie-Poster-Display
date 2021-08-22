@@ -19,6 +19,7 @@ if (!empty($_POST['saveConfig'])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -72,6 +73,6 @@ if (!empty($_POST['saveConfig'])) {
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

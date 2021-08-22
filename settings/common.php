@@ -19,6 +19,7 @@ if (!empty($_POST['saveConfig'])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -31,6 +32,7 @@ if (!empty($_POST['saveConfig'])) {
             <div class="FullPage-container-17Y0cs">
                 <?php sidebarInfo(basename(__FILE__)) ;?>
                 <div class="Page-page-aq7i_X Scroller-scroller-3GqQcZ Scroller-vertical-VScFLT  ">
+                    
                     <div id="MainPage" class="SettingsPage-content-1vKVEr PageContent-pageContent-16mK6G">
                         <h2 class="SettingsPageHeader-header-1ugtIL">
                             Common Configuration
@@ -65,8 +67,10 @@ if (!empty($_POST['saveConfig'])) {
 
                                 <div class="form-group">
                                     Cache Images: &nbsp;
+                                    <label class="switch">
                                     <input type="checkbox" name="cacheEnabled" id="cacheEnabled" value="1" <?php if ($cacheEnabled) echo " checked"?>>
-
+                                    <span class="slider round"></span>
+                                    </label>
                                     <!-- <p class="help-block">
                                     </p> -->
                                 </div>
@@ -92,6 +96,6 @@ if (!empty($_POST['saveConfig'])) {
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>
