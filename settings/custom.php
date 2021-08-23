@@ -27,6 +27,7 @@ if (isset($_POST["btn_customImg"])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -113,7 +114,11 @@ if (isset($_POST["btn_customImg"])) {
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Full Screen Art:&nbsp;
+
+                                    <label class="switch">
                                     <input type="checkbox" name="customFullScreenArt" id="customFullScreenArt" value="1" <?php if ($customFullScreenArt) echo " checked"?>>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <p class="help-block">
                                         Set image to be full screen without any other display items.
@@ -123,7 +128,11 @@ if (isset($_POST["btn_customImg"])) {
                                 <div class="form-group advanced-setting">
                                     <hr>
                                     Background Art:&nbsp;
+
+                                    <label class="switch">
                                     <input type="checkbox" name="customBackgroundArt" id="customBackgroundArt" value="1" <?php if ($customBackgroundArt) echo " checked"?> disabled>
+                                    <span class="slider round"></span>
+                                    </label>
 
                                     <p class="help-block">
                                         Set background art to match background of media in your library.
@@ -220,8 +229,12 @@ if (isset($_POST["btn_customImg"])) {
                                         <tr>
                                             <td>
                                                 Enable Custom Font: &nbsp;
+
+                                                <label class="switch">
                                                 <input type="checkbox" name="customTopFontEnabled" id="customTopFontEnabled" value="1"
                                                 <?php if ($customTopFontEnabled) echo " checked"?>>
+                                                <span class="slider round"></span>
+                                                </label>
 
                                                 <!-- <p class="help-block">
                                                 </p> -->
@@ -333,8 +346,12 @@ if (isset($_POST["btn_customImg"])) {
                                         <tr>
                                             <td>
                                                 Enable Custom Font: &nbsp;
+
+                                                <label class="switch">
                                                 <input type="checkbox" name="customBottomFontEnabled" id="customBottomFontEnabled" value="1"
                                                 <?php if ($customBottomFontEnabled) echo " checked"?>>
+                                                <span class="slider round"></span>
+                                                </label>
 
                                                 <!-- <p class="help-block">
                                                 </p> -->
@@ -370,6 +387,6 @@ if (isset($_POST["btn_customImg"])) {
             </div>
         </div>
     </div>
-
+    <?php safariJSSide(); ?>
 </body>
 </html>

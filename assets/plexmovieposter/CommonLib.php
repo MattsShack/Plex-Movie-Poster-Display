@@ -115,6 +115,8 @@ function HeaderInfoApple($configPage) {
     echo "\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\">\n";
     echo "\t<meta name=\"apple-touch-fullscreen\" content=\"yes\">\n";
 
+    echo "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+
     echo "\n";
     echo "\t<link rel=\"apple-touch-icon\" href=\"$paths/assets/$AppName/images/ios/apple-touch-icon.png\">";
     echo "\t<link rel=\"apple-touch-icon-precomposed\" href=\"$paths/assets/$AppName/images/ios/icon-iphone.png\">\n";
@@ -123,10 +125,34 @@ function HeaderInfoApple($configPage) {
     echo "\t<link rel=\"apple-touch-icon-precomposed\" sizes=\"144x144\" href=\"$paths/assets/$AppName/images/ios/icon-ipad@2x.png\">\n";
 }
 
+function get_browser_name($user_agent)
+{
+    if (strpos($user_agent, 'Opera') || strpos($user_agent, 'OPR/')) return 'Opera';
+    elseif (strpos($user_agent, 'Edge')) return 'Edge';
+    elseif (strpos($user_agent, 'Chrome')) return 'Chrome';
+    elseif (strpos($user_agent, 'Safari')) return 'Safari';
+    elseif (strpos($user_agent, 'Firefox')) return 'Firefox';
+    elseif (strpos($user_agent, 'MSIE') || strpos($user_agent, 'Trident/7')) return 'Internet Explorer';
+   
+    return 'Other';
+}
+
+// Usage:
+// echo get_browser_name($_SERVER['HTTP_USER_AGENT']);
+
+
+
 function NavBar() {
     echo "<div class=\"nav-bar\">\n";
     echo "            <div class=\"NavBar-core\">\n";
     echo "                <div class=\"NavBar-Alignment NavBar-AlignmentImg\">\n";
+    
+    // Safari Supported
+    echo "                    <button class=\"btn w3-hide-large\" onclick=\"w3_open()\">&#9776;</button>";
+
+    // Chrome Supported
+    // echo "                    <input class=\"btn w3-hide-large advanced-sideBarButton\" type=\"button\" value=\"&#9776;\"></input>\n";
+
     echo "                    <a id=\"NavBar-HomeLink\" aria-label=\"Home\" href=\"../index.php\" role=\"link\" class=\"NavBar-HomeLinkButton\">\n";
     echo "                        <svg height=\"16px\" id=\"Layer_1\" style=\"enable-background:new 0 0 16 16;\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16px\" xml:space=\"preserve\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"NavBar-HomeLinkIcon\">\n";
     echo "                          <path d=\"M15.45,7L14,5.551V2c0-0.55-0.45-1-1-1h-1c-0.55,0-1,0.45-1,1v0.553L9,0.555C8.727,0.297,8.477,0,8,0S7.273,0.297,7,0.555  L0.55,7C0.238,7.325,0,7.562,0,8c0,0.563,0.432,1,1,1h1v6c0,0.55,0.45,1,1,1h3v-5c0-0.55,0.45-1,1-1h2c0.55,0,1,0.45,1,1v5h3  c0.55,0,1-0.45,1-1V9h1c0.568,0,1-0.437,1-1C16,7.562,15.762,7.325,15.45,7z\"/>\n";
@@ -135,14 +161,22 @@ function NavBar() {
     echo "                </div>\n";
     echo "            </div>\n";
     echo "        </div>\n";
+
 }
 
 function sidebarInfo($configPage) {
+    // echo "<div class=\"w3-sidebar w3-bar-block w3-collapse w3-card advanced-setting\" id=\"mySidebar\">";
+    // echo "<div class=\"w3-sidebar w3-collapse advanced-sideBar\" id=\"mySidebar\">";
+    echo "<div class=\"w3-sidebar w3-collapse\" id=\"mySidebar\">";
+    echo "                <div class=\"NavBar-Alignment\">\n";
+    echo "<button class=\"btn w3-hide-large\" onclick=\"w3_close()\"> &times; </button>";
+    echo "</div>";
+
     echo '<div class="SidebarInfo-core">
             <div>
                 <div id="SideBar" class="SettingsSidebar-spacing">
                     <div role="navigation">';
-
+    
     sidebarInfo_Settings($configPage);
     sidebarInfo_MediaServers($configPage);
 
@@ -155,6 +189,8 @@ function sidebarInfo($configPage) {
                 </div>
             </div>
           </div>';
+
+    echo '</div>';
 
 }
 
@@ -399,6 +435,18 @@ function dropdownCustomImagesSub($file) {
     echo "<option value=\"$file\" $HTMLSelect>";
     echo "$file";
     echo "</option>\n";
+}
+
+function safariJSSide() {
+    echo "<script>";
+    echo "function w3_open() {";
+    echo "    document.getElementById(\"mySidebar\").style.display = \"block\";";
+    echo "}";
+    
+    echo "function w3_close() {";
+    echo "    document.getElementById(\"mySidebar\").style.display = \"none\";";
+    echo "}";
+    echo "</script>";
 }
 
 ?>

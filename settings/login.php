@@ -28,6 +28,7 @@ if (isset($_POST['username']) && !empty($_POST['password'])) {
 <head>
     <?php HeaderInfo(basename(__FILE__)); ?>
     <script> ShowHideAdvanced(); </script>
+    <script> ShowHideSideBar(); </script>
 </head>
 
 <body>
@@ -111,6 +112,6 @@ if (isset($_POST['username']) && !empty($_POST['password'])) {
         }, false);
     })();
 </script>
-
+<?php safariJSSide(); ?>
 </body>
 </html>
